@@ -8,3 +8,7 @@ Composoant select pour Hotballon
  
   
 Il est détruit par un incendie, le 6 mai 1937
+
+
+- `hbshed clean generate-sources install`
+- `hbshed dev`

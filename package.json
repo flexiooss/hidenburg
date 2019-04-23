@@ -48,9 +48,7 @@
       }
     },
     "modules": {
-      "component-bootstrap": "src/main/js/modules/component-bootstrap",
-      "component-severities": "src/main/js/modules/component-severities",
-      "component-categories": "src/main/js/modules/component-categories"
+      "component-bootstrap": "src/main/js/modules/component-bootstrap"
     }
   }
 }
