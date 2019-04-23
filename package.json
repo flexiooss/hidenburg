@@ -1,0 +1,56 @@
+{
+  "name": "hotballoon-bootstrap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Flexio-corp/hotballoon-bootstrap.git",
+  "author": "Thomas Chatelain (https://github.com/TomAchT)",
+  "devDependencies": {
+    "code-altimeter-js": "https://github.com/flexiooss/code-altimeter-js.git",
+    "eslint": "^5.7.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-html": "^4.0.6",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "hotballoon-test-dummies": "https://github.com/flexiooss/hotballoon-test-dummies.git",
+    "stylelint": "^9.6.0",
+    "stylelint-config-standard": "^18.2.0"
+  },
+  "dependencies": {
+    "flexio-jshelpers": "https://github.com/flexiooss/flexio-jshelpers.git",
+    "flexio-nodes-reconciliation": "https://github.com/flexiooss/flexio-nodes-reconciliation.git",
+    "hotballoon": "https://github.com/flexiooss/hotballoon.git"
+  },
+  "hotballoon-shed": {
+    "build": {
+      "builder": "webpack4",
+      "entries": [
+        "src/main/js/bootstrap.js"
+      ],
+      "html_template": "src/main/js/index.html",
+      "output": "./dist"
+    },
+    "dev": {
+      "server": {
+        "host": "ui.flexio.io",
+        "proxy": {
+          "/api": {
+            "target": "https://api.flexio.io",
+            "pathRewrite": {
+              "^/api": ""
+            },
+            "secure": true,
+            "changeOrigin": true
+          }
+        }
+      }
+    },
+    "modules": {
+      "component-bootstrap": "src/main/js/modules/component-bootstrap",
+      "component-severities": "src/main/js/modules/component-severities",
+      "component-categories": "src/main/js/modules/component-categories"
+    }
+  }
+}
