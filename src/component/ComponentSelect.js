@@ -1,5 +1,7 @@
 import {ViewContainerSelect} from "../view/ViewContainerSelect";
 import {ViewContainerSelectConfig} from "../view/ViewContainerSelectConfig";
+import {DefaultViewItemBuilder} from "../view/views/defaultViewItem/DefaultViewItemBuilder";
+import {isNull} from "flexio-jshelpers";
 
 export class ComponentSelect {
   /**
@@ -9,46 +11,22 @@ export class ComponentSelect {
   constructor(config) {
     this.__componentContext = config.getComponentContext()
     this.__parentNode = config.getParentNode()
-    this.__publicStore = config.getPublicStore()
-
-    this.__accessorProperties = new Map()
+    this.__proxyStore = config.getProxyStore()
+    this.__viewItemBuilder = config.getViewItemBuilder()
   }
 
   initView() {
     let config = ViewContainerSelectConfig()
       .withParentNode(this.__parentNode)
-      .withAccessors(this.__accessorProperties)
-      .withComponententContext(this.__componentContext)
-      .withDataPublicStore(this.__publicStore)
+      .withProxyStore(this.__proxyStore)
+      .withComponentContext(this.__componentContext)
+
+    if (isNull(this.__viewItemBuilder)) {
+      config.withViewItemBuilder(new DefaultViewItemBuilder(this))
+    }
+
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.renderAndMount(this.__parentNode)
-  }
-
-  /**
-   *
-   * @param {string} name
-   * @param {function} clb
-   * @returns {boolean}
-   */
-  addAccessorProperty(name, clb) {
-    this.__accessorProperties.set(name, clb)
-  }
-
-  /**
-   *
-   * @param {string} name
-   * @returns {boolean}
-   */
-  removeAccessorProperty(name) {
-    return this.__accessorProperties.delete(name)
-  }
-
-  removeAllAccessors() {
-    this.__accessorProperties.clear()
-  }
-
-  renderAndMountView() {
-
   }
 
 }

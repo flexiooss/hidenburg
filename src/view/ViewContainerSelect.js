@@ -12,15 +12,11 @@ export class ViewContainerSelect extends ViewContainer {
 
     super(constructorConfig)
 
-    this.__dataStorePubblic = config.getDataPublicStore()
-    this.__accessors = config.getAccessors()
 
-
-    this.__createViews()
-
+    this.__config = config
   }
 
-  __createViews() {
-    this.__selectView = this.addView(new ViewSelect(this, this.__dataStorePubblic, this.__accessors))
+  __createViewItems() {
+    this.__selectView = this.addView(new ViewSelect(this, this.__config.getProxyStore(), this.__config.getViewItemBuilder()))
   }
 }

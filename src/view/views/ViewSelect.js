@@ -4,19 +4,18 @@ export class ViewSelect extends View {
   /**
    *
    * @param {ViewContainer} viewContainer
-   * @param {StoreInterface<*>} dataStorePublic
-   * @param {Map<string,function>} accessors
+   * @param {ProxyStoreInterface} proxyStore
+   * @param {} viewItemBuilder
    */
-  constructor(viewContainer, dataStorePublic, accessors) {
+  constructor(viewContainer, proxyStore, viewItemBuilder) {
     super(viewContainer)
 
-    this.__dataStorePublic = dataStorePublic
-    this.__accessors = accessors
+    this.__proxyStore = proxyStore
+    this.__viewItemBuilder = viewItemBuilder
   }
 
   template() {
     let items = this.__createItems()
-
     return this.html(
       e('select')
         .childNodes(...items)
@@ -25,19 +24,9 @@ export class ViewSelect extends View {
 
   __createItems() {
     let items = []
-    this.__dataStorePublic.state().data.forEach((state) => {
-      items.push(this.__createItem(state))
+    this.__proxyStore.state().data.forEach((state) => {
+      items.push(this.__viewItemBuilder.createView(state.value(), state.label()))
     })
     return items
-  }
-
-  __createItem(state) {
-    let item = this.html(
-      e('option')
-    )
-    this.__accessors.forEach((accessor, name) => {
-      item.innerHTML += name + ' => ' + accessor(state)
-    })
-    return item
   }
 }

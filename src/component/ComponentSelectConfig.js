@@ -5,6 +5,8 @@ export class ComponentSelectConfig {
     this.__publicStore = null
     this.__parentNode = null
     this.__componentContext = null
+    this.__proxyStore = null
+    this.__viewItemBuilder = null
   }
 
   /**
@@ -37,6 +39,15 @@ export class ComponentSelectConfig {
     return this
   }
 
+  withProxyStore(proxyStore) {
+    this.__proxyStore = proxyStore
+    return this
+  }
+
+  withOverrodeViewItemBuilder(viewItem) {
+    this.__viewItemBuilder = viewItem
+    return this
+  }
 
   getPublicStore() {
     assert(!isNull(this.__publicStore), 'Public store not set')
@@ -51,5 +62,15 @@ export class ComponentSelectConfig {
   getComponentContext() {
     assert(!isNull(this.__componentContext), 'Component context not set')
     return this.__componentContext;
+  }
+
+  getProxyStore() {
+    assert(!isNull(this.__proxyStore), 'Proxy store not set')
+    return this.__proxyStore;
+  }
+
+  getViewItemBuilder() {
+    // Can be null, uses default view
+    return this.__viewItemBuilder;
   }
 }

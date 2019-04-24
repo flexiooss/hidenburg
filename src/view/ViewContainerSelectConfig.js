@@ -4,8 +4,7 @@ export class ViewContainerSelectConfig {
   constructor() {
     this.__componentContext = null
     this.__parentNode = null
-    this.__dataPublicStore = null
-    this.__accessors = null
+    this.__proxyStore = null
   }
 
   /**
@@ -13,7 +12,7 @@ export class ViewContainerSelectConfig {
    * @param {ComponentContext} componentContext
    * @returns {ViewContainerSelectConfig}
    */
-  withComponententContext(componentContext) {
+  withComponentContext(componentContext) {
     this.__componentContext = componentContext
     return this
   }
@@ -30,25 +29,23 @@ export class ViewContainerSelectConfig {
 
   /**
    *
-   * @param {StoreInterface<*>} dataPublicStore
+   * @param {ProxyStoreInterface} proxyStore
    * @returns {ViewContainerSelectConfig}
    */
-  withDataPublicStore(dataPublicStore) {
-    this.__dataPublicStore = dataPublicStore
+  withProxyStore(proxyStore) {
+    this.__proxyStore = proxyStore
     return this
   }
-
 
   /**
    *
-   * @param {Map<string, function>} accessors
+   * @param viewItemBuilder
    * @returns {ViewContainerSelectConfig}
    */
-  withAccessors(accessors) {
-    this.__accessors = accessors
+  withViewItemBuilder(viewItemBuilder) {
+    this.__viewItemBuilder = viewItemBuilder
     return this
   }
-
 
   getComponentContext() {
     assert(!isNull(this.__componentContext), 'Public store not set')
@@ -60,13 +57,13 @@ export class ViewContainerSelectConfig {
     return this.__parentNode;
   }
 
-  getDataPublicStore() {
-    assert(!isNull(this.__dataPublicStore), 'Data public store not set')
-    return this.__dataPublicStore;
+  getProxyStore() {
+    assert(!isNull(this.__proxyStore), 'Proxy Store not set')
+    return this.__proxyStore;
   }
 
-  getAccessors() {
-    assert(!isNull(this.__accessors), 'Accessors not set')
-    return this.__accessors;
+  getViewItemBuilder() {
+    assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
+    return this.__viewItemBuilder;
   }
 }
