@@ -11,16 +11,6 @@ export class ComponentSelectConfig {
 
   /**
    *
-   * @param {StoreInterface<*>} publicStore
-   * @returns {ComponentSelectConfig}
-   */
-  withPublicStore(publicStore) {
-    this.__publicStore = publicStore
-    return this
-  }
-
-  /**
-   *
    * @param parentNode
    * @returns {ComponentSelectConfig}
    */
@@ -47,11 +37,6 @@ export class ComponentSelectConfig {
   withOverrodeViewItemBuilder(viewItem) {
     this.__viewItemBuilder = viewItem
     return this
-  }
-
-  getPublicStore() {
-    assert(!isNull(this.__publicStore), 'Public store not set')
-    return this.__publicStore;
   }
 
   getParentNode() {

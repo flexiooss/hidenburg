@@ -12,6 +12,8 @@ export class ViewSelect extends View {
 
     this.__proxyStore = proxyStore
     this.__viewItemBuilder = viewItemBuilder
+
+    this.subscribeToStore(pr)
   }
 
   template() {
