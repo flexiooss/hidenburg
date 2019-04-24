@@ -2,7 +2,6 @@ import {assert, isNull} from "flexio-jshelpers";
 
 export class ComponentSelectConfig {
   constructor() {
-    this.__publicStore = null
     this.__parentNode = null
     this.__componentContext = null
     this.__proxyStore = null
@@ -29,11 +28,21 @@ export class ComponentSelectConfig {
     return this
   }
 
+  /**
+   *
+   * @param {ProxyStore} proxyStore
+   * @returns {ComponentSelectConfig}
+   */
   withProxyStore(proxyStore) {
     this.__proxyStore = proxyStore
     return this
   }
 
+  /**
+   *
+   * @param {View} viewItem
+   * @returns {ComponentSelectConfig}
+   */
   withOverrodeViewItemBuilder(viewItem) {
     this.__viewItemBuilder = viewItem
     return this

@@ -26,6 +26,7 @@ export class ComponentSelect {
     }
 
     this.__viewContainer = new ViewContainerSelect(config)
+    this.__viewContainer.__createViewItems()
     this.__viewContainer.renderAndMount(this.__parentNode)
   }
 

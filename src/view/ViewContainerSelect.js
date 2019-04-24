@@ -12,11 +12,11 @@ export class ViewContainerSelect extends ViewContainer {
 
     super(constructorConfig)
 
-
     this.__config = config
   }
 
   __createViewItems() {
     this.__selectView = this.addView(new ViewSelect(this, this.__config.getProxyStore(), this.__config.getViewItemBuilder()))
+    this.__selectView.initView()
   }
 }
