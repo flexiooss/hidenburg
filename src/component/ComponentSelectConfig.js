@@ -9,7 +9,7 @@ export class ComponentSelectConfig {
 
   /**
    *
-   * @param StoreInterface<*>
+   * @param {StoreInterface<*>} publicStore
    * @returns {ComponentSelectConfig}
    */
   withPublicStore(publicStore) {

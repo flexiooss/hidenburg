@@ -2,7 +2,10 @@ import {e, View} from "hotballoon";
 
 export class ViewSelect extends View {
   /**
+   *
    * @param {ViewContainer} viewContainer
+   * @param {StoreInterface<*>} dataStorePublic
+   * @param {Map<string,function>} accessors
    */
   constructor(viewContainer, dataStorePublic, accessors) {
     super(viewContainer)
@@ -12,19 +15,20 @@ export class ViewSelect extends View {
   }
 
   template() {
-    let items = __createItems()
+    let items = this.__createItems()
 
     return this.html(
       e('select')
-        .childNodes()
+        .childNodes(...items)
     )
   }
 
   __createItems() {
     let items = []
     this.__dataStorePublic.state().data.forEach((state) => {
-      items.push(createItem(state))
+      items.push(this.__createItem(state))
     })
+    return items
   }
 
   __createItem(state) {
@@ -34,5 +38,6 @@ export class ViewSelect extends View {
     this.__accessors.forEach((accessor, name) => {
       item.innerHTML += name + ' => ' + accessor(state)
     })
+    return item
   }
 }
