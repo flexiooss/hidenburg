@@ -1,1 +1,1 @@
-import './src/main/js/bootstrap'
+export ComponentSelect from './src/component/ComponentSelect'

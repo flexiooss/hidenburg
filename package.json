@@ -48,7 +48,7 @@
       }
     },
     "modules": {
-      "component-bootstrap": "src/main/js/modules/component-bootstrap"
+      "component-select": "src"
     }
   }
 }
