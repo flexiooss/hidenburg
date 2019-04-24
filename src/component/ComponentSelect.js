@@ -16,7 +16,7 @@ export class ComponentSelect {
   }
 
   initView() {
-    let config = ViewContainerSelectConfig()
+    let config = new ViewContainerSelectConfig()
       .withParentNode(this.__parentNode)
       .withProxyStore(this.__proxyStore)
       .withComponentContext(this.__componentContext)
