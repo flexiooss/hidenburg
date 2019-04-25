@@ -22,12 +22,12 @@ export class ComponentSelect {
       .withComponentContext(this.__componentContext)
 
     if (isNull(this.__viewItemBuilder)) {
-      config.withViewItemBuilder(new DefaultViewItemBuilder(this))
+      config.withViewItemBuilder(new DefaultViewItemBuilder())
     }
 
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()
-    this.__viewContainer.renderAndMount(this.__parentNode)
+    this.__viewContainer.renderAndMount()
   }
 
 }

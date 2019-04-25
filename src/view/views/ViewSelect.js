@@ -4,11 +4,13 @@ export class ViewSelect extends View {
   /**
    *
    * @param {ViewContainer} viewContainer
-   * @param {ProxyStoreInterface} proxyStore
-   * @param {} viewItemBuilder
+   * @param {StoreInterface} proxyStore
+   * @param {View} viewItemBuilder
    */
   constructor(viewContainer, proxyStore, viewItemBuilder) {
     super(viewContainer)
+
+    this.__viewContainer = viewContainer
 
     this.__proxyStore = proxyStore
     this.__viewItemBuilder = viewItemBuilder
@@ -18,16 +20,18 @@ export class ViewSelect extends View {
 
   template() {
     let items = this.__createItems()
+    console.log(items)
     return this.html(
       e('select')
-        .childNodes(...items)
+        .views(...items)
     )
   }
 
   __createItems() {
     let items = []
     this.__proxyStore.state().data.forEach((state) => {
-      items.push(this.__viewItemBuilder.createView(state.value(), state.label()))
+      let itemView = this.__viewItemBuilder.createView(this.__viewContainer, state.value(), state.label())
+      items.push(this.addView(itemView))
     })
     return items
   }
