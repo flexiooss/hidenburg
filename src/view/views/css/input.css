@@ -1,0 +1,14 @@
+.input {
+    border: none;
+    margin: 0;
+    font-size: 14px;
+    min-width: 50px;
+    min-height: 30px;
+    padding: 5px;
+    cursor: grab;
+}
+
+.input:hover {
+    background-color: rgba(216, 222, 233, 0.8);
+    transition-duration: 0.2s;
+}

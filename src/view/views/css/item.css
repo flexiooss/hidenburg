@@ -1,0 +1,19 @@
+.item {
+    min-width: 150px;
+    padding: 0 14px;
+    line-height: 35px;
+    border-bottom: rgba(76, 86, 106, 0.9) 1px solid;
+    border-top: rgba(76, 86, 106, 0.9) 1px solid;
+    cursor: grab;
+}
+
+.item:hover {
+    background-color: rgba(216, 222, 233, 0.8);
+    transition-duration: 0.2s;
+}
+
+.item[seleted="true"] {
+    background-color: rgba(216, 222, 233, 0.8);
+}
+
+

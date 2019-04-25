@@ -17,7 +17,7 @@ export class ItemListBuilder {
    */
   addItem(value, label, visible = true, selected = false, disabled = false) {
     this.__itemList.push(new ItemBuilder().value(value).label(label)
-      .seleted(selected).disabled(disabled).build())
+      .seleted(selected).disabled(disabled).visible(visible).build())
     return this
   }
 

@@ -3,11 +3,10 @@ import {DefaultViewItem} from "./DefaultViewItem";
 export class DefaultViewItemBuilder {
   /**
    * @param {ViewContainer} viewContainer
-   * @param {string} value
-   * @param {string} label
+   * @param {Item} item
    * @returns {DefaultViewItem}
    */
-  createView(viewContainer, value, label) {
-    return new DefaultViewItem(viewContainer, value, label)
+  createView(viewContainer, item) {
+    return new DefaultViewItem(viewContainer, item)
   }
 }
