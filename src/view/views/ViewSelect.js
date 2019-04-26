@@ -4,7 +4,7 @@ import inputStyle from './css/input.css'
 import {ActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/ActionSelectItemPayload";
 import {ItemBuilder} from "../../generated/io/flexio/component_select/types/Item";
 
-
+const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
 export class ViewSelect extends View {
   /**
    *
@@ -98,18 +98,13 @@ export class ViewSelect extends View {
   }
 
   __inputSelect() {
-    let value = this.__getFirstItemCoherent()
-    // this.__actionSelect.dispatch(new ActionSelectItemPayloadBuilder().item(value).build())
-    let attribute = {
-      'autocomplete': 'off',
-      'readonly': ''
-    }
-    if (value !== undefined) {
-      attribute.value = value.label()
-    }
     return this.html(
       e('input#' + this.__idSelectInput)
-        .attributes(attribute)
+        .attributes({
+          'autocomplete': 'off',
+          'readonly': '',
+          'value': this.__makeInputLabel()
+        })
         .className(inputStyle.input)
         .listenEvent(
           ElementEventListenerBuilder
@@ -123,23 +118,21 @@ export class ViewSelect extends View {
   }
 
   /**
-   * Get the first item visible and selected
-   * Or the first item visible
-   * @return {item|undefined}
+   * Get the first item visible and selected label
+   * Or return default text
+   * @return {string}
    */
-  __getFirstItemCoherent() {
-    let firstItemVisible = null
+  __makeInputLabel() {
+    console.log(this.__proxyStore.state().data)
+    console.log(this.__stateStore.data())
     let selectedItem = null
     this.__proxyStore.state().data.forEach((item) => {
       let state = this.__stateStore.data().get(item.id())
-      if (firstItemVisible === null && state.visible()) {
-        firstItemVisible = item
-      }
-      if (state.selected() && state.visible()) {
+      if (selectedItem === null && state.selected() && state.visible()) {
         selectedItem = item
       }
     })
 
-    return selectedItem === null ? firstItemVisible : selectedItem
+    return selectedItem === null ? NO_SELECTED_LABEL_INPUT : selectedItem.label()
   }
 }
