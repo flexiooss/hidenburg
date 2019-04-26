@@ -17,8 +17,6 @@ export class ViewContainerSelect extends ViewContainer {
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
-
-    this.__handleEvents()
   }
 
   createViewItems() {
@@ -30,13 +28,5 @@ export class ViewContainerSelect extends ViewContainer {
       .withStateStore(this.__stateStore)
 
     this.__selectView = this.addView(new ViewSelect(config))
-  }
-
-  __handleEvents() {
-    this.__actionSelect.listenWithCallback(
-      (payload) => {
-        let item = payload.item()
-      }
-    )
   }
 }

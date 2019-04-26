@@ -115,7 +115,7 @@ export class ViewSelect extends View {
           ElementEventListenerBuilder
             .listen('click')
             .callback((event) => {
-              this.__showItems(event)
+              this.__showItems()
             })
             .build()
         )
