@@ -5,6 +5,7 @@ import {ActionSelectItemPayloadBuilder} from "../../generated/io/flexio/componen
 import {ItemBuilder} from "../../generated/io/flexio/component_select/types/Item";
 
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
+
 export class ViewSelect extends View {
   /**
    *
@@ -126,13 +127,24 @@ export class ViewSelect extends View {
     console.log(this.__proxyStore.state().data)
     console.log(this.__stateStore.data())
     let selectedItem = null
+    let cpt = 0;
     this.__proxyStore.state().data.forEach((item) => {
       let state = this.__stateStore.data().get(item.id())
+      if (state.selected() && state.visible())
+        cpt++
+
       if (selectedItem === null && state.selected() && state.visible()) {
         selectedItem = item
       }
     })
 
-    return selectedItem === null ? NO_SELECTED_LABEL_INPUT : selectedItem.label()
+    switch (cpt) {
+      case 0:
+        return NO_SELECTED_LABEL_INPUT
+      case 1:
+        return selectedItem.label()
+      default:
+        return cpt + ' éléments selectionnés'
+    }
   }
 }
