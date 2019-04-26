@@ -1,5 +1,2 @@
 ActionSelectItemPayload:
-  id: string
-
-ActionUnselectItemPayload:
-  id: string
+  item: object

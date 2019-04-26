@@ -1,6 +1,7 @@
-import {InMemoryStoreParams, PublicStoreHandler, StoreBuilder, StoreTypeParam} from 'hotballoon'
+import {InMemoryStoreParams, PublicStoreHandler, StoreBuilder, StoreTypeParam} from "hotballoon";
+import {MapItemState} from "../component/MapItemState";
 
-export class StoreSelect {
+export class StoreState {
   constructor(componentContext) {
     this.__componentContext = componentContext
 
@@ -8,33 +9,31 @@ export class StoreSelect {
       StoreBuilder.InMemory(
         new InMemoryStoreParams(
           new StoreTypeParam(
-            SeveritiesList,
-            (data) => {
-              return data
-            },
-            (data) => {
-              return true
-            },
-            (obj) => {
-              // fromObject
+            MapItemState,
+            (data) => data,
+            () => true,
+            () => {
             }
           ),
-          new SeveritiesList()
+          new MapItemState()
         )
-      ))
+      )
+    )
 
     this.__storePublic = new PublicStoreHandler(this.__store)
   }
 
   /**
-   * @returns {StoreInterface<SeveritiesList>}
+   *
+   * @return {PublicStoreHandler}
    */
   getStorePublic() {
     return this.__storePublic
   }
 
   /**
-   * @returns {Store<SeveritiesList>}
+   *
+   * @return {Store}
    */
   getStore() {
     return this.__store

@@ -1,33 +1,34 @@
 import {e, ElementEventListenerBuilder, View} from "hotballoon";
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
+import {ActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/ActionSelectItemPayload";
+import {ItemBuilder} from "../../generated/io/flexio/component_select/types/Item";
 
 
 export class ViewSelect extends View {
   /**
    *
-   * @param {ViewContainer} viewContainer
-   * @param {StoreInterface} proxyStore
-   * @param {View} viewItemBuilder
+   * @param {ViewSelectConfig} config
    */
-  constructor(viewContainer, proxyStore, viewItemBuilder) {
-    super(viewContainer)
+  constructor(config) {
+    super(config.getViewContainer())
 
-    this.__viewContainer = viewContainer
-
-    this.__proxyStore = proxyStore
-    this.__viewItemBuilder = viewItemBuilder
+    this.__viewContainer = config.getViewContainer()
+    this.__proxyStore = config.getProxyStore()
+    this.__stateStore = config.getStateStore()
+    this.__viewItemBuilder = config.getViewItemBuilder()
+    this.__actionSelect = config.getActionSelect()
 
     this.__idSelectDiv = 'selectHB'
     this.__idSelectInput = 'inputHB'
     this.__idSelectList = 'listHB'
 
-    this.subscribeToStore(proxyStore)
+    this.subscribeToStore(this.__proxyStore)
+    this.subscribeToStore(this.__stateStore)
   }
 
   template() {
-    let items = this.__createViews()
-    console.log(items)
+    let views = this.__createViews()
     return this.html(
       e('div#' + this.__idSelectDiv)
         .childNodes(
@@ -35,7 +36,7 @@ export class ViewSelect extends View {
           this.html(
             e('div#' + this.__idSelectList)
               .className(listStyle.itemList)
-              .views(...items)
+              .views(...views)
           )
         )
     )
@@ -43,21 +44,40 @@ export class ViewSelect extends View {
 
   __createViews() {
     let views = []
-    this.__proxyStore.state().data.forEach((state) => {
-      let itemView = this.__viewItemBuilder.createView(this.__viewContainer, state)
-      let view = this.addView(itemView)
-      views.push(view)
-    })
+    this.__proxyStore.state().data.forEach((item) => {
+      let state = this.__stateStore.data().get(item.id())
+      if (state.visible()) {
+        let view = this.__createView(item, state)
 
-    views.forEach((view) => {
-      view.on().selectItem((item) => {
-        this.__hideItems()
-      })
+        if (!state.disabled())
+          this.__handleEventFromView(view)
+
+        views.push(view)
+      }
     })
     return views
   }
 
-  __showItems(event) {
+  __createView(item, state) {
+    let itemTmp = new ItemBuilder()
+      .id(item.id()).value(item.value()).label(item.label())
+      .visible(state.visible()).selected(state.selected()).disabled(state.disabled())
+      .build()
+
+    let itemView = this.__viewItemBuilder.createView(this.__viewContainer, itemTmp)
+    return this.addView(itemView)
+  }
+
+  __handleEventFromView(view) {
+    view.on().selectItem((item) => {
+      this.__hideItems()
+      this.__actionSelect.dispatch(
+        new ActionSelectItemPayloadBuilder().item(item).build()
+      )
+    })
+  }
+
+  __showItems() {
     this.nodeRef(this.__idSelectList).style.display = 'block'
     this.__manageOutsideClick()
   }
@@ -68,10 +88,7 @@ export class ViewSelect extends View {
 
   __manageOutsideClick() {
     let listener = (event) => {
-      // console.log(event)
       let p = '#' + this.nodeRef(this.__idSelectInput).id
-      // console.log(p)
-      // console.log(event.target.closest(p))
       if (event.target.closest(p) === null) {
         this.__hideItems()
         document.removeEventListener('click', listener)
@@ -81,13 +98,18 @@ export class ViewSelect extends View {
   }
 
   __inputSelect() {
+    let value = this.__getFirstItemCoherent()
+    // this.__actionSelect.dispatch(new ActionSelectItemPayloadBuilder().item(value).build())
+    let attribute = {
+      'autocomplete': 'off',
+      'readonly': ''
+    }
+    if (value !== undefined) {
+      attribute.value = value.label()
+    }
     return this.html(
       e('input#' + this.__idSelectInput)
-        .attributes({
-          'value': this.__proxyStore.state().data[0].label(),
-          'autocomplete': 'off',
-          'readonly': ''
-        })
+        .attributes(attribute)
         .className(inputStyle.input)
         .listenEvent(
           ElementEventListenerBuilder
@@ -98,5 +120,26 @@ export class ViewSelect extends View {
             .build()
         )
     )
+  }
+
+  /**
+   * Get the first item visible and selected
+   * Or the first item visible
+   * @return {item|undefined}
+   */
+  __getFirstItemCoherent() {
+    let firstItemVisible = null
+    let selectedItem = null
+    this.__proxyStore.state().data.forEach((item) => {
+      let state = this.__stateStore.data().get(item.id())
+      if (firstItemVisible === null && state.visible()) {
+        firstItemVisible = item
+      }
+      if (state.selected() && state.visible()) {
+        selectedItem = item
+      }
+    })
+
+    return selectedItem === null ? firstItemVisible : selectedItem
   }
 }

@@ -1,5 +1,6 @@
 import {ViewContainer, ViewContainerParameters} from 'hotballoon'
 import {ViewSelect} from "./views/ViewSelect";
+import {ViewSelectConfig} from "./views/ViewSelectConfig";
 
 export class ViewContainerSelect extends ViewContainer {
   /**
@@ -12,10 +13,30 @@ export class ViewContainerSelect extends ViewContainer {
 
     super(constructorConfig)
 
-    this.__config = config
+    this.__proxyStore = config.getProxyStore()
+    this.__stateStore = config.getStateStore()
+    this.__viewItemBuilder = config.getViewItemBuilder()
+    this.__actionSelect = config.getActionSelect()
+
+    this.__handleEvents()
   }
 
   createViewItems() {
-    this.__selectView = this.addView(new ViewSelect(this, this.__config.getProxyStore(), this.__config.getViewItemBuilder()))
+    let config = new ViewSelectConfig()
+      .withViewContainer(this)
+      .withActionSelect(this.__actionSelect)
+      .withViewItemBuilder(this.__viewItemBuilder)
+      .withProxyStore(this.__proxyStore)
+      .withStateStore(this.__stateStore)
+
+    this.__selectView = this.addView(new ViewSelect(config))
+  }
+
+  __handleEvents() {
+    this.__actionSelect.listenWithCallback(
+      (payload) => {
+        let item = payload.item()
+      }
+    )
   }
 }

@@ -1,6 +1,13 @@
 item:
+  id: string
   value: string
   label: string
-  seleted: bool
+  selected: bool
   visible: bool
   disabled: bool
+
+StoreStateItem:
+  itemId: string
+  selected: bool
+  disabled: bool
+  visible: bool

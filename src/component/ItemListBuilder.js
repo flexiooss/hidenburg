@@ -7,7 +7,7 @@ export class ItemListBuilder {
   }
 
   /**
-   *
+   * @param {string} id
    * @param {string} value
    * @param {string} label
    * @param {boolean} [visible=true]
@@ -15,12 +15,29 @@ export class ItemListBuilder {
    * @param {boolean} [disabled=false]
    * @returns {ItemListBuilder}
    */
-  addItem(value, label, visible = true, selected = false, disabled = false) {
-    this.__itemList.push(new ItemBuilder().value(value).label(label)
-      .seleted(selected).disabled(disabled).visible(visible).build())
+  addItem(id, value, label, visible = true, selected = false, disabled = false) {
+    this.__itemList.push(
+      new ItemBuilder()
+        .id(id).value(value)
+        .label(label).selected(selected)
+        .disabled(disabled).visible(visible)
+        .build()
+    )
     return this
   }
 
+  /**
+   *
+   * @param {Item} item
+   */
+  addItemObject(item) {
+    this.__itemList.push(item)
+  }
+
+  /**
+   *
+   * @return {ItemList}
+   */
   build() {
     return this.__itemList
   }

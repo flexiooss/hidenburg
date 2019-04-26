@@ -1,7 +1,15 @@
-import {e, ElementEventListenerBuilder, EventListenerOrderedBuilder, View, ViewPublicEventHandler} from "hotballoon";
+import {
+  e,
+  ElementEventListenerBuilder,
+  EventListenerOrderedBuilder,
+  RECONCILIATION_RULES,
+  View,
+  ViewPublicEventHandler
+} from "hotballoon";
 import style from '../css/item.css'
 
 const SELECT_EVENT = 'SELECT_EVENT'
+
 export class DefaultViewItem extends View {
   /**
    *
@@ -15,13 +23,13 @@ export class DefaultViewItem extends View {
   }
 
   template() {
-    return this.html(
-      e('div')
+    let html = this.html(
+      e('div#' + this.__item.id())
         .attributes({'data-value': this.__item.value()})
         .text(this.__item.label())
         .attributes({
           'role': 'option',
-          'selected': this.__item.seleted()
+          'selected': '' + this.__item.selected()
         })
         .className(style.item)
         .listenEvent(
@@ -31,8 +39,12 @@ export class DefaultViewItem extends View {
               this.dispatch(SELECT_EVENT, this.__item)
             })
             .build()
-        )
+        ).reconciliationRules(
+        RECONCILIATION_RULES.FORCE
+      )
     )
+    console.log(html)
+    return html
   }
 
   /**
@@ -52,7 +64,6 @@ class ViewSelectItemEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(SELECT_EVENT)
         .callback((payload) => {
-          console.log(payload)
           clb(payload)
         })
         .build()

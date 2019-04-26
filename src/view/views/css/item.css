@@ -12,7 +12,7 @@
     transition-duration: 0.2s;
 }
 
-.item[seleted="true"] {
+.item[selected="true"] {
     background-color: rgba(216, 222, 233, 0.8);
 }
 

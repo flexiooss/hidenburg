@@ -5,6 +5,8 @@ export class ViewContainerSelectConfig {
     this.__componentContext = null
     this.__parentNode = null
     this.__proxyStore = null
+    this.__actionSelect = null
+    this.__stateStore = null
   }
 
   /**
@@ -29,7 +31,7 @@ export class ViewContainerSelectConfig {
 
   /**
    *
-   * @param {ProxyStoreInterface} proxyStore
+   * @param {ProxyStore} proxyStore
    * @returns {ViewContainerSelectConfig}
    */
   withProxyStore(proxyStore) {
@@ -39,11 +41,30 @@ export class ViewContainerSelectConfig {
 
   /**
    *
-   * @param viewItemBuilder
+   * @param {View} viewItemBuilder
    * @returns {ViewContainerSelectConfig}
    */
   withViewItemBuilder(viewItemBuilder) {
     this.__viewItemBuilder = viewItemBuilder
+    return this
+  }
+
+  /**
+   * @param {Action<ActionSelectItemPayload>} action
+   * @returns {ViewContainerSelectConfig}
+   */
+  withActionSelect(action) {
+    this.__actionSelect = action
+    return this
+  }
+
+  /**
+   *
+   * @param {StoreInterface} stateStore
+   * @return {ViewContainerSelectConfig}
+   */
+  withStateStore(stateStore) {
+    this.__stateStore = stateStore
     return this
   }
 
@@ -65,5 +86,13 @@ export class ViewContainerSelectConfig {
   getViewItemBuilder() {
     assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
     return this.__viewItemBuilder;
+  }
+
+  getActionSelect() {
+    return this.__actionSelect;
+  }
+
+  getStateStore() {
+    return this.__stateStore
   }
 }

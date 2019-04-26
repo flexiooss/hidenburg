@@ -14,11 +14,6 @@ Composant select pour Hotballon
 Il est détruit par un incendie, le 6 mai 1937
 
 
-# Todos :
+# Utilisation :
 
-- Component pour gerer le possible metier, changer le store, acceder au store, recuperer les elements séléctionnés, ...
-- ViewContainer pour  transporter les differentes vues (recherche, items, ...), capture les evenements, ...
-Fournir une vue, utilisation par défaut
-- Views :
-    - Une View par item 
-    - Une view pour le champ de recherche
+Voir exemple 
