@@ -1,8 +1,8 @@
-import {e, ElementEventListenerBuilder, RECONCILIATION_RULES, View} from "hotballoon";
+import { e, ElementEventListenerBuilder, RECONCILIATION_RULES, View } from 'hotballoon'
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
-import {ActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/ActionSelectItemPayload";
-import {ItemBuilder} from "../../generated/io/flexio/component_select/types/Item";
+import { ActionSelectItemPayloadBuilder } from '../../generated/io/flexio/component_select/actions/ActionSelectItemPayload'
+import { ItemBuilder } from '../../generated/io/flexio/component_select/types/Item'
 
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
 
@@ -38,10 +38,11 @@ export class ViewSelect extends View {
             e('div#' + this.__idSelectList)
               .className(listStyle.itemList)
               .views(...views)
+              .reconciliationRules(
+                RECONCILIATION_RULES.FORCE
+              )
           )
-        ).reconciliationRules(
-        RECONCILIATION_RULES.FORCE
-      )
+        )
     )
   }
 
@@ -52,8 +53,9 @@ export class ViewSelect extends View {
       if (state.visible()) {
         let view = this.__createView(item, state)
 
-        if (!state.disabled())
+        if (!state.disabled()) {
           this.__handleEventFromView(view)
+        }
 
         views.push(view)
       }
@@ -126,11 +128,12 @@ export class ViewSelect extends View {
    */
   __makeInputLabel() {
     let selectedItem = null
-    let cpt = 0;
+    let cpt = 0
     this.__proxyStore.state().data.forEach((item) => {
       let state = this.__stateStore.data().get(item.id())
-      if (state.selected() && state.visible())
+      if (state.selected() && state.visible()) {
         cpt++
+      }
 
       if (selectedItem === null && state.selected() && state.visible()) {
         selectedItem = item
