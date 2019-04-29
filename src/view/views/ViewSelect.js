@@ -119,13 +119,10 @@ export class ViewSelect extends View {
   }
 
   /**
-   * Get the first item visible and selected label
-   * Or return default text
+   * Make the label of input field, according to selected elements
    * @return {string}
    */
   __makeInputLabel() {
-    console.log(this.__proxyStore.state().data)
-    console.log(this.__stateStore.data())
     let selectedItem = null
     let cpt = 0;
     this.__proxyStore.state().data.forEach((item) => {

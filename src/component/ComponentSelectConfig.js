@@ -1,4 +1,5 @@
 import {assert, isNull} from "flexio-jshelpers";
+import {DefaultViewItemBuilder} from "../view/views/defaultViewItem/DefaultViewItemBuilder";
 
 export class ComponentSelectConfig {
   constructor() {
@@ -43,7 +44,7 @@ export class ComponentSelectConfig {
    * @param {View} viewItem
    * @returns {ComponentSelectConfig}
    */
-  withOverrodeViewItemBuilder(viewItem) {
+  withOverrideViewItemBuilder(viewItem) {
     this.__viewItemBuilder = viewItem
     return this
   }
@@ -64,7 +65,9 @@ export class ComponentSelectConfig {
   }
 
   getViewItemBuilder() {
-    // Can be null, uses default view
+    if (isNull(this.__viewItemBuilder)) {
+      return new DefaultViewItemBuilder()
+    }
     return this.__viewItemBuilder;
   }
 }

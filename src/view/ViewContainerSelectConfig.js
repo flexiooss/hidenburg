@@ -89,10 +89,12 @@ export class ViewContainerSelectConfig {
   }
 
   getActionSelect() {
+    assert(!isNull(this.__actionSelect), 'Action not set')
     return this.__actionSelect;
   }
 
   getStateStore() {
+    assert(!isNull(this.__stateStore), 'State Store not set')
     return this.__stateStore
   }
 }

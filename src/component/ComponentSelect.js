@@ -1,7 +1,5 @@
 import {ViewContainerSelect} from "../view/ViewContainerSelect";
 import {ViewContainerSelectConfig} from "../view/ViewContainerSelectConfig";
-import {DefaultViewItemBuilder} from "../view/views/defaultViewItem/DefaultViewItemBuilder";
-import {isNull} from "flexio-jshelpers";
 import {ActionSelectItemBuilder} from "../actions/ActionSelectItemBuilder";
 import {StoreState} from "../stores/StoreState";
 import {MapItemState} from "./MapItemState";
@@ -48,10 +46,7 @@ export class ComponentSelect {
       .withStateStore(this.__storeState.getStorePublic())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__actionSelect)
-
-    if (isNull(this.__viewItemBuilder)) {
-      config.withViewItemBuilder(new DefaultViewItemBuilder())
-    }
+      .withViewItemBuilder(this.__viewItemBuilder)
 
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()

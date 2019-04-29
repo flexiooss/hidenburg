@@ -43,7 +43,7 @@ export class DefaultViewItem extends View {
         RECONCILIATION_RULES.FORCE
       )
     )
-    // console.log(html)
+    console.log(html)
     return html
   }
 
