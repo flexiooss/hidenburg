@@ -1,4 +1,4 @@
-import {e, ElementEventListenerBuilder, View} from "hotballoon";
+import {e, ElementEventListenerBuilder, RECONCILIATION_RULES, View} from "hotballoon";
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
 import {ActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/ActionSelectItemPayload";
@@ -39,7 +39,9 @@ export class ViewSelect extends View {
               .className(listStyle.itemList)
               .views(...views)
           )
-        )
+        ).reconciliationRules(
+        RECONCILIATION_RULES.FORCE
+      )
     )
   }
 

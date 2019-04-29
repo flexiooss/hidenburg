@@ -4,7 +4,15 @@ import {ActionSelectItemBuilder} from "../actions/ActionSelectItemBuilder";
 import {StoreState} from "../stores/StoreState";
 import {MapItemState} from "./MapItemState";
 import {StoreStateItemBuilder} from "../generated/io/flexio/component_select/types/StoreStateItem";
+import {EventListenerOrderedBuilder} from "hotballoon";
+import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
 
+/* TODO Properties
+* - multiple?
+* - search
+* - pagination? (range)
+* - autoUpdateItems?
+*/
 export class ComponentSelect {
   /**
    *
@@ -19,7 +27,8 @@ export class ComponentSelect {
 
     this.__storeState = new StoreState(this.__componentContext)
     this.__initStoreState()
-    this.__handleEvents()
+    this.__handleEventsFromView()
+    this._handleUpdateFromProxyStore()
   }
 
   __initStoreState() {
@@ -53,7 +62,7 @@ export class ComponentSelect {
     this.__viewContainer.renderAndMount()
   }
 
-  __handleEvents() {
+  __handleEventsFromView() {
     this.__actionSelect.listenWithCallback(
       (payload) => {
         let item = payload.item()
@@ -65,6 +74,18 @@ export class ComponentSelect {
         })
         this.__storeState.getStore().set(stateItems)
       }
+    )
+  }
+
+  _handleUpdateFromProxyStore() {
+    this.__proxyStore.subscribe(
+      EventListenerOrderedBuilder
+        .listen(STORE_CHANGED)
+        .callback((payload) => {
+          console.log('update store', payload)
+          this.__initStoreState()
+        })
+        .build()
     )
   }
 
@@ -80,5 +101,28 @@ export class ComponentSelect {
       storeStateItemBuilder.selected(state.selected())
     }
     return storeStateItemBuilder.build()
+  }
+
+  getSelectedItemsId() {
+    let ids = []
+    this.__storeState.getStorePublic().data().forEach((state) => {
+      if (state.selected()) {
+        ids.push(state.itemId())
+      }
+    })
+    return ids
+  }
+
+  getSelectedItems() {
+    let items = []
+    this.getSelectedItemsId().forEach((id) => {
+      this.__proxyStore.data().forEach((item) => {
+        if (id === item.id()) {
+          items.push(item)
+        }
+      })
+    })
+
+    return items
   }
 }
