@@ -7,12 +7,6 @@ import {StoreStateItemBuilder} from "../generated/io/flexio/component_select/typ
 import {EventListenerOrderedBuilder} from "hotballoon";
 import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
 
-/* TODO Properties
-* - multiple?
-* - search
-* - pagination? (range)
-* - autoUpdateItems?
-*/
 export class ComponentSelect {
   /**
    *
@@ -23,6 +17,7 @@ export class ComponentSelect {
     this.__parentNode = config.getParentNode()
     this.__proxyStore = config.getProxyStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
+    this.__properties = config.getProperties()
     this.__actionSelect = new ActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
 
     this.__storeState = new StoreState(this.__componentContext)
@@ -65,17 +60,39 @@ export class ComponentSelect {
   __handleEventsFromView() {
     this.__actionSelect.listenWithCallback(
       (payload) => {
-        let item = payload.item()
-        let stateItems = new MapItemState()
-        let data = this.__storeState.getStore().state().data
-        data.forEach((state) => {
-          let storeStateItem = this.__buildStateItem(item, state)
-          stateItems.set(state.itemId(), storeStateItem)
-        })
-        this.__storeState.getStore().set(stateItems)
+        this.__performSelectEvent(payload.item())
       }
     )
   }
+
+  __performSelectEvent(item) {
+    if (this.__properties.multiple) {
+      this.__performMultipleSelectEvent(item)
+    } else {
+      this.__performUniqueSelectEvent(item)
+    }
+  }
+
+  __performMultipleSelectEvent(item) {
+    let stateItems = new MapItemState()
+    let data = this.__storeState.getStore().state().data
+    data.forEach((state) => {
+      let storeStateItem = this.__buildStateItemMatch(item, state, !state.selected(), state.selected())
+      stateItems.set(state.itemId(), storeStateItem)
+    })
+    this.__storeState.getStore().set(stateItems)
+  }
+
+  __performUniqueSelectEvent(item) {
+    let stateItems = new MapItemState()
+    let data = this.__storeState.getStore().state().data
+    data.forEach((state) => {
+      let storeStateItem = this.__buildStateItemMatch(item, state, true, false)
+      stateItems.set(state.itemId(), storeStateItem)
+    })
+    this.__storeState.getStore().set(stateItems)
+  }
+
 
   _handleUpdateFromProxyStore() {
     this.__proxyStore.subscribe(
@@ -89,16 +106,16 @@ export class ComponentSelect {
     )
   }
 
-  __buildStateItem(item, state) {
+  __buildStateItemMatch(item, state, value, valueDefault) {
     let storeStateItemBuilder = new StoreStateItemBuilder()
       .itemId(state.itemId())
       .disabled(state.disabled())
       .visible(state.visible())
 
     if (item.id() === state.itemId()) {
-      storeStateItemBuilder.selected(!state.selected())
+      storeStateItemBuilder.selected(value)
     } else {
-      storeStateItemBuilder.selected(state.selected())
+      storeStateItemBuilder.selected(valueDefault)
     }
     return storeStateItemBuilder.build()
   }

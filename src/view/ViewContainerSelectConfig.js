@@ -9,6 +9,7 @@ export class ViewContainerSelectConfig {
     this.__stateStore = null
   }
 
+
   /**
    *
    * @param {ComponentContext} componentContext

@@ -7,6 +7,7 @@ export class ComponentSelectConfig {
     this.__componentContext = null
     this.__proxyStore = null
     this.__viewItemBuilder = null
+    this.__properties = {multiple: false, search: false, autoUpdateItems: true, pagination: false}
   }
 
   /**
@@ -49,6 +50,11 @@ export class ComponentSelectConfig {
     return this
   }
 
+  withProperties(properties) {
+    this.__properties = Object.assign({}, this.__properties, properties) // Attribute default value if not set
+    return this
+  }
+
   getParentNode() {
     assert(!isNull(this.__parentNode), 'Parent node not set')
     return this.__parentNode;
@@ -69,5 +75,9 @@ export class ComponentSelectConfig {
       return new DefaultViewItemBuilder()
     }
     return this.__viewItemBuilder;
+  }
+
+  getProperties() {
+    return this.__properties
   }
 }
