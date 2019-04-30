@@ -98,36 +98,20 @@ export class ViewSelect extends View {
 
   __openList() {
     this.nodeRef(this.__idSelectList).style.display = 'block'
-    this.__manageOutsideClick()
+    document.onclick = this.__manageOutsideClick.bind(this)
   }
 
   __closeList() {
     this.nodeRef(this.__idSelectList).style.display = 'none'
   }
 
-  __manageOutsideClick() {
-    let listener = (event) => {
-      let input = '#' + this.nodeRef(this.__idSelectInput).id
-      let list = '#' + this.nodeRef(this.__idSelectList).id
-      if (event.target.closest(input) === null && event.target.closest(list) === null) {
-        this.__closeList()
-        event.stopPropagation()
-        document.removeEventListener('click', listener)
-      }
-    }
-    document.removeEventListener('click', listener)
-    document.addEventListener('click', listener)
-  }
-
-  __clickOutside() {
-    let listener = (event) => {
-      console.log(event)
-      let input = '#' + this.nodeRef(this.__idSelectInput).id
-      let list = '#' + this.nodeRef(this.__idSelectList).id
-      if (event.target.closest(input) === null && event.target.closest(list) === null) {
-        this.__closeList()
-        document.removeEventListener('click', listener)
-      }
+  __manageOutsideClick(event) {
+    console.log('plok')
+    let input = '#' + this.nodeRef(this.__idSelectInput).id
+    let list = '#' + this.nodeRef(this.__idSelectList).id
+    if (event.target.closest(input) === null && event.target.closest(list) === null) {
+      this.__closeList()
+      document.onclick = null
     }
   }
 
