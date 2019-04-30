@@ -24,7 +24,7 @@ export class DefaultViewItem extends View {
 
   template() {
     let html = this.html(
-      e('div#' + this.__item.id())
+      e('div#item-' + this.__item.id())
         .attributes({'data-value': this.__item.value()})
         .text(this.__item.label())
         .attributes({
@@ -39,11 +39,12 @@ export class DefaultViewItem extends View {
               this.dispatch(SELECT_EVENT, this.__item)
             })
             .build()
-        ).reconciliationRules(
-        RECONCILIATION_RULES.FORCE
-      )
+        )
+        .reconciliationRules(
+          RECONCILIATION_RULES.BYPASS_LISTENERS
+        )
     )
-    console.log(html)
+    // console.log(html)
     return html
   }
 

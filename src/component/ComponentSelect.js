@@ -106,16 +106,21 @@ export class ComponentSelect {
     )
   }
 
-  __buildStateItemMatch(item, state, value, valueDefault) {
+  /**
+   * Build a state item and set selected value by value if item match with state
+   * Or set set selected value by defaultValue
+   */
+  __buildStateItemMatch(item, state, valueIfMatch, defaultValue) {
+    console.log(item.id(), state, valueIfMatch, defaultValue)
     let storeStateItemBuilder = new StoreStateItemBuilder()
       .itemId(state.itemId())
       .disabled(state.disabled())
       .visible(state.visible())
 
     if (item.id() === state.itemId()) {
-      storeStateItemBuilder.selected(value)
+      storeStateItemBuilder.selected(valueIfMatch)
     } else {
-      storeStateItemBuilder.selected(valueDefault)
+      storeStateItemBuilder.selected(defaultValue)
     }
     return storeStateItemBuilder.build()
   }
