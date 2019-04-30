@@ -2,4 +2,10 @@ PrivateActionSelectItemPayload:
   item: object
 
 PublicActionSelectItemPayload:
-  item: object
+  itemId: string
+
+PublicActionSelectedItemPayload:
+  itemId: string
+
+PublicActionUnselectedItemPayload:
+  itemId: string

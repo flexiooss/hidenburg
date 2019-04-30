@@ -91,6 +91,42 @@ class TestsSelectUnique extends TestCase {
     assert(item.value() === 'value1')
     assert(item.label() === 'label1')
   }
+
+  testActionDispated() {
+    let item1 = new Item('1', 'value1', 'label1', false, true, false)
+    let item2 = new Item('2', 'value2', 'label2', false, true, false)
+    this.__setStore(item1, item2)
+
+    let valueRequire1 = '1'
+    let valueRequire2 = '1'
+    this.__component.getPublicActionSelect()
+      .listenWithCallback((payload) => {
+        console.log('select', valueRequire2)
+        assert(payload.itemId() === valueRequire1)
+      })
+
+    this.__component.getPublicActionSelected()
+      .listenWithCallback((payload) => {
+        console.log('selected', valueRequire2)
+        assert(payload.itemId() === valueRequire1)
+      })
+
+    this.__component.getPublicActionUnselected()
+      .listenWithCallback((payload) => {
+        console.log('unselected', valueRequire2)
+        assert(payload.itemId() === valueRequire2)
+      })
+
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item1).build()
+    )
+
+    valueRequire1 = '2'
+
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item2).build()
+    )
+  }
 }
 
 runTest(TestsSelectUnique)

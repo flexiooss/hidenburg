@@ -18,6 +18,14 @@ Il est détruit par un incendie, le 6 mai 1937
 
 Voir exemple hidenburg-explosion
 
+## Actions :
+
+3 actions disponible :
+
+- actionSelect : chaque selection (click)
+- actionSelected : élément sélectionné
+- actionUnselected : élément désélectionné
+
 # Configuration
 
 On peut fournir un builder pour créer les items de la liste comme souhaité.

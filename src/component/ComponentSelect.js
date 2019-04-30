@@ -6,6 +6,12 @@ import {MapItemState} from "./MapItemState";
 import {StoreStateItemBuilder} from "../generated/io/flexio/component_select/types/StoreStateItem";
 import {EventListenerOrderedBuilder} from "hotballoon";
 import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
+import {PublicActionSelectItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/PublicActionSelectItemPayload";
+import {PublicActionSelectItemBuilder} from "../actions/PublicActionSelectItemBuilder";
+import {PublicActionSelectedItemBuilder} from "../actions/PublicActionSelectedItemBuilder";
+import {PublicActionUnselectedItemBuilder} from "../actions/PublicActionUnselectedItemBuilder";
+import {PublicActionSelectedItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/PublicActionSelectedItemPayload";
+import {PublicActionUnselectedItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/PublicActionUnselectedItemPayload";
 
 export class ComponentSelect {
   /**
@@ -19,6 +25,13 @@ export class ComponentSelect {
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
+
+    this.__publicActionSelect = new PublicActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
+    this.__publicActionSelected = new PublicActionSelectedItemBuilder(this.__componentContext.dispatcher()).init()
+    this.__publicActionUnselected = new PublicActionUnselectedItemBuilder(this.__componentContext.dispatcher()).init()
+
+    this.__selectedItemsIds = []
+    this.__unselectedItemsIds = []
 
     this.__storeState = new StoreState(this.__componentContext)
     this.__initStoreState()
@@ -41,6 +54,27 @@ export class ComponentSelect {
     })
 
     this.__storeState.getStore().set(store)
+  }
+
+  /**
+   * @return {Action<PublicActionSelectItemPayload>}
+   */
+  getPublicActionSelect() {
+    return this.__publicActionSelect
+  }
+
+  /**
+   * @return {Action<PublicActionSelectedItemPayload>}
+   */
+  getPublicActionSelected() {
+    return this.__publicActionSelected
+  }
+
+  /**
+   * @return {Action<PublicActionUnselectedItemPayload>}
+   */
+  getPublicActionUnselected() {
+    return this.__publicActionUnselected
   }
 
   initView() {
@@ -72,6 +106,23 @@ export class ComponentSelect {
     } else {
       this.__performUniqueSelectEvent(item)
     }
+
+    this.__dispatchPublicEvents(item)
+  }
+
+  __dispatchPublicEvents(item) {
+    this.__publicActionSelect.dispatch(new PublicActionSelectItemPayloadBuilder().itemId(item.id()).build())
+    let id = this.__unselectedItemsIds.pop()
+    while (id !== undefined) {
+      this.__publicActionUnselected.dispatch(new PublicActionUnselectedItemPayloadBuilder().itemId(id).build())
+      id = this.__unselectedItemsIds.pop()
+    }
+
+    id = this.__selectedItemsIds.pop()
+    while (id !== undefined) {
+      this.__publicActionSelected.dispatch(new PublicActionSelectedItemPayloadBuilder().itemId(id).build())
+      id = this.__selectedItemsIds.pop()
+    }
   }
 
   __performMultipleSelectEvent(item) {
@@ -85,15 +136,19 @@ export class ComponentSelect {
   }
 
   __performUniqueSelectEvent(item) {
+    this.__selectedItemsIds.push(item.id())
+
     let stateItems = new MapItemState()
     let data = this.__storeState.getStore().state().data
     data.forEach((state) => {
+      if (state.selected()) {
+        this.__unselectedItemsIds.push(state.itemId())
+      }
       let storeStateItem = this.__buildStateItemMatch(item, state, true, false)
       stateItems.set(state.itemId(), storeStateItem)
     })
     this.__storeState.getStore().set(stateItems)
   }
-
 
   _handleUpdateFromProxyStore() {
     this.__proxyStore.subscribe(

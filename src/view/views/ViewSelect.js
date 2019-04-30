@@ -53,9 +53,7 @@ export class ViewSelect extends View {
                 RECONCILIATION_RULES.FORCE
               )
           )
-        ).reconciliationRules(
-        RECONCILIATION_RULES.BYPASS
-      )
+        )
     )
   }
 
