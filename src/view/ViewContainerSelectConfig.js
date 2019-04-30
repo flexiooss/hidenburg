@@ -65,7 +65,7 @@ export class ViewContainerSelectConfig {
 
   /**
    * @param {Object} properties
-   * @return {ViewSelectConfig}
+   * @return {ViewContainerSelectConfig}
    */
   withProperties(properties) {
     this.__properties = properties

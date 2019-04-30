@@ -33,7 +33,7 @@ export class ComponentSelect {
     let config = new ViewContainerSelectConfig()
       .withParentNode(this.__parentNode)
       .withProxyStore(this.__proxyStore)
-      .withStateStore(this.__storeState.getStorePublic())
+      .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
       .withViewItemBuilder(this.__viewItemBuilder)

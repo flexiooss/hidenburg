@@ -117,4 +117,11 @@ export class AbstractListManager {
   getPublicActionUnselected() {
     return this.__publicActionUnselected
   }
+
+  /**
+   * @return {StoreInterface}
+   */
+  getPublicStateStore() {
+    return this._storeState.getStorePublic()
+  }
 }

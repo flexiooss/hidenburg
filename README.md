@@ -37,3 +37,10 @@ Néanmoins, il existe differents parametres, définit dans `src/component/Compon
 - search {false} [false/true] : champ de recherche
 - autoUpdateItems {true} [false/true] : les elements sont
 - autoCloseListNotMultiple {true} [false/true] : la liste se ferme automatiquement apres une séléction en cas de liste non multiple
+
+
+# TODOs :
+
+- Champ de recherche
+- Pagination
+- Proprieté attributs
