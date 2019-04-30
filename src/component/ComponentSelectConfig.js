@@ -17,7 +17,6 @@ export class ComponentSelectConfig {
   }
 
   /**
-   *
    * @param parentNode
    * @returns {ComponentSelectConfig}
    */
@@ -27,7 +26,6 @@ export class ComponentSelectConfig {
   }
 
   /**
-   *
    * @param {ComponentContext} componentContext
    * @returns {ComponentSelectConfig}
    */
@@ -37,8 +35,7 @@ export class ComponentSelectConfig {
   }
 
   /**
-   *
-   * @param {ProxyStore} proxyStore
+   * @param {StoreInterface} proxyStore
    * @returns {ComponentSelectConfig}
    */
   withProxyStore(proxyStore) {

@@ -8,7 +8,7 @@ import {
 } from 'hotballoon'
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
-import {ActionSelectItemPayloadBuilder} from '../../generated/io/flexio/component_select/actions/ActionSelectItemPayload'
+import {PrivateActionSelectItemPayloadBuilder} from '../../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload'
 import {ItemBuilder} from '../../generated/io/flexio/component_select/types/Item'
 
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
@@ -93,7 +93,7 @@ export class ViewSelect extends View {
       }
 
       this.__actionSelect.dispatch(
-        new ActionSelectItemPayloadBuilder().item(item).build()
+        new PrivateActionSelectItemPayloadBuilder().item(item).build()
       )
     })
   }
@@ -109,7 +109,6 @@ export class ViewSelect extends View {
 
   __manageOutsideClick() {
     let listener = (event) => {
-      console.log(event)
       let input = '#' + this.nodeRef(this.__idSelectInput).id
       let list = '#' + this.nodeRef(this.__idSelectList).id
       if (event.target.closest(input) === null && event.target.closest(list) === null) {

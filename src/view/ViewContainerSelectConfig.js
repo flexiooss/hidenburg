@@ -46,7 +46,7 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   * @param {Action<ActionSelectItemPayload>} action
+   * @param {Action<PrivateActionSelectItemPayload>} action
    * @returns {ViewContainerSelectConfig}
    */
   withActionSelect(action) {

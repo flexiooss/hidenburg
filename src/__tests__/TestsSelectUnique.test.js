@@ -4,7 +4,7 @@ import {ComponentSelect, ComponentSelectConfig, ItemList} from "..";
 import {StoreTest} from "./StoreTest/StoreTest";
 import {Dispatcher, HotBalloonApplication} from "hotballoon";
 import {Item} from "../generated/io/flexio/component_select/types/Item";
-import {ActionSelectItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/ActionSelectItemPayload";
+import {PrivateActionSelectItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
 
 const assert = require('assert')
 
@@ -60,8 +60,8 @@ class TestsSelectUnique extends TestCase {
     assert(this.__component.getSelectedItemsId().length === 0)
 
     // Select item 1
-    this.__component.__actionSelect.dispatch(
-      new ActionSelectItemPayloadBuilder().item(item1).build()
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
     assert(this.__component.getSelectedItemsId().length === 1)
     assert(this.__component.getSelectedItemsId()[0] === '1')
@@ -71,8 +71,8 @@ class TestsSelectUnique extends TestCase {
     assert(item.label() === 'label1')
 
     // Select item 2
-    this.__component.__actionSelect.dispatch(
-      new ActionSelectItemPayloadBuilder().item(item2).build()
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
     assert(this.__component.getSelectedItemsId().length === 1)
     assert(this.__component.getSelectedItemsId()[0] === '2')
@@ -82,8 +82,8 @@ class TestsSelectUnique extends TestCase {
     assert(item.label() === 'label2')
 
     // Select item 1
-    this.__component.__actionSelect.dispatch(
-      new ActionSelectItemPayloadBuilder().item(item1).build()
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
     assert(this.__component.getSelectedItemsId().length === 1)
     item = this.__component.getSelectedItems()[0]

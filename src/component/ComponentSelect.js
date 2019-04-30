@@ -1,6 +1,6 @@
 import {ViewContainerSelect} from "../view/ViewContainerSelect";
 import {ViewContainerSelectConfig} from "../view/ViewContainerSelectConfig";
-import {ActionSelectItemBuilder} from "../actions/ActionSelectItemBuilder";
+import {PrivateActionSelectItemBuilder} from "../actions/PrivateActionSelectItemBuilder";
 import {StoreState} from "../stores/StoreState";
 import {MapItemState} from "./MapItemState";
 import {StoreStateItemBuilder} from "../generated/io/flexio/component_select/types/StoreStateItem";
@@ -18,7 +18,7 @@ export class ComponentSelect {
     this.__proxyStore = config.getProxyStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
-    this.__actionSelect = new ActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
+    this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
 
     this.__storeState = new StoreState(this.__componentContext)
     this.__initStoreState()
@@ -49,7 +49,7 @@ export class ComponentSelect {
       .withProxyStore(this.__proxyStore)
       .withStateStore(this.__storeState.getStorePublic())
       .withComponentContext(this.__componentContext)
-      .withActionSelect(this.__actionSelect)
+      .withActionSelect(this.__privateActionSelect)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProperties(this.__properties)
 
@@ -59,7 +59,7 @@ export class ComponentSelect {
   }
 
   __handleEventsFromView() {
-    this.__actionSelect.listenWithCallback(
+    this.__privateActionSelect.listenWithCallback(
       (payload) => {
         this.__performSelectEvent(payload.item())
       }
