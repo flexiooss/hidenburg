@@ -92,36 +92,35 @@ class TestsSelectUnique extends TestCase {
     assert(item.label() === 'label1')
   }
 
-  testActionDispated() {
+  testPublicActionDispatched() {
     let item1 = new Item('1', 'value1', 'label1', false, true, false)
     let item2 = new Item('2', 'value2', 'label2', false, true, false)
     this.__setStore(item1, item2)
 
-    let valueRequire1 = '1'
-    let valueRequire2 = '1'
+    let valueSelect = '1'
+    let valueSelected = '1'
     this.__component.getPublicActionSelect()
       .listenWithCallback((payload) => {
-        console.log('select', valueRequire2)
-        assert(payload.itemId() === valueRequire1)
+        assert(payload.itemId() === valueSelect)
       })
 
     this.__component.getPublicActionSelected()
       .listenWithCallback((payload) => {
-        console.log('selected', valueRequire2)
-        assert(payload.itemId() === valueRequire1)
-      })
-
-    this.__component.getPublicActionUnselected()
-      .listenWithCallback((payload) => {
-        console.log('unselected', valueRequire2)
-        assert(payload.itemId() === valueRequire2)
+        assert(payload.itemId() === valueSelected)
       })
 
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
 
-    valueRequire1 = '2'
+    let valueUnselected = '1'
+    this.__component.getPublicActionUnselected()
+      .listenWithCallback((payload) => {
+        assert(payload.itemId() === valueUnselected)
+      })
+
+    valueSelect = '2'
+    valueSelected = '2'
 
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()

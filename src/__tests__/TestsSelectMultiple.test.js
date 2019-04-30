@@ -99,6 +99,44 @@ class TestsSelectMultiple extends TestCase {
     )
     assert(this.__component.getSelectedItemsId().length === 0)
   }
+
+  testPublicActionDispatched() {
+    let item1 = new Item('1', 'value1', 'label1', false, true, false)
+    let item2 = new Item('2', 'value2', 'label2', false, true, false)
+    this.__setStore(item1, item2)
+
+    let valueSelect = '1'
+    let valueSelected = '1'
+    let valueUnselected = '1'
+    this.__component.getPublicActionSelect()
+      .listenWithCallback((payload) => {
+        assert(payload.itemId() === valueSelect)
+      })
+
+    this.__component.getPublicActionSelected()
+      .listenWithCallback((payload) => {
+        assert(payload.itemId() === valueSelected)
+      })
+
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item1).build()
+    )
+
+    this.__component.getPublicActionUnselected()
+      .listenWithCallback((payload) => {
+        assert(payload.itemId() === valueUnselected)
+      })
+
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item1).build()
+    )
+
+    valueSelect = '2'
+    valueSelected = '2'
+    this.__component.__privateActionSelect.dispatch(
+      new PrivateActionSelectItemPayloadBuilder().item(item2).build()
+    )
+  }
 }
 
 runTest(TestsSelectMultiple)
