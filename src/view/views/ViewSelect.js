@@ -1,8 +1,15 @@
-import { e, ElementEventListenerBuilder, RECONCILIATION_RULES, View } from 'hotballoon'
+import {
+  e,
+  ElementEventListenerBuilder,
+  EventListenerOrderedBuilder,
+  RECONCILIATION_RULES,
+  View,
+  VIEW_MOUNTED
+} from 'hotballoon'
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
-import { ActionSelectItemPayloadBuilder } from '../../generated/io/flexio/component_select/actions/ActionSelectItemPayload'
-import { ItemBuilder } from '../../generated/io/flexio/component_select/types/Item'
+import {ActionSelectItemPayloadBuilder} from '../../generated/io/flexio/component_select/actions/ActionSelectItemPayload'
+import {ItemBuilder} from '../../generated/io/flexio/component_select/types/Item'
 
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
 
@@ -19,6 +26,7 @@ export class ViewSelect extends View {
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
+    this.__properties = config.getProperties()
 
     this.__idSelectDiv = 'selectHB'
     this.__idSelectInput = 'inputHB'
@@ -30,6 +38,9 @@ export class ViewSelect extends View {
 
   template() {
     let views = this.__createViews()
+
+    this.__hideOnMount()
+
     return this.html(
       e('div#' + this.__idSelectDiv)
         .childNodes(
@@ -42,7 +53,9 @@ export class ViewSelect extends View {
                 RECONCILIATION_RULES.FORCE
               )
           )
-        )
+        ).reconciliationRules(
+        RECONCILIATION_RULES.BYPASS
+      )
     )
   }
 
@@ -75,31 +88,50 @@ export class ViewSelect extends View {
 
   __handleEventFromView(view) {
     view.on().selectItem((item) => {
-      this.__hideItems()
+      if (!this.__properties.multiple && this.__properties.autoCloseListNotMultiple) {
+        this.__closeList()
+      }
+
       this.__actionSelect.dispatch(
         new ActionSelectItemPayloadBuilder().item(item).build()
       )
     })
   }
 
-  __showItems() {
+  __openList() {
     this.nodeRef(this.__idSelectList).style.display = 'block'
     this.__manageOutsideClick()
   }
 
-  __hideItems() {
+  __closeList() {
     this.nodeRef(this.__idSelectList).style.display = 'none'
   }
 
   __manageOutsideClick() {
     let listener = (event) => {
-      let p = '#' + this.nodeRef(this.__idSelectInput).id
-      if (event.target.closest(p) === null) {
-        this.__hideItems()
+      console.log(event)
+      let input = '#' + this.nodeRef(this.__idSelectInput).id
+      let list = '#' + this.nodeRef(this.__idSelectList).id
+      if (event.target.closest(input) === null && event.target.closest(list) === null) {
+        this.__closeList()
+        event.stopPropagation()
         document.removeEventListener('click', listener)
       }
     }
+    document.removeEventListener('click', listener)
     document.addEventListener('click', listener)
+  }
+
+  __clickOutside() {
+    let listener = (event) => {
+      console.log(event)
+      let input = '#' + this.nodeRef(this.__idSelectInput).id
+      let list = '#' + this.nodeRef(this.__idSelectList).id
+      if (event.target.closest(input) === null && event.target.closest(list) === null) {
+        this.__closeList()
+        document.removeEventListener('click', listener)
+      }
+    }
   }
 
   __inputSelect() {
@@ -115,7 +147,7 @@ export class ViewSelect extends View {
           ElementEventListenerBuilder
             .listen('click')
             .callback((event) => {
-              this.__showItems()
+              this.__openList()
             })
             .build()
         )
@@ -148,5 +180,17 @@ export class ViewSelect extends View {
       default:
         return cpt + ' éléments selectionnés'
     }
+  }
+
+  __hideOnMount() {
+    this._on(
+      EventListenerOrderedBuilder
+        .listen(VIEW_MOUNTED)
+        .callback(() => {
+            this.__closeList()
+          }
+        )
+        .build()
+    )
   }
 }

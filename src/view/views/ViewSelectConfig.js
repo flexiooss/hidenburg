@@ -1,3 +1,5 @@
+import {assert, isNull} from "flexio-jshelpers";
+
 export class ViewSelectConfig {
   constructor() {
     this.__viewContainer = null
@@ -8,7 +10,6 @@ export class ViewSelectConfig {
   }
 
   /**
-   *
    * @param {ViewContainer} viewContainer
    * @return {ViewSelectConfig}
    */
@@ -18,7 +19,6 @@ export class ViewSelectConfig {
   }
 
   /**
-   *
    * @param {StoreInterface} proxyStore
    * @return {ViewSelectConfig}
    */
@@ -33,7 +33,6 @@ export class ViewSelectConfig {
   }
 
   /**
-   *
    * @param {Action<ActionSelectItemPayload>} actionSelect
    * @return {ViewSelectConfig}
    */
@@ -43,7 +42,6 @@ export class ViewSelectConfig {
   }
 
   /**
-   *
    * @param {StoreInterface} stateStore
    * @return {ViewSelectConfig}
    */
@@ -52,25 +50,43 @@ export class ViewSelectConfig {
     return this
   }
 
+  /**
+   * @param {Object} properties
+   * @return {ViewSelectConfig}
+   */
+  withProperties(properties) {
+    this.__properties = properties
+    return this
+  }
+
   getViewContainer() {
+    assert(!isNull(this.__viewContainer), 'View container not set')
     return this.__viewContainer;
   }
 
   getProxyStore() {
+    assert(!isNull(this.__proxyStore), 'Proxy store not set')
     return this.__proxyStore;
   }
 
   getStateStore() {
+    assert(!isNull(this.__stateStore), 'State store not set')
     return this.__stateStore;
   }
 
   getViewItemBuilder() {
+    assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
     return this.__viewItemBuilder;
   }
 
   getActionSelect() {
+    assert(!isNull(this.__actionSelect), 'Action Select not set')
     return this.__actionSelect;
   }
 
+  getProperties() {
+    assert(!isNull(this.__properties), 'Properties not set')
+    return this.__properties;
+  }
 
 }

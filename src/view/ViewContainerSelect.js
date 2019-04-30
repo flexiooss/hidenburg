@@ -17,6 +17,7 @@ export class ViewContainerSelect extends ViewContainer {
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
+    this.__properties = config.getProperties()
   }
 
   createViewItems() {
@@ -26,6 +27,7 @@ export class ViewContainerSelect extends ViewContainer {
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProxyStore(this.__proxyStore)
       .withStateStore(this.__stateStore)
+      .withProperties(this.__properties)
 
     this.__selectView = this.addView(new ViewSelect(config))
   }

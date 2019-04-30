@@ -7,7 +7,13 @@ export class ComponentSelectConfig {
     this.__componentContext = null
     this.__proxyStore = null
     this.__viewItemBuilder = null
-    this.__properties = {multiple: false, search: false, autoUpdateItems: true, pagination: false}
+    this.__properties = {
+      multiple: false,
+      search: false,
+      autoUpdateItems: true,
+      pagination: false,
+      autoCloseListNotMultiple: true
+    }
   }
 
   /**

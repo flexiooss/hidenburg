@@ -51,6 +51,7 @@ export class ComponentSelect {
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__actionSelect)
       .withViewItemBuilder(this.__viewItemBuilder)
+      .withProperties(this.__properties)
 
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()
@@ -99,7 +100,6 @@ export class ComponentSelect {
       EventListenerOrderedBuilder
         .listen(STORE_CHANGED)
         .callback((payload) => {
-          console.log('update store', payload)
           this.__initStoreState()
         })
         .build()
@@ -111,7 +111,6 @@ export class ComponentSelect {
    * Or set set selected value by defaultValue
    */
   __buildStateItemMatch(item, state, valueIfMatch, defaultValue) {
-    console.log(item.id(), state, valueIfMatch, defaultValue)
     let storeStateItemBuilder = new StoreStateItemBuilder()
       .itemId(state.itemId())
       .disabled(state.disabled())

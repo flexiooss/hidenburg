@@ -9,9 +9,7 @@ export class ViewContainerSelectConfig {
     this.__stateStore = null
   }
 
-
   /**
-   *
    * @param {ComponentContext} componentContext
    * @returns {ViewContainerSelectConfig}
    */
@@ -21,7 +19,6 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   *
    * @param parentNode
    * @returns {ViewContainerSelectConfig}
    */
@@ -31,7 +28,6 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   *
    * @param {ProxyStore} proxyStore
    * @returns {ViewContainerSelectConfig}
    */
@@ -41,7 +37,6 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   *
    * @param {View} viewItemBuilder
    * @returns {ViewContainerSelectConfig}
    */
@@ -60,12 +55,20 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   *
    * @param {StoreInterface} stateStore
    * @return {ViewContainerSelectConfig}
    */
   withStateStore(stateStore) {
     this.__stateStore = stateStore
+    return this
+  }
+
+  /**
+   * @param {Object} properties
+   * @return {ViewSelectConfig}
+   */
+  withProperties(properties) {
+    this.__properties = properties
     return this
   }
 
@@ -97,5 +100,10 @@ export class ViewContainerSelectConfig {
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State Store not set')
     return this.__stateStore
+  }
+
+  getProperties() {
+    assert(!isNull(this.__properties), 'Properties not set')
+    return this.__properties;
   }
 }
