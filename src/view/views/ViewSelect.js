@@ -34,6 +34,8 @@ export class ViewSelect extends View {
 
     this.subscribeToStore(this.__proxyStore)
     this.subscribeToStore(this.__stateStore)
+
+    this.__clbOutside = null
   }
 
   template() {
@@ -98,20 +100,25 @@ export class ViewSelect extends View {
 
   __openList() {
     this.nodeRef(this.__idSelectList).style.display = 'block'
-    document.onclick = this.__manageOutsideClick.bind(this)
+    if (this.__clbOutside === null) {
+      this.__clbOutside = this.__manageOutsideClick.bind(this)
+      document.addEventListener('click', this.__clbOutside);
+    }
+
   }
 
   __closeList() {
+    // console.log('close', this.nodeRef(this.__idSelectList).id)
     this.nodeRef(this.__idSelectList).style.display = 'none'
+    document.removeEventListener('click', this.__clbOutside);
+    this.__clbOutside = null
   }
 
   __manageOutsideClick(event) {
-    console.log('plok')
-    let input = '#' + this.nodeRef(this.__idSelectInput).id
-    let list = '#' + this.nodeRef(this.__idSelectList).id
-    if (event.target.closest(input) === null && event.target.closest(list) === null) {
+    // console.log('click')
+    let el = this.nodeRef(this.__idSelectDiv)
+    if (event.path.includes(el) === false) {
       this.__closeList()
-      document.onclick = null
     }
   }
 
