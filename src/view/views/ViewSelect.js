@@ -88,9 +88,9 @@ export class ViewSelect extends View {
 
   __handleEventFromView(view) {
     view.on().selectItem((item) => {
-      if (!this.__properties.multiple && this.__properties.autoCloseListNotMultiple) {
-        this.__closeList()
-      }
+      // if (!this.__properties.multiple && this.__properties.autoCloseListNotMultiple) {
+      //   this.__closeList()
+      // }
 
       this.__actionSelect.dispatch(
         new PrivateActionSelectItemPayloadBuilder().item(item).build()
@@ -104,7 +104,6 @@ export class ViewSelect extends View {
       this.__clbOutside = this.__manageOutsideClick.bind(this)
       document.addEventListener('click', this.__clbOutside);
     }
-
   }
 
   __closeList() {
@@ -115,7 +114,6 @@ export class ViewSelect extends View {
   }
 
   __manageOutsideClick(event) {
-    // console.log('click')
     let el = this.nodeRef(this.__idSelectDiv)
     if (event.path.includes(el) === false) {
       this.__closeList()
