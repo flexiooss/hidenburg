@@ -18,7 +18,6 @@ class TestsSelectMultiple extends TestCase {
     this.__store = new StoreTest(cc)
 
     let config = new ComponentSelectConfig()
-      .withParentNode(node)
       .withComponentContext(cc)
       .withProxyStore(this.__store.getStorePublic())
       .withProperties({multiple: true})

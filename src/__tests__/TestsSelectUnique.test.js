@@ -18,7 +18,6 @@ class TestsSelectUnique extends TestCase {
     this.__store = new StoreTest(cc)
 
     let config = new ComponentSelectConfig()
-      .withParentNode(node)
       .withComponentContext(cc)
       .withProxyStore(this.__store.getStorePublic())
       .withProperties({multiple: false}) // useless but more verbose
@@ -65,6 +64,7 @@ class TestsSelectUnique extends TestCase {
     )
     assert(this.__component.getSelectedItemsId().length === 1)
     assert(this.__component.getSelectedItemsId()[0] === '1')
+
     let item = this.__component.getSelectedItems()[0]
     assert(item.id() === '1')
     assert(item.value() === 'value1')

@@ -20,7 +20,9 @@ export class ComponentSelect {
 
     this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
+
     this.__handleUpdateFromProxyStore()
+    this.__handleEventsFromPrivateActionSelect()
   }
 
   __initStateStore() {
@@ -47,10 +49,9 @@ export class ComponentSelect {
     this.__viewContainer.createViewItems()
     this.__viewContainer.renderAndMount()
 
-    this.__handleEventsFromView()
   }
 
-  __handleEventsFromView() {
+  __handleEventsFromPrivateActionSelect() {
     this.__privateActionSelect.listenWithCallback(
       (payload) => {
         this.__listManager.performSelectEvent(payload.item())
