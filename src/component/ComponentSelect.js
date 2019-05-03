@@ -13,7 +13,6 @@ export class ComponentSelect {
    */
   constructor(config) {
     this.__componentContext = config.getComponentContext()
-    this.__parentNode = config.getParentNode()
     this.__proxyStore = config.getProxyStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
@@ -21,7 +20,6 @@ export class ComponentSelect {
 
     this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
-    this.__handleEventsFromView()
     this.__handleUpdateFromProxyStore()
   }
 
@@ -29,7 +27,13 @@ export class ComponentSelect {
     this.__listManager.initStateStore(this.__proxyStore)
   }
 
-  initView() {
+  /**
+   *
+   * @param parentNode
+   */
+  initView(parentNode) {
+    this.__parentNode = parentNode
+
     let config = new ViewContainerSelectConfig()
       .withParentNode(this.__parentNode)
       .withProxyStore(this.__proxyStore)
@@ -42,6 +46,8 @@ export class ComponentSelect {
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()
     this.__viewContainer.renderAndMount()
+
+    this.__handleEventsFromView()
   }
 
   __handleEventsFromView() {

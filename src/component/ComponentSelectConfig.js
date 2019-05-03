@@ -17,15 +17,6 @@ export class ComponentSelectConfig {
   }
 
   /**
-   * @param parentNode
-   * @returns {ComponentSelectConfig}
-   */
-  withParentNode(parentNode) {
-    this.__parentNode = parentNode
-    return this
-  }
-
-  /**
    * @param {ComponentContext} componentContext
    * @returns {ComponentSelectConfig}
    */
@@ -56,11 +47,6 @@ export class ComponentSelectConfig {
   withProperties(properties) {
     this.__properties = Object.assign({}, this.__properties, properties) // Attribute default value if not set
     return this
-  }
-
-  getParentNode() {
-    assert(!isNull(this.__parentNode), 'Parent node not set')
-    return this.__parentNode;
   }
 
   getComponentContext() {
