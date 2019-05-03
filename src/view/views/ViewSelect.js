@@ -114,8 +114,8 @@ export class ViewSelect extends View {
   }
 
   __manageOutsideClick(event) {
-    let el = this.nodeRef(this.__idSelectDiv)
-    if (event.path.includes(el) === false) {
+    let el = '#' + this.nodeRef(this.__idSelectDiv).id
+    if (event.target.closest(el) === null) {
       this.__closeList()
     }
   }
