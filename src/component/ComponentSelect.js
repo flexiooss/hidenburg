@@ -8,12 +8,12 @@ import {UniqueList} from "./ListManager/UniqueList";
 
 export class ComponentSelect {
   /**
-   *
    * @param {ComponentSelectConfig} config
    */
   constructor(config) {
     this.__componentContext = config.getComponentContext()
-    this.__proxyStore = config.getProxyStore()
+    this.__store = config.getStore()
+    console.log(config)
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
@@ -26,7 +26,7 @@ export class ComponentSelect {
   }
 
   __initStateStore() {
-    this.__listManager.initStateStore(this.__proxyStore)
+    this.__listManager.initStateStore(this.__store)
   }
 
   /**
@@ -38,12 +38,13 @@ export class ComponentSelect {
 
     let config = new ViewContainerSelectConfig()
       .withParentNode(this.__parentNode)
-      .withProxyStore(this.__proxyStore)
+      .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProperties(this.__properties)
+
 
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()
@@ -61,7 +62,7 @@ export class ComponentSelect {
   }
 
   __handleUpdateFromProxyStore() {
-    this.__proxyStore.subscribe(
+    this.__store.subscribe(
       EventListenerOrderedBuilder
         .listen(STORE_CHANGED)
         .callback((payload) => {

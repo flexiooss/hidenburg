@@ -19,7 +19,7 @@ class TestsSelectUnique extends TestCase {
 
     let config = new ComponentSelectConfig()
       .withComponentContext(cc)
-      .withProxyStore(this.__store.getStorePublic())
+      .withStore(this.__store.getStorePublic())
       .withProperties({multiple: false}) // useless but more verbose
 
     this.__component = new ComponentSelect(config)

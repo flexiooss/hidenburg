@@ -4,7 +4,7 @@ export class ViewContainerSelectConfig {
   constructor() {
     this.__componentContext = null
     this.__parentNode = null
-    this.__proxyStore = null
+    this.__dataStore = null
     this.__actionSelect = null
     this.__stateStore = null
   }
@@ -28,11 +28,11 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   * @param {ProxyStore} proxyStore
+   * @param {StoreInterface} store
    * @returns {ViewContainerSelectConfig}
    */
-  withProxyStore(proxyStore) {
-    this.__proxyStore = proxyStore
+  withDataStore(store) {
+    this.__dataStore = store
     return this
   }
 
@@ -82,9 +82,9 @@ export class ViewContainerSelectConfig {
     return this.__parentNode;
   }
 
-  getProxyStore() {
-    assert(!isNull(this.__proxyStore), 'Proxy Store not set')
-    return this.__proxyStore;
+  getDataStore() {
+    assert(!isNull(this.__dataStore), 'Data Store not set')
+    return this.__dataStore;
   }
 
   getViewItemBuilder() {

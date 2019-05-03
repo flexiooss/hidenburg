@@ -2,11 +2,20 @@ import {assert, isNull} from "flexio-jshelpers";
 
 export class ViewSelectConfig {
   constructor() {
+    this.__layers = null
     this.__viewContainer = null
-    this.__proxyStore = null
+    this.__dataStore = null
     this.__stateStore = null
     this.__viewItemBuilder = null
     this.__actionSelect = null
+  }
+
+  /**
+   * @param {ComponentAtmosphereLayersPublicHandler} layers
+   */
+  withLayers(layers) {
+    this.__layers = layers
+    return this
   }
 
   /**
@@ -19,11 +28,11 @@ export class ViewSelectConfig {
   }
 
   /**
-   * @param {StoreInterface} proxyStore
+   * @param {StoreInterface} store
    * @return {ViewSelectConfig}
    */
-  withProxyStore(proxyStore) {
-    this.__proxyStore = proxyStore
+  withDataStore(store) {
+    this.__dataStore = store
     return this
   }
 
@@ -33,7 +42,7 @@ export class ViewSelectConfig {
   }
 
   /**
-   * @param {Action<ActionSelectItemPayload>} actionSelect
+   * @param {Action<PrivateActionSelectItemPayload>} actionSelect
    * @return {ViewSelectConfig}
    */
   withActionSelect(actionSelect) {
@@ -59,14 +68,23 @@ export class ViewSelectConfig {
     return this
   }
 
+  /**
+   *
+   * @return {ComponentAtmosphereLayersPublicHandler}
+   */
+  getLayers() {
+    assert(!isNull(this.__layers), 'Layers not set')
+    return this.__layers;
+  }
+
   getViewContainer() {
     assert(!isNull(this.__viewContainer), 'View container not set')
     return this.__viewContainer;
   }
 
-  getProxyStore() {
-    assert(!isNull(this.__proxyStore), 'Proxy store not set')
-    return this.__proxyStore;
+  getDataStore() {
+    assert(!isNull(this.__dataStore), 'Data store not set')
+    return this.__dataStore;
   }
 
   getStateStore() {

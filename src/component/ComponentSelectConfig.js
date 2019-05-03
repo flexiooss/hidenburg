@@ -3,10 +3,9 @@ import {DefaultViewItemBuilder} from "../view/views/defaultViewItem/DefaultViewI
 
 export class ComponentSelectConfig {
   constructor() {
-    this.__parentNode = null
     this.__componentContext = null
-    this.__proxyStore = null
-    this.__viewItemBuilder = null
+    this.__store = null
+    this.__viewItemBuilder = new DefaultViewItemBuilder()
     this.__properties = {
       multiple: false,
       search: false,
@@ -26,16 +25,15 @@ export class ComponentSelectConfig {
   }
 
   /**
-   * @param {StoreInterface} proxyStore
+   * @param {StoreInterface} store
    * @returns {ComponentSelectConfig}
    */
-  withProxyStore(proxyStore) {
-    this.__proxyStore = proxyStore
+  withStore(store) {
+    this.__store = store
     return this
   }
 
   /**
-   *
    * @param {View} viewItem
    * @returns {ComponentSelectConfig}
    */
@@ -54,16 +52,13 @@ export class ComponentSelectConfig {
     return this.__componentContext;
   }
 
-  getProxyStore() {
-    assert(!isNull(this.__proxyStore), 'Proxy store not set')
-    return this.__proxyStore;
+  getStore() {
+    assert(!isNull(this.__store), 'Store not set')
+    return this.__store;
   }
 
   getViewItemBuilder() {
-    if (isNull(this.__viewItemBuilder)) {
-      return new DefaultViewItemBuilder()
-    }
-    return this.__viewItemBuilder;
+    return this.__viewItemBuilder
   }
 
   getProperties() {
