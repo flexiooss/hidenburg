@@ -18,7 +18,6 @@ export class DefaultViewItem extends View {
    */
   constructor(viewContainer, item) {
     super(viewContainer)
-
     this.__item = item
   }
 

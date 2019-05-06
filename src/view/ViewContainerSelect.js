@@ -37,6 +37,12 @@ export class ViewContainerSelect extends ViewContainer {
       .withProperties(this.__properties)
     // .withLayers(this.__layers)
 
+    // this.__parentNode.subscribe(
+    //   EventListenerOrderedBuilder
+    //     .listen('VIEW_UPDATED')
+    //     .callback(()=>{console.log('UPDATE')})
+    // )
+
     this.__selectView = this.addView(new ViewSelect(config))
   }
 }

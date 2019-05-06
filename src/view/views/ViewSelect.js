@@ -4,7 +4,8 @@ import {
   EventListenerOrderedBuilder,
   RECONCILIATION_RULES,
   View,
-  VIEW_MOUNTED
+  VIEW_MOUNTED,
+  VIEW_UPDATED
 } from 'hotballoon'
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
@@ -41,9 +42,11 @@ export class ViewSelect extends View {
   }
 
   template() {
+    let rect = this.__viewContainer.parentNode.getBoundingClientRect()
+
     let views = this.__createViews()
 
-    this.__hideOnMount()
+    this.__hideOn(VIEW_MOUNTED, VIEW_UPDATED)
 
     return this.html(
       e('div#' + this.__idSelectDiv)
@@ -170,10 +173,10 @@ export class ViewSelect extends View {
     }
   }
 
-  __hideOnMount() {
+  __hideOn(...event) {
     this._on(
       EventListenerOrderedBuilder
-        .listen(VIEW_MOUNTED)
+        .listen(...event)
         .callback(() => {
             this.__closeList()
           }
