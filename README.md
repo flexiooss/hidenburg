@@ -41,6 +41,13 @@ Néanmoins, il existe differents parametres, définit dans `src/component/Compon
 
 # TODOs :
 
+Liste des fonctionnalités à implementer :
+
 - Champ de recherche
 - Pagination
-- Proprieté attributs
+
+Liste des proprietés à implementer :
+- attributs HTML
+    - placeholder
+- affichage en cas de séléction multiple (nb elements, les elements, ...)
+
