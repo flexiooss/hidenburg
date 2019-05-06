@@ -69,6 +69,15 @@ export class ViewSelectConfig {
   }
 
   /**
+   * @param {ComponentSelect} component
+   * @return {ViewSelectConfig}
+   */
+  withComponent(component) {
+    this.__component = component
+    return this
+  }
+
+  /**
    *
    * @return {ComponentAtmosphereLayersPublicHandler}
    */
@@ -107,4 +116,8 @@ export class ViewSelectConfig {
     return this.__properties;
   }
 
+  getComponent() {
+    assert(!isNull(this.__properties), 'Properties not set')
+    return this.__component
+  }
 }

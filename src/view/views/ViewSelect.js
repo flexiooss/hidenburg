@@ -30,6 +30,7 @@ export class ViewSelect extends View {
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
     this.__properties = config.getProperties()
+    this.__component = config.getComponent()
 
     this.__idSelectDiv = 'selectHB'
     this.__idSelectInput = 'inputHB'
@@ -178,6 +179,10 @@ export class ViewSelect extends View {
       EventListenerOrderedBuilder
         .listen(...event)
         .callback(() => {
+          if (this.__properties.multiple && this.__component.getSelectedItemsId().length > 0) {
+            return
+          }
+          console.log('hide')
             this.__closeList()
           }
         )

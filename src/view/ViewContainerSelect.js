@@ -21,6 +21,7 @@ export class ViewContainerSelect extends ViewContainer {
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
     this.__properties = config.getProperties()
+    this.__component = config.getComponent()
 
     // this.__layers = ComponentAtmosphereLayersBuilder.build(config.getComponentContext())
   }
@@ -35,6 +36,7 @@ export class ViewContainerSelect extends ViewContainer {
       .withDataStore(this.__proxyStore)
       .withStateStore(this.__stateStore)
       .withProperties(this.__properties)
+      .withComponent(this.__component)
     // .withLayers(this.__layers)
 
     // this.__parentNode.subscribe(

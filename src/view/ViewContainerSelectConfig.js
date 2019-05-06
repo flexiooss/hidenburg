@@ -7,6 +7,7 @@ export class ViewContainerSelectConfig {
     this.__dataStore = null
     this.__actionSelect = null
     this.__stateStore = null
+    this.__component = null
   }
 
   /**
@@ -72,6 +73,15 @@ export class ViewContainerSelectConfig {
     return this
   }
 
+  /**
+   * @param {ComponentSelect} component
+   * @return {ViewContainerSelectConfig}
+   */
+  withComponent(component) {
+    this.__component = component
+    return this
+  }
+
   getComponentContext() {
     assert(!isNull(this.__componentContext), 'Public store not set')
     return this.__componentContext;
@@ -105,5 +115,10 @@ export class ViewContainerSelectConfig {
   getProperties() {
     assert(!isNull(this.__properties), 'Properties not set')
     return this.__properties;
+  }
+
+  getComponent() {
+    assert(!isNull(this.__properties), 'Properties not set')
+    return this.__component
   }
 }

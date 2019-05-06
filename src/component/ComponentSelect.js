@@ -44,6 +44,7 @@ export class ComponentSelect {
       .withActionSelect(this.__privateActionSelect)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProperties(this.__properties)
+      .withComponent(this)
 
 
     this.__viewContainer = new ViewContainerSelect(config)

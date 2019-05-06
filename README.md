@@ -30,7 +30,7 @@ Voir exemple hidenburg-explosion
 
 On peut fournir un builder pour créer les items de la liste comme souhaité.
 
-Néanmoins, il existe differents parametres, définit dans `src/component/ComponentSelectConfig.js` :
+Néanmoins, il existe differents parametres, définit dans `src/__component/ComponentSelectConfig.js` :
 {multiple: false, search: false, autoUpdateItems: true, pagination: false, closeListNotMultiple: true}
 > - nom du parametre {valeur par defaut} [valeur possible] : description
 - multiple {false} [false/true/0-n] : liste de selection multiple ou unique, nombre d'items maximum
