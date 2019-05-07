@@ -1,2 +1,0 @@
-ActionInitialize:
-  message: string

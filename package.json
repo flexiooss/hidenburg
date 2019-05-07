@@ -19,6 +19,7 @@
     "stylelint-config-standard": "^18.2.0"
   },
   "dependencies": {
+    "atmosphere-layers": "https://github.com/flexiooss/atmosphere-layers",
     "flexio-jshelpers": "https://github.com/flexiooss/flexio-jshelpers.git",
     "flexio-nodes-reconciliation": "https://github.com/flexiooss/flexio-nodes-reconciliation.git",
     "hotballoon": "https://github.com/flexiooss/hotballoon.git"
@@ -48,7 +49,7 @@
       }
     },
     "modules": {
-      "component-bootstrap": "src/main/js/modules/component-bootstrap"
+      "component-select": "src"
     }
   }
 }

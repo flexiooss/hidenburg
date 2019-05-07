@@ -1,0 +1,12 @@
+.itemList {
+    max-height: 200px;
+    min-width: 50px;
+    overflow-y: scroll;
+    z-index: 5;
+    margin: 5px;
+    padding: 5px 0;
+    position: absolute;
+    border: rgba(235, 203, 139, 0.8) 2px solid;
+    display: block;
+    background-color: white;
+}

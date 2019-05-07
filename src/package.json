@@ -1,8 +1,8 @@
 {
-  "name": "component-bootstrap",
+  "name": "component-select",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "Thomas Chatelain (https://github.com/TomAchT)",
+  "author": "BrunoFL",
   "hotballoon-shed": {
     "builder": "webpack4",
     "test": {
