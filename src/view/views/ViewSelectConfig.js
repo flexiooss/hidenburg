@@ -114,7 +114,7 @@ export class ViewSelectConfig {
     return this.__actionSelect;
   }
 
-  getProperties() {
+  __getProperties() {
     assert(!isNull(this.__properties), 'Properties not set')
     return this.__properties;
   }
@@ -128,6 +128,9 @@ export class ViewSelectConfig {
    * @return {CloseMultiple|CloseUnique}
    */
   getCloseStrategy() {
-    return new CloseStrategyBuilder().component(this.getComponent()).properties(this.getProperties()).build()
+    return new CloseStrategyBuilder()
+      .component(this.getComponent())
+      .properties(this.__getProperties())
+      .build()
   }
 }

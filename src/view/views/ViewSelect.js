@@ -29,7 +29,6 @@ export class ViewSelect extends View {
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
-    this.__properties = config.getProperties()
     this.__component = config.getComponent()
 
     this.__idSelectDiv = 'selectHB'
