@@ -50,7 +50,6 @@ export class ComponentSelect {
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()
     this.__viewContainer.renderAndMount()
-
   }
 
   __handleEventsFromPrivateActionSelect() {

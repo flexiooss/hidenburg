@@ -1,5 +1,5 @@
 .input {
-    border: 1px rgba(216, 222, 233, 0.8) solid;
+    border: rgba(216, 222, 233, 0.8) 2px solid;
     border-radius: 25px;
     margin: 0;
     font-size: 14px;
@@ -7,6 +7,7 @@
     min-height: 30px;
     padding: 5px 0 5px 20px;
     cursor: grab;
+    background-color: white;
 }
 
 .input:hover {

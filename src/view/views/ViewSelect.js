@@ -11,6 +11,7 @@ import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
 import {PrivateActionSelectItemPayloadBuilder} from '../../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload'
 import {ItemBuilder} from '../../generated/io/flexio/component_select/types/Item'
+import {CloseStrategyBuilder} from "./defaultViewItem/close/CloseStrategyBuilder";
 // import {ComponentAtmosphereLayersBuilder} from "atmosphere-layers";
 
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
@@ -38,6 +39,8 @@ export class ViewSelect extends View {
 
     this.subscribeToStore(this.__proxyStore)
     this.subscribeToStore(this.__stateStore)
+
+    this.__closeStrategy = new CloseStrategyBuilder().component(this.__component).properties(this.__properties).build()
 
     this.__clbOutside = null
   }
@@ -179,11 +182,10 @@ export class ViewSelect extends View {
       EventListenerOrderedBuilder
         .listen(...event)
         .callback(() => {
-          if (this.__properties.multiple && this.__component.getSelectedItemsId().length > 0) {
-            return
-          }
-          console.log('hide')
+          if (this.__closeStrategy.canClose()) {
+            console.log('hide')
             this.__closeList()
+          }
           }
         )
         .build()
