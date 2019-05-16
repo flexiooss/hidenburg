@@ -32,7 +32,6 @@ export class ViewSelect extends View {
     this.__viewItemBuilder = config.getViewItemBuilder()
 
     this.__actionSelect = config.getActionSelect()
-    this.__properties = config.getProperties()
     this.__component = config.getComponent()
     this.__actionMultipleSelect = config.getActionMultipleSelect()
 
@@ -43,15 +42,16 @@ export class ViewSelect extends View {
     this.subscribeToStore(this.__proxyStore)
     this.subscribeToStore(this.__stateStore)
 
+    this.__closeStrategy = config.getCloseStrategy()
+
     this.__clbOutside = null
+    this.__hideOn(VIEW_MOUNTED, VIEW_UPDATED)
   }
 
   template() {
     let rect = this.__viewContainer.parentNode.getBoundingClientRect()
 
     let views = this.__createViews()
-
-    this.__hideOn(VIEW_MOUNTED, VIEW_UPDATED)
 
     return this.html(
       e('div#' + this.__idSelectDiv)
@@ -98,10 +98,6 @@ export class ViewSelect extends View {
 
   __handleEventFromView(view) {
     view.on().selectItem((item) => {
-      // if (!this.__properties.multiple && this.__properties.autoCloseListNotMultiple) {
-      //   this.__closeList()
-      // }
-
       this.__actionSelect.dispatch(
         new PrivateActionSelectItemPayloadBuilder().item(item).build()
       )
@@ -188,11 +184,10 @@ export class ViewSelect extends View {
       EventListenerOrderedBuilder
         .listen(...event)
         .callback(() => {
-          if (this.__properties.multiple && this.__component.getSelectedItemsId().length > 0) {
-            return
-          }
-          console.log('hide')
+          if (this.__closeStrategy.canClose()) {
+            // console.log('hide')
             this.__closeList()
+          }
           }
         )
         .build()

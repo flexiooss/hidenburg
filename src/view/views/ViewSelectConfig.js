@@ -1,4 +1,5 @@
 import {assert, isNull} from "flexio-jshelpers";
+import {CloseStrategyBuilder} from "./defaultViewItem/close/CloseStrategyBuilder";
 
 export class ViewSelectConfig {
   constructor() {
@@ -8,6 +9,9 @@ export class ViewSelectConfig {
     this.__stateStore = null
     this.__viewItemBuilder = null
     this.__actionSelect = null
+    this.__actionMultipleSelect = null
+    this.__properties = null
+    // Todo strategies
   }
 
   /**
@@ -120,13 +124,12 @@ export class ViewSelectConfig {
     return this.__actionSelect;
   }
 
-
   getActionMultipleSelect() {
     assert(!isNull(this.__actionMultipleSelect), 'Action multiple select not set')
     return this.__actionMultipleSelect;
   }
 
-  getProperties() {
+  __getProperties() {
     assert(!isNull(this.__properties), 'Properties not set')
     return this.__properties;
   }
@@ -134,5 +137,15 @@ export class ViewSelectConfig {
   getComponent() {
     assert(!isNull(this.__properties), 'Properties not set')
     return this.__component
+  }
+
+  /**
+   * @return {CloseMultiple|CloseUnique}
+   */
+  getCloseStrategy() {
+    return new CloseStrategyBuilder()
+      .component(this.getComponent())
+      .properties(this.__getProperties())
+      .build()
   }
 }
