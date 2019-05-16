@@ -51,6 +51,15 @@ export class ViewSelectConfig {
   }
 
   /**
+   * @param {Action<PrivateActionSelectMultipleItemsPayload>} action
+   * @return {ViewSelectConfig}
+   */
+  withActionMultipleSelect(action) {
+    this.__actionMultipleSelect = action
+    return this
+  }
+
+  /**
    * @param {StoreInterface} stateStore
    * @return {ViewSelectConfig}
    */
@@ -109,6 +118,12 @@ export class ViewSelectConfig {
   getActionSelect() {
     assert(!isNull(this.__actionSelect), 'Action Select not set')
     return this.__actionSelect;
+  }
+
+
+  getActionMultipleSelect() {
+    assert(!isNull(this.__actionMultipleSelect), 'Action multiple select not set')
+    return this.__actionMultipleSelect;
   }
 
   getProperties() {

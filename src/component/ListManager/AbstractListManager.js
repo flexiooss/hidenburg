@@ -15,13 +15,22 @@ export class AbstractListManager {
     this.__publicActionSelected = new PublicActionSelectedItemBuilder(this.__componentContext.dispatcher()).init()
     this.__publicActionUnselected = new PublicActionUnselectedItemBuilder(this.__componentContext.dispatcher()).init()
 
-    this._selectItemsIds = []
-    this._selectedItemsIds = []
-    this._unselectedItemsIds = []
+    this.__selectItemsIds = []
+    this.__selectedItemsIds = []
+    this.__unselectedItemsIds = []
 
     this._storeState = new StoreState(this.__componentContext)
   }
 
+  /**
+   * Build state with item. Set selected value by 'valueIfMatch' if item match with state or defaultValue
+   * @param item
+   * @param state
+   * @param valueIfMatch
+   * @param defaultValue
+   * @return {StoreStateItem}
+   * @protected
+   */
   _buildStateItemMatch(item, state, valueIfMatch, defaultValue) {
     let storeStateItemBuilder = new StoreStateItemBuilder()
       .itemId(state.itemId())
@@ -33,26 +42,39 @@ export class AbstractListManager {
     } else {
       storeStateItemBuilder.selected(defaultValue)
     }
+
     return storeStateItemBuilder.build()
   }
 
-  dispatchPublicEvents(item) {
-    let id = this._selectItemsIds.pop()
+  addSelectItems(...item) {
+    this.__selectItemsIds.push(...item)
+  }
+
+  addSelectedItems(...item){
+    this.__selectedItemsIds.push(...item)
+  }
+
+  addUnselectedItems(...item){
+    this.__unselectedItemsIds.push(...item)
+  }
+
+  dispatchPublicEvents() {
+    let id = this.__selectItemsIds.pop()
     while (id !== undefined) {
       this.__publicActionSelect.dispatch(new PublicActionSelectItemPayloadBuilder().itemId(id).build())
-      id = this._selectItemsIds.pop()
+      id = this.__selectItemsIds.pop()
     }
 
-    id = this._unselectedItemsIds.pop()
+    id = this.__unselectedItemsIds.pop()
     while (id !== undefined) {
       this.__publicActionUnselected.dispatch(new PublicActionUnselectedItemPayloadBuilder().itemId(id).build())
-      id = this._unselectedItemsIds.pop()
+      id = this.__unselectedItemsIds.pop()
     }
 
-    id = this._selectedItemsIds.pop()
+    id = this.__selectedItemsIds.pop()
     while (id !== undefined) {
       this.__publicActionSelected.dispatch(new PublicActionSelectedItemPayloadBuilder().itemId(id).build())
-      id = this._selectedItemsIds.pop()
+      id = this.__selectedItemsIds.pop()
     }
   }
 

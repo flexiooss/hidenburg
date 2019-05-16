@@ -7,19 +7,28 @@ export class UniqueList extends AbstractListManager {
   }
 
   performSelectEvent(item) {
-    this._selectedItemsIds.push(item.id())
-
+    this.addSelectItems(item.id())
+    console.log('plo')
     let stateItems = new MapItemState()
     let data = this._storeState.getStore().state().data
     data.forEach((state) => {
-      if (state.selected()) {
-        this._unselectedItemsIds.push(state.itemId())
+      if (item.id() === state.itemId()) {
+        this.addSelectedItems(item.id())
       }
+      if (state.selected()) {
+        this.addUnselectedItems(item.id())
+      }
+
       let storeStateItem = this._buildStateItemMatch(item, state, true, false)
       stateItems.set(state.itemId(), storeStateItem)
     })
     this._storeState.getStore().set(stateItems)
+
+    this.dispatchPublicEvents()
   }
 
+  performMultipleSelectEvent(item) {
+    this.performSelectEvent(item)
+  }
 
 }

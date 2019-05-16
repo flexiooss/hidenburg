@@ -9,4 +9,5 @@
     border: rgba(235, 203, 139, 0.8) 2px solid;
     display: block;
     background-color: white;
+    user-select: none;
 }

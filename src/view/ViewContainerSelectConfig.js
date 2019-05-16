@@ -6,6 +6,7 @@ export class ViewContainerSelectConfig {
     this.__parentNode = null
     this.__dataStore = null
     this.__actionSelect = null
+    this.__actionMultipleSelect = null
     this.__stateStore = null
     this.__component = null
   }
@@ -56,6 +57,15 @@ export class ViewContainerSelectConfig {
   }
 
   /**
+   * @param {Action<PrivateActionSelectMultipleItemsPayload>} action
+   * @return {ViewContainerSelectConfig}
+   */
+  withActionMultipleSelect(action){
+   this.__actionMultipleSelect = action
+   return this
+  }
+
+  /**
    * @param {StoreInterface} stateStore
    * @return {ViewContainerSelectConfig}
    */
@@ -103,8 +113,13 @@ export class ViewContainerSelectConfig {
   }
 
   getActionSelect() {
-    assert(!isNull(this.__actionSelect), 'Action not set')
+    assert(!isNull(this.__actionSelect), 'Action select not set')
     return this.__actionSelect;
+  }
+
+  getActionMultipleSelect(){
+    assert(!isNull(this.__actionMultipleSelect), 'Action multiple select not set')
+    return this.__actionMultipleSelect;
   }
 
   getStateStore() {

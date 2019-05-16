@@ -11,6 +11,7 @@ import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
 import {PrivateActionSelectItemPayloadBuilder} from '../../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload'
 import {ItemBuilder} from '../../generated/io/flexio/component_select/types/Item'
+import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSelectMultipleItemsPayload";
 // import {ComponentAtmosphereLayersBuilder} from "atmosphere-layers";
 
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
@@ -23,14 +24,17 @@ export class ViewSelect extends View {
   constructor(config) {
     super(config.getViewContainer())
 
+    this.__component = config.getComponent()
     this.__viewContainer = config.getViewContainer()
     // this.__layers = config.getLayers()
     this.__proxyStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
+
     this.__actionSelect = config.getActionSelect()
     this.__properties = config.getProperties()
     this.__component = config.getComponent()
+    this.__actionMultipleSelect = config.getActionMultipleSelect()
 
     this.__idSelectDiv = 'selectHB'
     this.__idSelectInput = 'inputHB'
@@ -100,6 +104,11 @@ export class ViewSelect extends View {
 
       this.__actionSelect.dispatch(
         new PrivateActionSelectItemPayloadBuilder().item(item).build()
+      )
+    })
+    view.on().selectMultipleItems((item) =>{
+      this.__actionMultipleSelect.dispatch(
+        new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item).build()
       )
     })
   }

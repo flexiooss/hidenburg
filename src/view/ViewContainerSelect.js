@@ -20,6 +20,7 @@ export class ViewContainerSelect extends ViewContainer {
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
+    this.__actionMultipleSelect = config.getActionMultipleSelect()
     this.__properties = config.getProperties()
     this.__component = config.getComponent()
 
@@ -32,6 +33,7 @@ export class ViewContainerSelect extends ViewContainer {
     let config = new ViewSelectConfig()
       .withViewContainer(this)
       .withActionSelect(this.__actionSelect)
+      .withActionMultipleSelect(this.__actionMultipleSelect)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withDataStore(this.__proxyStore)
       .withStateStore(this.__stateStore)

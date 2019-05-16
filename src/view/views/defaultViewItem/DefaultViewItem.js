@@ -9,10 +9,10 @@ import {
 import style from '../css/item.css'
 
 const SELECT_EVENT = 'SELECT_EVENT'
+const SELECT_MULTIPLE_EVENT = 'SELECT_MULTIPLE_EVENT'
 
 export class DefaultViewItem extends View {
   /**
-   *
    * @param {ViewContainer} viewContainer
    * @param {Item} item
    */
@@ -35,7 +35,12 @@ export class DefaultViewItem extends View {
           ElementEventListenerBuilder
             .listen('click')
             .callback((event) => {
-              this.dispatch(SELECT_EVENT, this.__item)
+              if (event.shiftKey === true){
+                event.preventDefault()
+                this.dispatch(SELECT_MULTIPLE_EVENT, this.__item)
+              }else{
+                this.dispatch(SELECT_EVENT, this.__item)
+              }
             })
             .build()
         )
@@ -63,6 +68,17 @@ class ViewSelectItemEvent extends ViewPublicEventHandler {
     return this._subscriber(
       EventListenerOrderedBuilder
         .listen(SELECT_EVENT)
+        .callback((payload) => {
+          clb(payload)
+        })
+        .build()
+    )
+  }
+
+  selectMultipleItems(clb){
+    return this._subscriber(
+      EventListenerOrderedBuilder
+        .listen(SELECT_MULTIPLE_EVENT)
         .callback((payload) => {
           clb(payload)
         })

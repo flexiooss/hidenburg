@@ -1,6 +1,9 @@
 PrivateActionSelectItemPayload:
   item: object
 
+PrivateActionSelectMultipleItemsPayload:
+  itemTo: object
+
 PublicActionSelectItemPayload:
   itemId: string
 

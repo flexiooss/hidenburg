@@ -5,6 +5,8 @@ import {EventListenerOrderedBuilder} from "hotballoon";
 import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
 import {MultipleList} from "./ListManager/MultipleList";
 import {UniqueList} from "./ListManager/UniqueList";
+import {PrivateActionSelectItemPayload} from "../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
+import {PrivateActionSelectMultipleItemsBuilder} from "../actions/PrivateActionSelectMultipleItemsBuilder";
 
 export class ComponentSelect {
   /**
@@ -16,13 +18,15 @@ export class ComponentSelect {
     console.log(config)
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
+
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
+    this.__privateActionSelectMultiple = new PrivateActionSelectMultipleItemsBuilder(this.__componentContext.dispatcher()).init()
 
     this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
 
     this.__handleUpdateFromProxyStore()
-    this.__handleEventsFromPrivateActionSelect()
+    this.__handleEventsFromPrivateActions()
   }
 
   __initStateStore() {
@@ -42,6 +46,7 @@ export class ComponentSelect {
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
+      .withActionMultipleSelect(this.__privateActionSelectMultiple)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProperties(this.__properties)
       .withComponent(this)
@@ -53,11 +58,15 @@ export class ComponentSelect {
 
   }
 
-  __handleEventsFromPrivateActionSelect() {
+  __handleEventsFromPrivateActions() {
     this.__privateActionSelect.listenWithCallback(
       (payload) => {
         this.__listManager.performSelectEvent(payload.item())
-        this.__listManager.dispatchPublicEvents()
+      }
+    )
+    this.__privateActionSelectMultiple.listenWithCallback(
+      (payload) => {
+        this.__listManager.performMultipleSelectEvent(payload.itemTo())
       }
     )
   }
