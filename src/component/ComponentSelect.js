@@ -5,7 +5,6 @@ import {EventListenerOrderedBuilder} from "hotballoon";
 import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
 import {MultipleList} from "./ListManager/MultipleList";
 import {UniqueList} from "./ListManager/UniqueList";
-import {PrivateActionSelectItemPayload} from "../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
 import {PrivateActionSelectMultipleItemsBuilder} from "../actions/PrivateActionSelectMultipleItemsBuilder";
 
 export class ComponentSelect {
@@ -15,7 +14,6 @@ export class ComponentSelect {
   constructor(config) {
     this.__componentContext = config.getComponentContext()
     this.__store = config.getStore()
-    console.log(config)
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
 

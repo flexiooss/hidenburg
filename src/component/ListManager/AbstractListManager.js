@@ -46,35 +46,38 @@ export class AbstractListManager {
     return storeStateItemBuilder.build()
   }
 
-  addSelectItems(...item) {
+  _addSelectItems(...item) {
+    // console.log('select', ...item)
     this.__selectItemsIds.push(...item)
   }
 
-  addSelectedItems(...item){
+  _addSelectedItems(...item) {
+    // console.log('selected', ...item)
     this.__selectedItemsIds.push(...item)
   }
 
-  addUnselectedItems(...item){
+  _addUnselectedItems(...item) {
+    // console.log('unselected', ...item)
     this.__unselectedItemsIds.push(...item)
   }
 
-  dispatchPublicEvents() {
-    let id = this.__selectItemsIds.pop()
+  _dispatchPublicEvents() {
+    let id = this.__selectItemsIds.shift()
     while (id !== undefined) {
       this.__publicActionSelect.dispatch(new PublicActionSelectItemPayloadBuilder().itemId(id).build())
-      id = this.__selectItemsIds.pop()
+      id = this.__selectItemsIds.shift()
     }
 
-    id = this.__unselectedItemsIds.pop()
+    id = this.__unselectedItemsIds.shift()
     while (id !== undefined) {
       this.__publicActionUnselected.dispatch(new PublicActionUnselectedItemPayloadBuilder().itemId(id).build())
-      id = this.__unselectedItemsIds.pop()
+      id = this.__unselectedItemsIds.shift()
     }
 
-    id = this.__selectedItemsIds.pop()
+    id = this.__selectedItemsIds.shift()
     while (id !== undefined) {
       this.__publicActionSelected.dispatch(new PublicActionSelectedItemPayloadBuilder().itemId(id).build())
-      id = this.__selectedItemsIds.pop()
+      id = this.__selectedItemsIds.shift()
     }
   }
 

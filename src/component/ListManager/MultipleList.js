@@ -10,16 +10,16 @@ export class MultipleList extends AbstractListManager {
   }
 
   performSelectEvent(item) {
-    this.addSelectItems(item.id())
+    this._addSelectItems(item.id())
 
     let stateItems = new MapItemState()
     let data = this._storeState.getStore().state().data
     data.forEach((state) => {
       if (item.id() === state.itemId()) {
         if (state.selected()) {
-          this.addUnselectedItems(item.id())
+          this._addUnselectedItems(item.id())
         } else {
-          this.addSelectedItems(item.id())
+          this._addSelectedItems(item.id())
           this.__lastItemSelectedId = item.id()
         }
       }
@@ -29,18 +29,15 @@ export class MultipleList extends AbstractListManager {
     })
     this._storeState.getStore().set(stateItems)
 
-    this.dispatchPublicEvents()
+    this._dispatchPublicEvents()
   }
 
   performMultipleSelectEvent(item) {
-    this.addSelectItems(item.id())
     let stateItems = new MapItemState()
 
     let data = this._storeState.getStore().state().data
     if (this.__lastItemSelectedId === null)
       this.__lastItemSelectedId = data.values().next().value.itemId() // First item
-
-    console.log(this.__lastItemSelectedId)
 
     let inUpdateRange = false
     data.forEach((state) => {
@@ -54,19 +51,13 @@ export class MultipleList extends AbstractListManager {
         .visible(state.visible())
         .selected(state.selected())
 
-      if (this.__lastItemSelectedId === state.itemId()) {
+      if (inUpdateRange) {
         storeStateItemBuilder = storeStateItemBuilder.selected(true)
-      } else {
-        if (inUpdateRange) {
-          storeStateItemBuilder = storeStateItemBuilder.selected(!state.selected())
-          if (state.selected()) {
-            this.addUnselectedItems(item.id())
-          } else {
-            this.addSelectedItems(item.id())
-          }
+        if (!state.selected()) {
+          this._addSelectedItems(state.itemId())
+          this._addSelectItems(state.itemId())
         }
       }
-
 
       if (item.id() === state.itemId()) {
         inUpdateRange = false
@@ -77,6 +68,6 @@ export class MultipleList extends AbstractListManager {
     this.__lastItemSelectedId = item.id()
     this._storeState.getStore().set(stateItems)
 
-    this.dispatchPublicEvents()
+    this._dispatchPublicEvents()
   }
 }
