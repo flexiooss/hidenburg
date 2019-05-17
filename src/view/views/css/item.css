@@ -5,6 +5,7 @@
     border-bottom: rgba(216, 222, 233, 0.8) 1px solid;
     border-top: rgba(216, 222, 233, 0.8) 1px solid;
     cursor: grab;
+    color: initial;
 }
 
 .item:hover {

@@ -3,8 +3,8 @@
     min-width: 50px;
     overflow-y: scroll;
     z-index: 5;
-    margin: 5px;
-    padding: 5px 0;
+    margin-top: 3px;
+    padding: 0;
     position: absolute;
     border: rgba(216, 222, 233, 0.8) 2px solid;
     display: block;
