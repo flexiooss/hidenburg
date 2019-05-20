@@ -9,6 +9,7 @@ import {
 } from 'hotballoon'
 import listStyle from './css/itemList.css'
 import inputStyle from './css/input.css'
+import containerStyle from './css/container.css'
 import {PrivateActionSelectItemPayloadBuilder} from '../../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload'
 import {ItemBuilder} from '../../generated/io/flexio/component_select/types/Item'
 import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSelectMultipleItemsPayload";
@@ -52,7 +53,6 @@ export class ViewSelect extends View {
     let rect = this.__viewContainer.parentNode.getBoundingClientRect()
 
     let views = this.__createViews()
-
     return this.html(
       e('div#' + this.__idSelectDiv)
         .childNodes(
@@ -65,7 +65,7 @@ export class ViewSelect extends View {
                 RECONCILIATION_RULES.FORCE
               )
           )
-        ).styles(inputStyle.container)
+        ).className(containerStyle.container)
         .listenEvent(
           ElementEventListenerBuilder
             .listen('focusin')

@@ -37,10 +37,10 @@ export class ComponentSelect extends Component {
 
   mountView() {
     this.__selectLayer = this.__layersManager.addLayer()
-    console.log(this.__selectLayer)
+    // console.log(this.__selectLayer)
 
     let config = new ViewContainerSelectConfig()
-      .withParentNode(this.__layersManager.getElementByLayerId(this.__selectLayer.id()))
+      .withParentNode(this.__parentNode)
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
@@ -54,6 +54,7 @@ export class ComponentSelect extends Component {
     this.__viewContainer.createViewItems()
     this.__viewContainer.renderAndMount()
 
+    this.__layersManager.showLayer(this.__selectLayer.id())
     return this
   }
 

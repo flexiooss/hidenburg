@@ -86,10 +86,14 @@ export class ComponentSelectConfig {
   }
 
   getParentNode() {
+    console.log(this.__parentNode)
     assert(!isNull(this.__parentNode), 'Parent node not set')
     return this.__parentNode
   }
 
+  /**
+   * @return {ComponentAtmosphereLayersPublicHandler}
+   */
   getLayersManager() {
     assert(!isNull(this.__layersManager), 'Layers manager not set')
     return this.__layersManager
