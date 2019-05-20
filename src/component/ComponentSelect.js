@@ -6,16 +6,20 @@ import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
 import {MultipleList} from "./ListManager/MultipleList";
 import {UniqueList} from "./ListManager/UniqueList";
 import {PrivateActionSelectMultipleItemsBuilder} from "../actions/PrivateActionSelectMultipleItemsBuilder";
+import {Component} from "hotballoon/src/js/Component/Component";
 
-export class ComponentSelect {
+export class ComponentSelect extends Component {
   /**
    * @param {ComponentSelectConfig} config
    */
   constructor(config) {
+    super()
     this.__componentContext = config.getComponentContext()
     this.__store = config.getStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
+    this.__parentNode = config.getParentNode()
+    this.__layersManager = config.getLayersManager()
 
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionSelectMultiple = new PrivateActionSelectMultipleItemsBuilder(this.__componentContext.dispatcher()).init()
@@ -31,15 +35,12 @@ export class ComponentSelect {
     this.__listManager.initStateStore(this.__store)
   }
 
-  /**
-   *
-   * @param parentNode
-   */
-  initView(parentNode) {
-    this.__parentNode = parentNode
+  mountView() {
+    this.__selectLayer = this.__layersManager.addLayer()
+    console.log(this.__selectLayer)
 
     let config = new ViewContainerSelectConfig()
-      .withParentNode(this.__parentNode)
+      .withParentNode(this.__layersManager.getElementByLayerId(this.__selectLayer.id()))
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
@@ -49,10 +50,11 @@ export class ComponentSelect {
       .withProperties(this.__properties)
       .withComponent(this)
 
-
     this.__viewContainer = new ViewContainerSelect(config)
     this.__viewContainer.createViewItems()
     this.__viewContainer.renderAndMount()
+
+    return this
   }
 
   __handleEventsFromPrivateActions() {

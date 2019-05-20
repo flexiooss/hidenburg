@@ -1,6 +1,6 @@
 .itemList {
     max-height: 200px;
-    min-width: 50px;
+    min-width: 80px;
     overflow-y: scroll;
     z-index: 5;
     margin-top: 3px;

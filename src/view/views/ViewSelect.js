@@ -65,7 +65,24 @@ export class ViewSelect extends View {
                 RECONCILIATION_RULES.FORCE
               )
           )
-        )
+        ).styles(inputStyle.container)
+        .listenEvent(
+          ElementEventListenerBuilder
+            .listen('focusin')
+            .callback((event) => {
+              this.__openList()
+            })
+            .build()
+        ).listenEvent(
+        ElementEventListenerBuilder
+          .listen('focusout')
+          .callback((event) => {
+            if (event.relatedTarget !== null) {
+              this.__closeList()
+            }
+          })
+          .build()
+      )
     )
   }
 
@@ -102,7 +119,7 @@ export class ViewSelect extends View {
         new PrivateActionSelectItemPayloadBuilder().item(item).build()
       )
     })
-    view.on().selectMultipleItems((item) =>{
+    view.on().selectMultipleItems((item) => {
       this.__actionMultipleSelect.dispatch(
         new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item).build()
       )

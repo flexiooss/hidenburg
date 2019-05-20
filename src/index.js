@@ -1,4 +1,4 @@
-import './generated/io/package'
+import './generated/io/flexio/package'
 
 export {ComponentSelect} from './component/ComponentSelect'
 export {ComponentSelectConfig} from './component/ComponentSelectConfig'
