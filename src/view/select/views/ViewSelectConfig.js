@@ -3,23 +3,11 @@ import {CloseStrategyBuilder} from "./defaultViewItem/close/CloseStrategyBuilder
 
 export class ViewSelectConfig {
   constructor() {
-    this.__layers = null
     this.__viewContainer = null
     this.__dataStore = null
     this.__stateStore = null
     this.__viewItemBuilder = null
-    this.__actionSelect = null
-    this.__actionMultipleSelect = null
     this.__properties = null
-    // Todo strategies
-  }
-
-  /**
-   * @param {ComponentAtmosphereLayersPublicHandler} layers
-   */
-  withLayers(layers) {
-    this.__layers = layers
-    return this
   }
 
   /**
@@ -42,24 +30,6 @@ export class ViewSelectConfig {
 
   withViewItemBuilder(viewItemBuilder) {
     this.__viewItemBuilder = viewItemBuilder
-    return this
-  }
-
-  /**
-   * @param {Action<PrivateActionSelectItemPayload>} actionSelect
-   * @return {ViewSelectConfig}
-   */
-  withActionSelect(actionSelect) {
-    this.__actionSelect = actionSelect
-    return this
-  }
-
-  /**
-   * @param {Action<PrivateActionSelectMultipleItemsPayload>} action
-   * @return {ViewSelectConfig}
-   */
-  withActionMultipleSelect(action) {
-    this.__actionMultipleSelect = action
     return this
   }
 
@@ -90,15 +60,6 @@ export class ViewSelectConfig {
     return this
   }
 
-  /**
-   *
-   * @return {ComponentAtmosphereLayersPublicHandler}
-   */
-  getLayers() {
-    assert(!isNull(this.__layers), 'Layers not set')
-    return this.__layers;
-  }
-
   getViewContainer() {
     assert(!isNull(this.__viewContainer), 'View container not set')
     return this.__viewContainer;
@@ -117,16 +78,6 @@ export class ViewSelectConfig {
   getViewItemBuilder() {
     assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
     return this.__viewItemBuilder;
-  }
-
-  getActionSelect() {
-    assert(!isNull(this.__actionSelect), 'Action Select not set')
-    return this.__actionSelect;
-  }
-
-  getActionMultipleSelect() {
-    assert(!isNull(this.__actionMultipleSelect), 'Action multiple select not set')
-    return this.__actionMultipleSelect;
   }
 
   __getProperties() {

@@ -7,6 +7,7 @@ export class ViewContainerSelectConfig {
     this.__dataStore = null
     this.__actionSelect = null
     this.__actionMultipleSelect = null
+    this.__actionItemListVisibility = null
     this.__stateStore = null
     this.__component = null
   }
@@ -60,9 +61,18 @@ export class ViewContainerSelectConfig {
    * @param {Action<PrivateActionSelectMultipleItemsPayload>} action
    * @return {ViewContainerSelectConfig}
    */
-  withActionMultipleSelect(action){
-   this.__actionMultipleSelect = action
-   return this
+  withActionMultipleSelect(action) {
+    this.__actionMultipleSelect = action
+    return this
+  }
+
+  /**
+   * @param {Action<PrivateActionItemListVisibility>} action
+   * @return {ViewContainerSelectConfig}
+   */
+  withActionItemListVisibility(action) {
+    this.__actionItemListVisibility = action
+    return this
   }
 
   /**
@@ -117,9 +127,14 @@ export class ViewContainerSelectConfig {
     return this.__actionSelect;
   }
 
-  getActionMultipleSelect(){
+  getActionMultipleSelect() {
     assert(!isNull(this.__actionMultipleSelect), 'Action multiple select not set')
     return this.__actionMultipleSelect;
+  }
+
+  getActionItemListVisibility() {
+    assert(!isNull(this.__actionItemListVisibility), 'Action item list visibility not set')
+    return this.__actionItemListVisibility
   }
 
   getStateStore() {

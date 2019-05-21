@@ -2,7 +2,7 @@ import {DefaultViewItem} from "./DefaultViewItem";
 
 export class DefaultViewItemBuilder {
   /**
-   * @param {ViewContainer} viewContainer
+   * @param {ViewButton} viewContainer
    * @param {Item} item
    * @returns {DefaultViewItem}
    */

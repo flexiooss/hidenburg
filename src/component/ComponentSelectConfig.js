@@ -1,5 +1,5 @@
 import {assert, isNull} from "flexio-jshelpers";
-import {DefaultViewItemBuilder} from "../view/views/defaultViewItem/DefaultViewItemBuilder";
+import {DefaultViewItemBuilder} from "../view/select/views/defaultViewItem/DefaultViewItemBuilder";
 
 export class ComponentSelectConfig {
   constructor() {
@@ -86,7 +86,6 @@ export class ComponentSelectConfig {
   }
 
   getParentNode() {
-    console.log(this.__parentNode)
     assert(!isNull(this.__parentNode), 'Parent node not set')
     return this.__parentNode
   }

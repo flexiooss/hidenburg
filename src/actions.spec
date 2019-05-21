@@ -12,3 +12,6 @@ PublicActionSelectedItemPayload:
 
 PublicActionUnselectedItemPayload:
   itemId: string
+
+PrivateActionItemListVisibility:
+  visibility: bool

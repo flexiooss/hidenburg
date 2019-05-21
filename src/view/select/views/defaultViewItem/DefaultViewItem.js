@@ -6,14 +6,14 @@ import {
   View,
   ViewPublicEventHandler
 } from "hotballoon";
-import style from '../css/item.css'
+import style from '../../css/item.css'
 
 const SELECT_EVENT = 'SELECT_EVENT'
 const SELECT_MULTIPLE_EVENT = 'SELECT_MULTIPLE_EVENT'
 
 export class DefaultViewItem extends View {
   /**
-   * @param {ViewContainer} viewContainer
+   * @param {ViewButton} viewContainer
    * @param {Item} item
    */
   constructor(viewContainer, item) {
@@ -53,7 +53,6 @@ export class DefaultViewItem extends View {
   }
 
   /**
-   *
    * @returns {ViewSelectItemEvent}
    */
   on() {

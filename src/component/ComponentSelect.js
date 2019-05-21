@@ -1,5 +1,5 @@
-import {ViewContainerSelect} from "../view/ViewContainerSelect";
-import {ViewContainerSelectConfig} from "../view/ViewContainerSelectConfig";
+import {ViewContainerButton} from "../view/container/ViewContainerButton";
+import {ViewContainerButtonConfig} from "../view/container/ViewContainerButtonConfig";
 import {PrivateActionSelectItemBuilder} from "../actions/PrivateActionSelectItemBuilder";
 import {EventListenerOrderedBuilder} from "hotballoon";
 import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
@@ -7,6 +7,9 @@ import {MultipleList} from "./ListManager/MultipleList";
 import {UniqueList} from "./ListManager/UniqueList";
 import {PrivateActionSelectMultipleItemsBuilder} from "../actions/PrivateActionSelectMultipleItemsBuilder";
 import {Component} from "hotballoon/src/js/Component/Component";
+import {PrivateActionItemListVisibilityBuilder} from "../actions/PrivateActionItemListVisibilityBuilder";
+import {ViewContainerSelectConfig} from "../view/select/ViewContainerSelectConfig";
+import {ViewContainerSelect} from "../view/select/ViewContainerSelect";
 
 export class ComponentSelect extends Component {
   /**
@@ -23,6 +26,7 @@ export class ComponentSelect extends Component {
 
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionSelectMultiple = new PrivateActionSelectMultipleItemsBuilder(this.__componentContext.dispatcher()).init()
+    this.__privateActionItemListVisibility = new PrivateActionItemListVisibilityBuilder(this.__componentContext.dispatcher()).init()
 
     this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
@@ -37,24 +41,38 @@ export class ComponentSelect extends Component {
 
   mountView() {
     this.__selectLayer = this.__layersManager.addLayer()
-    // console.log(this.__selectLayer)
+    this.__itemListVisible = false
 
-    let config = new ViewContainerSelectConfig()
+    let config = new ViewContainerButtonConfig()
       .withParentNode(this.__parentNode)
+      .withDataStore(this.__store)
+      .withStateStore(this.__listManager.getPublicStateStore())
+      .withComponentContext(this.__componentContext)
+      .withActionItemListVisibility(this.__privateActionItemListVisibility)
+      .withProperties(this.__properties)
+
+    this.__viewContainerButton = new ViewContainerButton(config)
+    this.__viewContainerButton.createView()
+    this.__viewContainerButton.renderAndMount()
+
+    config = new ViewContainerSelectConfig()
+      .withParentNode(this.__layersManager.getElementByLayerId(this.__selectLayer.id()))
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
       .withActionMultipleSelect(this.__privateActionSelectMultiple)
+      .withActionItemListVisibility(this.__privateActionItemListVisibility)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProperties(this.__properties)
       .withComponent(this)
 
-    this.__viewContainer = new ViewContainerSelect(config)
-    this.__viewContainer.createViewItems()
-    this.__viewContainer.renderAndMount()
+    this.__viewContainerSelect = new ViewContainerSelect(config)
+    this.__viewContainerSelect.createView()
+    this.__viewContainerSelect.renderAndMount()
 
-    this.__layersManager.showLayer(this.__selectLayer.id())
+    this.__layersManager.dipatchChangeLayerOrderAction(this.__selectLayer.id(), 1)
+
     return this
   }
 
@@ -67,6 +85,17 @@ export class ComponentSelect extends Component {
     this.__privateActionSelectMultiple.listenWithCallback(
       (payload) => {
         this.__listManager.performMultipleSelectEvent(payload.itemTo())
+      }
+    )
+    this.__privateActionItemListVisibility.listenWithCallback(
+      (payload) => {
+        console.log('visiblity : ', payload.visibility())
+        if (payload.visibility()) {
+          this.__layersManager.showLayer(this.__selectLayer.id())
+        } else {
+          this.__layersManager.dipatchChangeLayerOrderAction(this.__selectLayer.id(), 1)
+        }
+        this.__itemListVisible = payload.visibility()
       }
     )
   }
