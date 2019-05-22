@@ -126,14 +126,14 @@ export class AbstractListManager {
   }
 
   performSearch(value) {
-    value = value.toLowerCase()
+
     console.log('Perform search => ' + value)
     let stateItems = new MapItemState()
 
     this.__dataStore.state().data.forEach((item) => {
       let state = this._stateStore.getStore().state().data.get(item.id())
 
-      if (value.length === 0 || item.value().toLowerCase().includes(value) || item.label().toLowerCase().includes(value)) {
+      if (value.length === 0 || this.__itemIncludesValue(value, item)) {
         state = state.withSearchFiltered(false)
         console.log('Filtre', item.label())
       } else {
@@ -143,9 +143,19 @@ export class AbstractListManager {
       stateItems.set(item.id(), state)
     })
 
-
-    // console.log(stateItems)
     this._stateStore.getStore().set(stateItems)
+  }
+
+  __itemIncludesValue(value, item) {
+    value = value.toLowerCase()
+    let values = []
+    values.push(item.label().toLowerCase())
+    values.push(item.value().toLowerCase())
+
+    return values.some((val) => {
+      return val.includes(value)
+    })
+
   }
 
   /**
