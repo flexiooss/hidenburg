@@ -43,6 +43,15 @@ export class ViewSelectConfig {
   }
 
   /**
+   * @param {StoreInterface} store
+   * @return {ViewSelectConfig}
+   */
+  withSearchStore(store) {
+    this.__searchStore = store
+    return this
+  }
+
+  /**
    * @param {Object} properties
    * @return {ViewSelectConfig}
    */
@@ -73,6 +82,11 @@ export class ViewSelectConfig {
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State store not set')
     return this.__stateStore;
+  }
+
+  getSearchStore() {
+    assert(!isNull(this.__searchStore), 'Search store not set')
+    return this.__searchStore;
   }
 
   getViewItemBuilder() {

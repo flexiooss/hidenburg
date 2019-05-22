@@ -9,7 +9,7 @@ export class UniqueList extends AbstractListManager {
   performSelectEvent(item) {
     this._addSelectItems(item.id())
     let stateItems = new MapItemState()
-    let data = this._storeState.getStore().state().data
+    let data = this._stateStore.getStore().state().data
     data.forEach((state) => {
       if (item.id() === state.itemId() && !state.selected()) {
         this._addSelectedItems(item.id())
@@ -21,7 +21,7 @@ export class UniqueList extends AbstractListManager {
       let storeStateItem = this._buildStateItemMatch(item, state, true, false)
       stateItems.set(state.itemId(), storeStateItem)
     })
-    this._storeState.getStore().set(stateItems)
+    this._stateStore.getStore().set(stateItems)
 
     this._dispatchPublicEvents()
   }

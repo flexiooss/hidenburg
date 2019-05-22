@@ -19,7 +19,9 @@ export class AbstractListManager {
     this.__selectedItemsIds = []
     this.__unselectedItemsIds = []
 
-    this._storeState = new StoreState(this.__componentContext)
+    this._stateStore = new StoreState(this.__componentContext)
+    this._searchStore = new StoreState(this.__componentContext)
+    this.__dataStore = null
   }
 
   /**
@@ -36,6 +38,7 @@ export class AbstractListManager {
       .itemId(state.itemId())
       .disabled(state.disabled())
       .visible(state.visible())
+      .searchSelected(state.searchSelected())
 
     if (item.id() === state.itemId()) {
       storeStateItemBuilder.selected(valueIfMatch)
@@ -96,12 +99,12 @@ export class AbstractListManager {
       store.set(item.id(), storeStateItem)
     })
 
-    this._storeState.getStore().set(store)
+    this._stateStore.getStore().set(store)
   }
 
   getSelectedItemsId() {
     let ids = []
-    this._storeState.getStorePublic().data().forEach((state) => {
+    this._stateStore.getStorePublic().data().forEach((state) => {
       if (state.selected()) {
         ids.push(state.itemId())
       }
@@ -120,6 +123,24 @@ export class AbstractListManager {
     })
 
     return items
+  }
+
+  performSearch(value) {
+    value = value.toLowerCase()
+    console.log('Perform search => ' + value)
+    let stateItems = new MapItemState()
+
+    this.__dataStore.state().data.forEach((item) => {
+      if (item.value().toLowerCase().includes(value) || item.label().toLowerCase().includes(value)) {
+        let state = this._stateStore.getStore().state().data.get(item.id())
+        stateItems.set(item.id(), state)
+      }
+    })
+
+    if (stateItems.size === 0 && value.length > 0) {
+      stateItems.set(0, new StoreStateItemBuilder().build())
+    }
+    this._searchStore.getStore().set(stateItems)
   }
 
   /**
@@ -147,6 +168,13 @@ export class AbstractListManager {
    * @return {StoreInterface}
    */
   getPublicStateStore() {
-    return this._storeState.getStorePublic()
+    return this._stateStore.getStorePublic()
+  }
+
+  /**
+   * @return {PublicStoreHandler}
+   */
+  getPublicSearchStore() {
+    return this._searchStore.getStorePublic()
   }
 }

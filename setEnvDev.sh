@@ -2,7 +2,5 @@
 
 hbshed clean install generate-sources
 
-#Need 'npm ln' in 3 projects concerned
-npm ln flexio-nodes-reconciliation
+#Need 'npm ln' in the project concerned
 npm ln hotballoon
-npm ln @flexio-oss/atmosphere-layers

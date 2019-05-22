@@ -7,16 +7,20 @@ import {
   ViewPublicEventHandler
 } from 'hotballoon'
 import listStyle from '../css/itemList.css'
+import itemSelectedStyle from '../css/itemSelected.css'
+import inputStyle from '../css/input.css'
+import closeStyle from '../css/close.css'
 import {ItemBuilder} from '../../../generated/io/flexio/component_select/types/Item'
 
 const CLOSE_EVENT = 'CLOSE_EVENT'
 const SELECT_EVENT = 'SELECT_EVENT'
 const SELECT_MULTIPLE_EVENT = 'SELECT_MULTIPLE_EVENT'
+const SEARCH_EVENT = 'SEARCH_EVENT'
 
 export class ViewSelect extends View {
   /**
    *
-   * @param {ViewButtonConfig} config
+   * @param {ViewSelectConfig} config
    */
   constructor(config) {
     super(config.getViewContainer())
@@ -25,11 +29,13 @@ export class ViewSelect extends View {
     // this.__layers = config.getLayers()
     this.__viewItemBuilder = config.getViewItemBuilder()
 
-    this.__proxyStore = config.getDataStore()
+    this.__dataStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
+    this.__searchStore = config.getSearchStore()
 
-    this.subscribeToStore(this.__proxyStore)
+    this.subscribeToStore(this.__dataStore)
     this.subscribeToStore(this.__stateStore)
+    this.subscribeToStore(this.__searchStore)
 
     this.__closeStrategy = config.getCloseStrategy()
 
@@ -54,9 +60,15 @@ export class ViewSelect extends View {
 
   __createViews() {
     let views = []
-    this.__proxyStore.state().data.forEach((item) => {
-      let state = this.__stateStore.data().get(item.id())
-      if (state.visible()) {
+
+    let stateStore = this.__stateStore
+    if (this.__searchStore.data().size > 0) {
+      stateStore = this.__searchStore
+    }
+
+    stateStore.state().data.forEach((state) => {
+      let item = this.__dataStore.state().data.get(state.itemId())
+      if (state.visible() && !state.selected()) {
         let view = this.__createView(item, state)
 
         if (!state.disabled()) {
@@ -82,7 +94,7 @@ export class ViewSelect extends View {
   __closeButton() {
     return this.html(
       e('div#' + this.__idCloseButton)
-        .text('close')
+        .text('X')
         .listenEvent(
           ElementEventListenerBuilder
             .listen('click')
@@ -90,25 +102,58 @@ export class ViewSelect extends View {
               this.dispatch(CLOSE_EVENT, event)
             })
             .build()
-        ).reconciliationRules(
-        RECONCILIATION_RULES.BYPASS
-      )
-    )
-  }
-
-  __selectedItems() {
-    return this.html(
-      e('div#' + this.__idselectedItemList)
-        .text('selected')
+        ).className(closeStyle.closeButton)
         .reconciliationRules(
           RECONCILIATION_RULES.BYPASS
         )
     )
   }
 
+  __selectedItems() {
+    let selectedItems = this.__createSelectedItems()
+    return this.html(
+      e('div#' + this.__idselectedItemList)
+        .childNodes(...selectedItems)
+    )
+  }
+
+  __createSelectedItems() {
+    let items = []
+    this.__dataStore.state().data.forEach((item) => {
+      let state = this.__stateStore.data().get(item.id())
+      if (state.selected()) {
+        let itemSelected = this.html(
+          e('div#' + item.id())
+            .text(item.label())
+            .className(itemSelectedStyle.itemSelected)
+            .listenEvent(
+              ElementEventListenerBuilder
+                .listen('click')
+                .callback((event) => {
+                  this.dispatch(SELECT_EVENT, item)
+                })
+                .build()
+            )
+        )
+        items.push(itemSelected)
+      }
+    })
+    return items
+  }
+
   __searchInput() {
     return this.html(
       e('input#' + this.__idInput)
+        .className(inputStyle.inputSearch)
+        .listenEvent(
+          ElementEventListenerBuilder
+            .listen('keyup')
+            .callback((event) => {
+              let value = event.target.value
+              this.dispatch(SEARCH_EVENT, value)
+            })
+            .build()
+        )
         .reconciliationRules(
           RECONCILIATION_RULES.BYPASS
         )
@@ -143,7 +188,6 @@ export class ViewSelect extends View {
   }
 
   __eventPress(event) {
-    console.log(event)
     if (event.key === 'Escape' || event.code === 'Escape') {
       this.dispatch(CLOSE_EVENT, null)
     }
@@ -196,6 +240,17 @@ class ViewSelectEvent extends ViewPublicEventHandler {
         .listen(SELECT_MULTIPLE_EVENT)
         .callback((item) => {
           clb(item)
+        })
+        .build()
+    )
+  }
+
+  search(clb) {
+    return this._subscriber(
+      EventListenerOrderedBuilder
+        .listen(SEARCH_EVENT)
+        .callback((value) => {
+          clb(value)
         })
         .build()
     )

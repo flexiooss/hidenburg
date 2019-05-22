@@ -13,7 +13,7 @@ export class MultipleList extends AbstractListManager {
     this._addSelectItems(item.id())
 
     let stateItems = new MapItemState()
-    let data = this._storeState.getStore().state().data
+    let data = this._stateStore.getStore().state().data
     data.forEach((state) => {
       if (item.id() === state.itemId()) {
         if (state.selected()) {
@@ -27,7 +27,7 @@ export class MultipleList extends AbstractListManager {
       let storeStateItem = this._buildStateItemMatch(item, state, !state.selected(), state.selected())
       stateItems.set(state.itemId(), storeStateItem)
     })
-    this._storeState.getStore().set(stateItems)
+    this._stateStore.getStore().set(stateItems)
 
     this._dispatchPublicEvents()
   }
@@ -35,7 +35,7 @@ export class MultipleList extends AbstractListManager {
   performMultipleSelectEvent(item) {
     let stateItems = new MapItemState()
 
-    let data = this._storeState.getStore().state().data
+    let data = this._stateStore.getStore().state().data
     if (this.__lastItemSelectedId === null)
       this.__lastItemSelectedId = data.values().next().value.itemId() // First item
 
@@ -66,7 +66,7 @@ export class MultipleList extends AbstractListManager {
     })
 
     this.__lastItemSelectedId = item.id()
-    this._storeState.getStore().set(stateItems)
+    this._stateStore.getStore().set(stateItems)
 
     this._dispatchPublicEvents()
   }

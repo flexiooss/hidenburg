@@ -1,4 +1,4 @@
-import { isBoolean, assert, isNull, deepFreezeSeal, isString } from 'flexio-jshelpers' 
+import {assert, deepFreezeSeal, isBoolean, isNull, isString} from 'flexio-jshelpers'
 
 class StoreStateItem {
 
@@ -7,13 +7,15 @@ class StoreStateItem {
     * @param {boolean} selected
     * @param {boolean} disabled
     * @param {boolean} visible
+     * @param {boolean} searchSelected
     * @private
     */
-    constructor ( itemId, selected, disabled, visible ){
+    constructor(itemId, selected, disabled, visible, searchSelected) {
         this._itemId = itemId;
         this._selected = selected;
         this._disabled = disabled;
         this._visible = visible;
+      this._searchSelected = searchSelected;
         deepFreezeSeal( this );
     }
     /**
@@ -41,13 +43,20 @@ class StoreStateItem {
         return this._visible;
     }
     /**
-    * @param { string } itemId
-    */
-    withItemId( itemId ) {
-        var builder = StoreStateItemBuilder.from( this );
-        builder.itemId( itemId);
-        return builder.build();
+     * @returns {boolean}
+     */
+    searchSelected() {
+      return this._searchSelected;
     }
+
+  /**
+   * @param { string } itemId
+   */
+  withItemId(itemId ) {
+    var builder = StoreStateItemBuilder.from( this );
+    builder.itemId( itemId);
+    return builder.build();
+  }
     /**
     * @param { boolean } selected
     */
@@ -72,6 +81,15 @@ class StoreStateItem {
         builder.visible( visible);
         return builder.build();
     }
+
+  /**
+   * @param { boolean } searchSelected
+   */
+  withSearchSelected(searchSelected) {
+    var builder = StoreStateItemBuilder.from(this);
+    builder.searchSelected(searchSelected);
+    return builder.build();
+  }
     toObject() {
         var jsonObject = {};
         if( this._itemId != undefined ){
@@ -86,6 +104,9 @@ class StoreStateItem {
         if( this._visible != undefined ){
             jsonObject["visible"] = this._visible;
         }
+      if (this._searchSelected != undefined) {
+        jsonObject["searchSelected"] = this._searchSelected;
+      }
         return jsonObject;
     }
     /**
@@ -106,6 +127,7 @@ class StoreStateItemBuilder {
         this._selected = null;
         this._disabled = null;
         this._visible = null;
+      this._searchSelected = null;
     }
     /**
     * @param { string } itemId
@@ -151,12 +173,7 @@ class StoreStateItemBuilder {
         this._visible = visible;
         return this;
     }
-    /**
-    * @returns {StoreStateItem}
-    */
-    build(){
-        return new StoreStateItem(this._itemId,this._selected,this._disabled,this._visible)
-    }
+
     /**
     * @param {object} jsonObject
     * @returns {StoreStateItemBuilder}
@@ -175,16 +192,12 @@ class StoreStateItemBuilder {
         if( jsonObject["visible"] !== undefined ){
             builder.visible( jsonObject['visible']);
         }
+      if (jsonObject["searchSelected"] !== undefined) {
+        builder.searchSelected(jsonObject['searchSelected']);
+      }
         return builder;
     }
-    /**
-    * @param {string} json
-    * @returns {StoreStateItemBuilder}
-    */
-    static fromJson( json ){
-        var jsonObject = JSON.parse( json );
-        return this.fromObject( jsonObject );
-    }
+
     /**
     * @param {StoreStateItem} instance
     * @returns {StoreStateItemBuilder}
@@ -195,7 +208,36 @@ class StoreStateItemBuilder {
         builder.selected( instance.selected() );
         builder.disabled( instance.disabled() );
         builder.visible( instance.visible() );
+      builder.searchSelected(instance.searchSelected());
         return builder;
     }
+
+  /**
+   * @param { boolean } searchSelected
+   * @returns {StoreStateItemBuilder}
+   */
+  searchSelected(searchSelected) {
+    if (!isNull(searchSelected)) {
+      assert(isBoolean(searchSelected), 'searchSelected should be a bool');
+    }
+    this._searchSelected = searchSelected;
+    return this;
+  }
+
+  /**
+   * @param {string} json
+   * @returns {StoreStateItemBuilder}
+   */
+  static fromJson(json) {
+    var jsonObject = JSON.parse(json);
+    return this.fromObject(jsonObject);
+  }
+
+  /**
+   * @returns {StoreStateItem}
+   */
+  build() {
+    return new StoreStateItem(this._itemId, this._selected, this._disabled, this._visible, this._searchSelected)
+  }
 }
 export { StoreStateItemBuilder}

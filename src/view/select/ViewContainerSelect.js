@@ -4,6 +4,7 @@ import {ViewSelectConfig} from "./views/ViewSelectConfig";
 import {PrivateActionItemListVisibilityBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionItemListVisibility";
 import {PrivateActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
 import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSelectMultipleItemsPayload";
+import {PrivateActionSearchPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSearchPayload";
 
 export class ViewContainerSelect extends ViewContainer {
   /**
@@ -16,12 +17,14 @@ export class ViewContainerSelect extends ViewContainer {
 
     super(constructorConfig)
 
-    this.__proxyStore = config.getDataStore()
+    this.__dataStore = config.getDataStore()
+    this.__searchStore = config.getSearchStore()
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
     this.__actionMultipleSelect = config.getActionMultipleSelect()
     this.__actionItemListVisibility = config.getActionItemListVisibility()
+    this.__actionSearch = config.getActionSearch()
     this.__properties = config.getProperties()
     this.__component = config.getComponent()
   }
@@ -30,8 +33,9 @@ export class ViewContainerSelect extends ViewContainer {
     let config = new ViewSelectConfig()
       .withViewContainer(this)
       .withViewItemBuilder(this.__viewItemBuilder)
-      .withDataStore(this.__proxyStore)
+      .withDataStore(this.__dataStore)
       .withStateStore(this.__stateStore)
+      .withSearchStore(this.__searchStore)
       .withProperties(this.__properties)
       .withComponent(this.__component)
 
@@ -62,6 +66,12 @@ export class ViewContainerSelect extends ViewContainer {
     this.__selectView.on().selectMultipleItems((item) => {
       this.__actionMultipleSelect.dispatch(
         new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item).build()
+      )
+    })
+    this.__selectView.on().search((value) => {
+      console.log(value)
+      this.__actionSearch.dispatch(
+        new PrivateActionSearchPayloadBuilder().label(value).build()
       )
     })
   }

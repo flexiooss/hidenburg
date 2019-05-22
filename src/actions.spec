@@ -4,6 +4,12 @@ PrivateActionSelectItemPayload:
 PrivateActionSelectMultipleItemsPayload:
   itemTo: object
 
+PrivateActionItemListVisibility:
+  visibility: bool
+
+PrivateActionSearchPayload:
+  label: string
+
 PublicActionSelectItemPayload:
   itemId: string
 
@@ -13,5 +19,3 @@ PublicActionSelectedItemPayload:
 PublicActionUnselectedItemPayload:
   itemId: string
 
-PrivateActionItemListVisibility:
-  visibility: bool

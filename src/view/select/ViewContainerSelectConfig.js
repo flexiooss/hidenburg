@@ -8,7 +8,9 @@ export class ViewContainerSelectConfig {
     this.__actionSelect = null
     this.__actionMultipleSelect = null
     this.__actionItemListVisibility = null
+    this.__actionSearch = null
     this.__stateStore = null
+    this.__searchStore = null
     this.__component = null
   }
 
@@ -76,11 +78,29 @@ export class ViewContainerSelectConfig {
   }
 
   /**
+   * @param {Action<PrivateActionSearchPayload>} action
+   * @return {ViewContainerSelectConfig}
+   */
+  withActionSearch(action) {
+    this.__actionSearch = action
+    return this
+  }
+
+  /**
    * @param {StoreInterface} stateStore
    * @return {ViewContainerSelectConfig}
    */
   withStateStore(stateStore) {
     this.__stateStore = stateStore
+    return this
+  }
+
+  /**
+   * @param {StoreInterface} store
+   * @return {ViewContainerSelectConfig}
+   */
+  withSearchStore(store) {
+    this.__searchStore = store
     return this
   }
 
@@ -117,6 +137,16 @@ export class ViewContainerSelectConfig {
     return this.__dataStore;
   }
 
+  getStateStore() {
+    assert(!isNull(this.__stateStore), 'State Store not set')
+    return this.__stateStore
+  }
+
+  getSearchStore() {
+    assert(!isNull(this.__searchStore), 'Search Store not set')
+    return this.__searchStore
+  }
+
   getViewItemBuilder() {
     assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
     return this.__viewItemBuilder;
@@ -137,9 +167,9 @@ export class ViewContainerSelectConfig {
     return this.__actionItemListVisibility
   }
 
-  getStateStore() {
-    assert(!isNull(this.__stateStore), 'State Store not set')
-    return this.__stateStore
+  getActionSearch() {
+    assert(!isNull(this.__actionItemListVisibility), 'Action search not set')
+    return this.__actionSearch
   }
 
   getProperties() {

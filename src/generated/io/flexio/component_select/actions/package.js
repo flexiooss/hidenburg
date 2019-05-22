@@ -4,6 +4,11 @@ import {
   PrivateActionSelectMultipleItemsPayload,
   PrivateActionSelectMultipleItemsPayloadBuilder
 } from "./PrivateActionSelectMultipleItemsPayload";
+import {
+  PrivateActionItemListVisibility,
+  PrivateActionItemListVisibilityBuilder
+} from "./PrivateActionItemListVisibility";
+import {PrivateActionSearchPayload, PrivateActionSearchPayloadBuilder} from "./PrivateActionSearchPayload";
 import {PublicActionSelectItemPayload, PublicActionSelectItemPayloadBuilder} from "./PublicActionSelectItemPayload";
 import {
   PublicActionSelectedItemPayload,
@@ -13,10 +18,6 @@ import {
   PublicActionUnselectedItemPayload,
   PublicActionUnselectedItemPayloadBuilder
 } from "./PublicActionUnselectedItemPayload";
-import {
-  PrivateActionItemListVisibility,
-  PrivateActionItemListVisibilityBuilder
-} from "./PrivateActionItemListVisibility";
 
 /**
 * @property {PrivateActionSelectItemPayload} PrivateActionSelectItemPayload
@@ -34,6 +35,22 @@ deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.a
 * @property {PrivateActionSelectMultipleItemsPayloadBuilder} PrivateActionSelectMultipleItemsPayloadBuilder
 */
 deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionSelectMultipleItemsPayloadBuilder', PrivateActionSelectMultipleItemsPayloadBuilder);
+/**
+ * @property {PrivateActionItemListVisibility} PrivateActionItemListVisibility
+ */
+deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionItemListVisibility', PrivateActionItemListVisibility);
+/**
+ * @property {PrivateActionItemListVisibilityBuilder} PrivateActionItemListVisibilityBuilder
+ */
+deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionItemListVisibilityBuilder', PrivateActionItemListVisibilityBuilder);
+/**
+ * @property {PrivateActionSearchPayload} PrivateActionSearchPayload
+ */
+deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionSearchPayload', PrivateActionSearchPayload);
+/**
+ * @property {PrivateActionSearchPayloadBuilder} PrivateActionSearchPayloadBuilder
+ */
+deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionSearchPayloadBuilder', PrivateActionSearchPayloadBuilder);
 /**
 * @property {PublicActionSelectItemPayload} PublicActionSelectItemPayload
 */
@@ -58,12 +75,4 @@ deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.a
 * @property {PublicActionUnselectedItemPayloadBuilder} PublicActionUnselectedItemPayloadBuilder
 */
 deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PublicActionUnselectedItemPayloadBuilder', PublicActionUnselectedItemPayloadBuilder);
-/**
- * @property {PrivateActionItemListVisibility} PrivateActionItemListVisibility
- */
-deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionItemListVisibility', PrivateActionItemListVisibility);
-/**
- * @property {PrivateActionItemListVisibilityBuilder} PrivateActionItemListVisibilityBuilder
- */
-deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionItemListVisibilityBuilder', PrivateActionItemListVisibilityBuilder);
 

@@ -16,13 +16,13 @@ export class ItemListBuilder {
    * @returns {ItemListBuilder}
    */
   addItem(id, value, label, visible = true, selected = false, disabled = false) {
-    this.__itemList.push(
-      new ItemBuilder()
-        .id(id).value(value)
-        .label(label).selected(selected)
-        .disabled(disabled).visible(visible)
-        .build()
-    )
+    let item = new ItemBuilder()
+      .id(id).value(value)
+      .label(label).selected(selected)
+      .disabled(disabled).visible(visible)
+      .build()
+
+    this.__itemList.set(id, item)
     return this
   }
 
@@ -31,7 +31,7 @@ export class ItemListBuilder {
    * @param {Item} item
    */
   addItemObject(item) {
-    this.__itemList.push(item)
+    this.__itemList.set(item.id(), item)
   }
 
   /**

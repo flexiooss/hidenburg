@@ -1,11 +1,11 @@
 .itemList {
     max-height: 200px;
-    min-width: 80px;
+    min-width: 100px;
+    max-width: 350px;
     overflow-y: scroll;
     z-index: 5;
-    margin-top: 3px;
+    margin: 3px auto 0 auto;
     padding: 0;
-    position: absolute;
     border: rgba(216, 222, 233, 0.8) 2px solid;
     display: block;
     background-color: white;

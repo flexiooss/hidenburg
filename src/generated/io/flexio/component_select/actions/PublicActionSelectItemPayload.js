@@ -1,4 +1,4 @@
-import { isObject, assert, isNull, deepFreezeSeal, isString } from 'flexio-jshelpers' 
+import {assert, deepFreezeSeal, isNull, isString} from 'flexio-jshelpers'
 
 class PublicActionSelectItemPayload {
 

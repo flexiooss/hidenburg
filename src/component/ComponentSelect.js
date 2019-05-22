@@ -10,6 +10,7 @@ import {Component} from "hotballoon/src/js/Component/Component";
 import {PrivateActionItemListVisibilityBuilder} from "../actions/PrivateActionItemListVisibilityBuilder";
 import {ViewContainerSelectConfig} from "../view/select/ViewContainerSelectConfig";
 import {ViewContainerSelect} from "../view/select/ViewContainerSelect";
+import {PrivateActionSearchBuilder} from "../actions/PrivateActionSearchBuilder";
 
 export class ComponentSelect extends Component {
   /**
@@ -27,6 +28,7 @@ export class ComponentSelect extends Component {
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionSelectMultiple = new PrivateActionSelectMultipleItemsBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionItemListVisibility = new PrivateActionItemListVisibilityBuilder(this.__componentContext.dispatcher()).init()
+    this.__privateActionSearch = new PrivateActionSearchBuilder(this.__componentContext.dispatcher()).init()
 
     this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
@@ -59,10 +61,12 @@ export class ComponentSelect extends Component {
       .withParentNode(this.__layersManager.getElementByLayer(this.__selectLayer))
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
+      .withSearchStore(this.__listManager.getPublicSearchStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
       .withActionMultipleSelect(this.__privateActionSelectMultiple)
       .withActionItemListVisibility(this.__privateActionItemListVisibility)
+      .withActionSearch(this.__privateActionSearch)
       .withViewItemBuilder(this.__viewItemBuilder)
       .withProperties(this.__properties)
       .withComponent(this)
@@ -85,6 +89,11 @@ export class ComponentSelect extends Component {
     this.__privateActionSelectMultiple.listenWithCallback(
       (payload) => {
         this.__listManager.performMultipleSelectEvent(payload.itemTo())
+      }
+    )
+    this.__privateActionSearch.listenWithCallback(
+      (payload) => {
+        this.__listManager.performSearch(payload.label())
       }
     )
     this.__privateActionItemListVisibility.listenWithCallback(
