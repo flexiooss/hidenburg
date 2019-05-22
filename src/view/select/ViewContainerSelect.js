@@ -41,6 +41,14 @@ export class ViewContainerSelect extends ViewContainer {
     this.__handleEventsFromView()
   }
 
+  onShow() {
+    this.__selectView.onShow()
+  }
+
+  onHide() {
+    this.__selectView.onHide()
+  }
+
   __handleEventsFromView() {
     this.__selectView.on().close((event) => {
       this.__actionItemListVisibility.dispatch(

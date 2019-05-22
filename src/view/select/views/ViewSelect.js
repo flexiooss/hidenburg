@@ -9,7 +9,7 @@ import {
 import listStyle from '../css/itemList.css'
 import {ItemBuilder} from '../../../generated/io/flexio/component_select/types/Item'
 
-const CLICK_EVENT = 'CLICK_EVENT'
+const CLOSE_EVENT = 'CLOSE_EVENT'
 const SELECT_EVENT = 'SELECT_EVENT'
 const SELECT_MULTIPLE_EVENT = 'SELECT_MULTIPLE_EVENT'
 
@@ -34,9 +34,10 @@ export class ViewSelect extends View {
     this.__closeStrategy = config.getCloseStrategy()
 
     this.__selectDiv = 'container_select'
-    this.__idSelectList = 'listHB'
+    this.__idSelectList = 'list'
+    this.__idselectedItemList = 'selected_items'
+    this.__idCloseButton = 'close'
     this.__idInput = 'input'
-
   }
 
   template() {
@@ -80,13 +81,13 @@ export class ViewSelect extends View {
 
   __closeButton() {
     return this.html(
-      e('div')
+      e('div#' + this.__idCloseButton)
         .text('close')
         .listenEvent(
           ElementEventListenerBuilder
             .listen('click')
             .callback((event) => {
-              this.dispatch(CLICK_EVENT, event)
+              this.dispatch(CLOSE_EVENT, event)
             })
             .build()
         )
@@ -95,7 +96,7 @@ export class ViewSelect extends View {
 
   __selectedItems() {
     return this.html(
-      e('div')
+      e('div#' + this.__idselectedItemList)
         .text('selected')
     )
   }
@@ -127,6 +128,26 @@ export class ViewSelect extends View {
     })
   }
 
+  onShow() {
+    console.log('onshow')
+    this.__closeClb = this.__eventPress.bind(this)
+    document.addEventListener('keyup', this.__closeClb)
+  }
+
+  __eventPress(event) {
+    console.log(event)
+    if (event.key === 'Escape' || event.code === 'Escape') {
+      this.dispatch(CLOSE_EVENT, null)
+    }
+  }
+
+  onHide() {
+    console.log('onhide')
+    if (this.__closeClb) {
+      document.removeEventListener('keypress', this.__closeClb)
+    }
+  }
+
   /**
    * @returns {ViewSelectEvent}
    */
@@ -141,7 +162,7 @@ class ViewSelectEvent extends ViewPublicEventHandler {
   close(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
-        .listen(CLICK_EVENT)
+        .listen(CLOSE_EVENT)
         .callback((payload) => {
           clb(payload)
         })

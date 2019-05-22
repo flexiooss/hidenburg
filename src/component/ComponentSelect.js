@@ -56,7 +56,7 @@ export class ComponentSelect extends Component {
     this.__viewContainerButton.renderAndMount()
 
     config = new ViewContainerSelectConfig()
-      .withParentNode(this.__layersManager.getElementByLayerId(this.__selectLayer.id()))
+      .withParentNode(this.__layersManager.getElementByLayer(this.__selectLayer))
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
@@ -71,7 +71,7 @@ export class ComponentSelect extends Component {
     this.__viewContainerSelect.createView()
     this.__viewContainerSelect.renderAndMount()
 
-    this.__layersManager.dipatchChangeLayerOrderAction(this.__selectLayer.id(), 1)
+    this.__layersManager.hideShowedLayer()
 
     return this
   }
@@ -89,11 +89,12 @@ export class ComponentSelect extends Component {
     )
     this.__privateActionItemListVisibility.listenWithCallback(
       (payload) => {
-        console.log('visiblity : ', payload.visibility())
         if (payload.visibility()) {
-          this.__layersManager.showLayer(this.__selectLayer.id())
+          this.__layersManager.showLayer(this.__selectLayer)
+          this.__viewContainerSelect.onShow()
         } else {
-          this.__layersManager.dipatchChangeLayerOrderAction(this.__selectLayer.id(), 1)
+          this.__layersManager.hideShowedLayer()
+          this.__viewContainerSelect.onHide()
         }
         this.__itemListVisible = payload.visibility()
       }
