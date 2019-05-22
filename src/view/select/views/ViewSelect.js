@@ -19,7 +19,6 @@ const SEARCH_EVENT = 'SEARCH_EVENT'
 
 export class ViewSelect extends View {
   /**
-   *
    * @param {ViewSelectConfig} config
    */
   constructor(config) {
@@ -107,6 +106,7 @@ export class ViewSelect extends View {
     return this.html(
       e('div#' + this.__idselectedItemList)
         .childNodes(...selectedItems)
+        .reconciliationRules(RECONCILIATION_RULES.FORCE)
     )
   }
 
@@ -126,7 +126,7 @@ export class ViewSelect extends View {
                   this.dispatch(SELECT_EVENT, item)
                 })
                 .build()
-            )
+            ).reconciliationRules(RECONCILIATION_RULES.FORCE)
         )
         items.push(itemSelected)
       }
@@ -168,9 +168,15 @@ export class ViewSelect extends View {
   __handleEventFromView(view) {
     view.on().selectItem((item) => {
       this.dispatch(SELECT_EVENT, item)
+      if (this.__closeStrategy.canClose()) {
+        this.dispatch(CLOSE_EVENT, null)
+      }
     })
     view.on().selectMultipleItems((item) => {
       this.dispatch(SELECT_MULTIPLE_EVENT, item)
+      if (this.__closeStrategy.canClose()) {
+        this.dispatch(CLOSE_EVENT, null)
+      }
     })
   }
 
@@ -209,7 +215,6 @@ class ViewSelectEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(CLOSE_EVENT)
         .callback((payload) => {
-          console.log('plok')
           clb(payload)
         })
         .build()
@@ -221,6 +226,7 @@ class ViewSelectEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(SELECT_EVENT)
         .callback((item) => {
+          console.log(item)
           clb(item)
         })
         .build()
