@@ -90,7 +90,9 @@ export class ViewSelect extends View {
               this.dispatch(CLOSE_EVENT, event)
             })
             .build()
-        )
+        ).reconciliationRules(
+        RECONCILIATION_RULES.BYPASS
+      )
     )
   }
 
@@ -98,12 +100,18 @@ export class ViewSelect extends View {
     return this.html(
       e('div#' + this.__idselectedItemList)
         .text('selected')
+        .reconciliationRules(
+          RECONCILIATION_RULES.BYPASS
+        )
     )
   }
 
   __searchInput() {
     return this.html(
       e('input#' + this.__idInput)
+        .reconciliationRules(
+          RECONCILIATION_RULES.BYPASS
+        )
     )
   }
 
@@ -164,6 +172,7 @@ class ViewSelectEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(CLOSE_EVENT)
         .callback((payload) => {
+          console.log('plok')
           clb(payload)
         })
         .build()

@@ -12,7 +12,6 @@ export class ViewContainerSelect extends ViewContainer {
    */
   constructor(config) {
     let id = config.getComponentContext().nextID()
-    console.log(config.getParentNode())
     let constructorConfig = new ViewContainerParameters(config.getComponentContext(), id, config.getParentNode())
 
     super(constructorConfig)
