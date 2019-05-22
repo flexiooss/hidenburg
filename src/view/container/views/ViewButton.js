@@ -1,8 +1,15 @@
-import {e, ElementEventListenerBuilder, EventListenerOrderedBuilder, View, ViewPublicEventHandler} from "hotballoon";
+import {
+  e,
+  ElementEventListenerBuilder,
+  EventListenerOrderedBuilder,
+  RECONCILIATION_RULES,
+  View,
+  ViewPublicEventHandler
+} from "hotballoon";
 import containerStyle from "./css/container.css";
 import inputStyle from "./css/input.css";
 
-const CLICK_EVENT = 'CLICK_EVENT'
+const OPEN_EVENT = 'OPEN_EVENT'
 const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
 
 export class ViewButton extends View {
@@ -46,10 +53,10 @@ export class ViewButton extends View {
           ElementEventListenerBuilder
             .listen('click')
             .callback((event) => {
-              this.dispatch(CLICK_EVENT, event)
+              this.dispatch(OPEN_EVENT, event)
             })
             .build()
-        )
+        ).reconciliationRules(RECONCILIATION_RULES.BYPASS_LISTENERS)
     )
   }
 
@@ -96,7 +103,7 @@ class ViewButtonEvent extends ViewPublicEventHandler {
   openList(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
-        .listen(CLICK_EVENT)
+        .listen(OPEN_EVENT)
         .callback((payload) => {
           clb(payload)
         })

@@ -41,6 +41,8 @@ export class ViewSelect extends View {
     this.__idselectedItemList = 'selected_items'
     this.__idCloseButton = 'close'
     this.__idInput = 'input'
+
+    this.__closeClb = null
   }
 
   template() {
@@ -182,11 +184,15 @@ export class ViewSelect extends View {
 
   onShow() {
     console.log('onshow')
-    this.__closeClb = this.__eventPress.bind(this)
-    document.addEventListener('keyup', this.__closeClb)
+    if (this.__closeClb === null) {
+      this.__closeClb = this.__eventPress.bind(this)
+      document.addEventListener('keyup', this.__closeClb)
+    }
+    this.nodeRef(this.__idInput).focus()
   }
 
   __eventPress(event) {
+    event.stopPropagation()
     if (event.key === 'Escape' || event.code === 'Escape') {
       this.dispatch(CLOSE_EVENT, null)
     }
