@@ -10,7 +10,6 @@ export class ViewContainerSelectConfig {
     this.__actionItemListVisibility = null
     this.__actionSearch = null
     this.__stateStore = null
-    this.__searchStore = null
     this.__component = null
   }
 
@@ -96,15 +95,6 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   * @param {StoreInterface} store
-   * @return {ViewContainerSelectConfig}
-   */
-  withSearchStore(store) {
-    this.__searchStore = store
-    return this
-  }
-
-  /**
    * @param {Object} properties
    * @return {ViewContainerSelectConfig}
    */
@@ -140,11 +130,6 @@ export class ViewContainerSelectConfig {
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State Store not set')
     return this.__stateStore
-  }
-
-  getSearchStore() {
-    assert(!isNull(this.__searchStore), 'Search Store not set')
-    return this.__searchStore
   }
 
   getViewItemBuilder() {

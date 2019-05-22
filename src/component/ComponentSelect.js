@@ -61,7 +61,6 @@ export class ComponentSelect extends Component {
       .withParentNode(this.__layersManager.getElementByLayer(this.__selectLayer))
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
-      .withSearchStore(this.__listManager.getPublicSearchStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
       .withActionMultipleSelect(this.__privateActionSelectMultiple)

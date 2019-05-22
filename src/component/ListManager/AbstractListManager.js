@@ -20,7 +20,6 @@ export class AbstractListManager {
     this.__unselectedItemsIds = []
 
     this._stateStore = new StoreState(this.__componentContext)
-    this._searchStore = new StoreState(this.__componentContext)
     this.__dataStore = null
   }
 
@@ -38,7 +37,7 @@ export class AbstractListManager {
       .itemId(state.itemId())
       .disabled(state.disabled())
       .visible(state.visible())
-      .searchSelected(state.searchSelected())
+      .searchFiltered(state.searchFiltered())
 
     if (item.id() === state.itemId()) {
       storeStateItemBuilder.selected(valueIfMatch)
@@ -94,6 +93,7 @@ export class AbstractListManager {
         .selected(item.selected())
         .disabled(item.disabled())
         .visible(item.visible())
+        .searchFiltered(false)
         .build()
 
       store.set(item.id(), storeStateItem)
@@ -131,16 +131,21 @@ export class AbstractListManager {
     let stateItems = new MapItemState()
 
     this.__dataStore.state().data.forEach((item) => {
-      if (item.value().toLowerCase().includes(value) || item.label().toLowerCase().includes(value)) {
-        let state = this._stateStore.getStore().state().data.get(item.id())
-        stateItems.set(item.id(), state)
+      let state = this._stateStore.getStore().state().data.get(item.id())
+
+      if (value.length === 0 || item.value().toLowerCase().includes(value) || item.label().toLowerCase().includes(value)) {
+        state = state.withSearchFiltered(false)
+        console.log('Filtre', item.label())
+      } else {
+        state = state.withSearchFiltered(true)
       }
+
+      stateItems.set(item.id(), state)
     })
 
-    if (stateItems.size === 0 && value.length > 0) {
-      stateItems.set(0, new StoreStateItemBuilder().build())
-    }
-    this._searchStore.getStore().set(stateItems)
+
+    // console.log(stateItems)
+    this._stateStore.getStore().set(stateItems)
   }
 
   /**
@@ -169,12 +174,5 @@ export class AbstractListManager {
    */
   getPublicStateStore() {
     return this._stateStore.getStorePublic()
-  }
-
-  /**
-   * @return {PublicStoreHandler}
-   */
-  getPublicSearchStore() {
-    return this._searchStore.getStorePublic()
   }
 }

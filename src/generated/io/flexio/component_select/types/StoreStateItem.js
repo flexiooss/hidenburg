@@ -7,15 +7,15 @@ class StoreStateItem {
     * @param {boolean} selected
     * @param {boolean} disabled
     * @param {boolean} visible
-     * @param {boolean} searchSelected
+     * @param {boolean} searchFiltered
     * @private
     */
-    constructor(itemId, selected, disabled, visible, searchSelected) {
+    constructor(itemId, selected, disabled, visible, searchFiltered) {
         this._itemId = itemId;
         this._selected = selected;
         this._disabled = disabled;
         this._visible = visible;
-      this._searchSelected = searchSelected;
+        this._searchFiltered = searchFiltered;
         deepFreezeSeal( this );
     }
     /**
@@ -45,18 +45,18 @@ class StoreStateItem {
     /**
      * @returns {boolean}
      */
-    searchSelected() {
-      return this._searchSelected;
+    searchFiltered() {
+        return this._searchFiltered;
     }
 
-  /**
-   * @param { string } itemId
-   */
-  withItemId(itemId ) {
-    var builder = StoreStateItemBuilder.from( this );
-    builder.itemId( itemId);
-    return builder.build();
-  }
+    /**
+     * @param { string } itemId
+     */
+    withItemId(itemId) {
+        var builder = StoreStateItemBuilder.from(this);
+        builder.itemId(itemId);
+        return builder.build();
+    }
     /**
     * @param { boolean } selected
     */
@@ -82,14 +82,14 @@ class StoreStateItem {
         return builder.build();
     }
 
-  /**
-   * @param { boolean } searchSelected
-   */
-  withSearchSelected(searchSelected) {
-    var builder = StoreStateItemBuilder.from(this);
-    builder.searchSelected(searchSelected);
-    return builder.build();
-  }
+    /**
+     * @param { boolean } searchFiltered
+     */
+    withSearchFiltered(searchFiltered) {
+        var builder = StoreStateItemBuilder.from(this);
+        builder.searchFiltered(searchFiltered);
+        return builder.build();
+    }
     toObject() {
         var jsonObject = {};
         if( this._itemId != undefined ){
@@ -104,9 +104,9 @@ class StoreStateItem {
         if( this._visible != undefined ){
             jsonObject["visible"] = this._visible;
         }
-      if (this._searchSelected != undefined) {
-        jsonObject["searchSelected"] = this._searchSelected;
-      }
+        if (this._searchFiltered != undefined) {
+            jsonObject["searchFiltered"] = this._searchFiltered;
+        }
         return jsonObject;
     }
     /**
@@ -127,7 +127,7 @@ class StoreStateItemBuilder {
         this._selected = null;
         this._disabled = null;
         this._visible = null;
-      this._searchSelected = null;
+        this._searchFiltered = null;
     }
     /**
     * @param { string } itemId
@@ -192,10 +192,19 @@ class StoreStateItemBuilder {
         if( jsonObject["visible"] !== undefined ){
             builder.visible( jsonObject['visible']);
         }
-      if (jsonObject["searchSelected"] !== undefined) {
-        builder.searchSelected(jsonObject['searchSelected']);
-      }
+        if (jsonObject["searchFiltered"] !== undefined) {
+            builder.searchFiltered(jsonObject['searchFiltered']);
+        }
         return builder;
+    }
+
+    /**
+     * @param {string} json
+     * @returns {StoreStateItemBuilder}
+     */
+    static fromJson(json) {
+        var jsonObject = JSON.parse(json);
+        return this.fromObject(jsonObject);
     }
 
     /**
@@ -208,36 +217,27 @@ class StoreStateItemBuilder {
         builder.selected( instance.selected() );
         builder.disabled( instance.disabled() );
         builder.visible( instance.visible() );
-      builder.searchSelected(instance.searchSelected());
+        builder.searchFiltered(instance.searchFiltered());
         return builder;
     }
 
-  /**
-   * @param { boolean } searchSelected
-   * @returns {StoreStateItemBuilder}
-   */
-  searchSelected(searchSelected) {
-    if (!isNull(searchSelected)) {
-      assert(isBoolean(searchSelected), 'searchSelected should be a bool');
+    /**
+     * @param { boolean } searchFiltered
+     * @returns {StoreStateItemBuilder}
+     */
+    searchFiltered(searchFiltered) {
+        if (!isNull(searchFiltered)) {
+            assert(isBoolean(searchFiltered), 'searchFiltered should be a bool');
+        }
+        this._searchFiltered = searchFiltered;
+        return this;
     }
-    this._searchSelected = searchSelected;
-    return this;
-  }
 
-  /**
-   * @param {string} json
-   * @returns {StoreStateItemBuilder}
-   */
-  static fromJson(json) {
-    var jsonObject = JSON.parse(json);
-    return this.fromObject(jsonObject);
-  }
-
-  /**
-   * @returns {StoreStateItem}
-   */
-  build() {
-    return new StoreStateItem(this._itemId, this._selected, this._disabled, this._visible, this._searchSelected)
-  }
+    /**
+     * @returns {StoreStateItem}
+     */
+    build() {
+        return new StoreStateItem(this._itemId, this._selected, this._disabled, this._visible, this._searchFiltered)
+    }
 }
 export { StoreStateItemBuilder}

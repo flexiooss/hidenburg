@@ -18,7 +18,6 @@ export class ViewContainerSelect extends ViewContainer {
     super(constructorConfig)
 
     this.__dataStore = config.getDataStore()
-    this.__searchStore = config.getSearchStore()
     this.__stateStore = config.getStateStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__actionSelect = config.getActionSelect()
@@ -35,7 +34,6 @@ export class ViewContainerSelect extends ViewContainer {
       .withViewItemBuilder(this.__viewItemBuilder)
       .withDataStore(this.__dataStore)
       .withStateStore(this.__stateStore)
-      .withSearchStore(this.__searchStore)
       .withProperties(this.__properties)
       .withComponent(this.__component)
 

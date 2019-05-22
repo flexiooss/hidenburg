@@ -31,11 +31,9 @@ export class ViewSelect extends View {
 
     this.__dataStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
-    this.__searchStore = config.getSearchStore()
 
     this.subscribeToStore(this.__dataStore)
     this.subscribeToStore(this.__stateStore)
-    this.subscribeToStore(this.__searchStore)
 
     this.__closeStrategy = config.getCloseStrategy()
 
@@ -61,14 +59,9 @@ export class ViewSelect extends View {
   __createViews() {
     let views = []
 
-    let stateStore = this.__stateStore
-    if (this.__searchStore.data().size > 0) {
-      stateStore = this.__searchStore
-    }
-
-    stateStore.state().data.forEach((state) => {
-      let item = this.__dataStore.state().data.get(state.itemId())
-      if (state.visible() && !state.selected()) {
+    this.__stateStore.state().data.forEach((state) => {
+      if (state.visible() && !state.selected() && !state.searchFiltered()) {
+        let item = this.__dataStore.state().data.get(state.itemId())
         let view = this.__createView(item, state)
 
         if (!state.disabled()) {

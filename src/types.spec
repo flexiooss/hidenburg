@@ -11,3 +11,4 @@ StoreStateItem:
   selected: bool
   disabled: bool
   visible: bool
+  searchFiltered: bool
