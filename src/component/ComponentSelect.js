@@ -41,7 +41,11 @@ export class ComponentSelect extends Component {
     this.__listManager.initStateStore(this.__store)
   }
 
-  mountView() {
+  mountView(node = null) {
+    if (node !== null) {
+      this.__parentNode = node
+    }
+
     this.__selectLayer = this.__layersManager.addLayer()
     this.__itemListVisible = false
 
