@@ -1,4 +1,5 @@
 .closeButton {
+    position: absolute;
     float: right;
     font-size: 30px;
     background-color: gray;
