@@ -5,11 +5,12 @@ import {
   RECONCILIATION_RULES,
   View,
   ViewPublicEventHandler
-} from 'hotballoon'
+} from '@flexio-oss/hotballoon'
 import listStyle from '../css/itemList.css'
 import itemSelectedStyle from '../css/itemSelected.css'
 import inputStyle from '../css/input.css'
 import closeStyle from '../css/close.css'
+import itemListSelectedStyle from '../css/itemListSelected.css'
 import {ItemBuilder} from '../../../generated/io/flexio/component_select/types/Item'
 
 const CLOSE_EVENT = 'CLOSE_EVENT'
@@ -21,12 +22,14 @@ export class ViewSelect extends View {
   /**
    * @param {ViewSelectConfig} config
    */
-  constructor(config) {
+  constructor(config, node) {
     super(config.getViewContainer())
 
     this.__viewContainer = config.getViewContainer()
     // this.__layers = config.getLayers()
     this.__viewItemBuilder = config.getViewItemBuilder()
+
+    this.__node = node
 
     this.__dataStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
@@ -108,7 +111,8 @@ export class ViewSelect extends View {
     return this.html(
       e('div#' + this.__idselectedItemList)
         .childNodes(...selectedItems)
-        .reconciliationRules(RECONCILIATION_RULES.FORCE)
+        .className(itemListSelectedStyle.itemListSelected)
+        .reconciliationRules(RECONCILIATION_RULES.BYPASS_ONCE)
     )
   }
 
@@ -128,7 +132,7 @@ export class ViewSelect extends View {
                   this.dispatch(SELECT_EVENT, item)
                 })
                 .build()
-            ).reconciliationRules(RECONCILIATION_RULES.FORCE)
+            )
         )
         items.push(itemSelected)
       }
@@ -140,6 +144,9 @@ export class ViewSelect extends View {
     return this.html(
       e('input#' + this.__idInput)
         .className(inputStyle.inputSearch)
+        .attributes({
+          'placeholder': 'Rechercher...'
+        })
         .listenEvent(
           ElementEventListenerBuilder
             .listen('keyup')
@@ -183,26 +190,11 @@ export class ViewSelect extends View {
   }
 
   onShow() {
-    console.log('onshow')
-    if (this.__closeClb === null) {
-      this.__closeClb = this.__eventPress.bind(this)
-      document.addEventListener('keyup', this.__closeClb)
-    }
     this.nodeRef(this.__idInput).focus()
   }
 
-  __eventPress(event) {
-    event.stopPropagation()
-    if (event.key === 'Escape' || event.code === 'Escape') {
-      this.dispatch(CLOSE_EVENT, null)
-    }
-  }
-
   onHide() {
-    console.log('onhide')
-    if (this.__closeClb) {
-      document.removeEventListener('keypress', this.__closeClb)
-    }
+
   }
 
   /**

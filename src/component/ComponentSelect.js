@@ -1,12 +1,12 @@
 import {ViewContainerButton} from "../view/container/ViewContainerButton";
 import {ViewContainerButtonConfig} from "../view/container/ViewContainerButtonConfig";
 import {PrivateActionSelectItemBuilder} from "../actions/PrivateActionSelectItemBuilder";
-import {EventListenerOrderedBuilder} from "hotballoon";
-import {STORE_CHANGED} from "hotballoon/src/js/Store/StoreInterface";
+import {EventListenerOrderedBuilder} from "@flexio-oss/hotballoon";
+import {STORE_CHANGED} from "@flexio-oss/hotballoon/src/js/Store/StoreInterface";
 import {MultipleList} from "./ListManager/MultipleList";
 import {UniqueList} from "./ListManager/UniqueList";
 import {PrivateActionSelectMultipleItemsBuilder} from "../actions/PrivateActionSelectMultipleItemsBuilder";
-import {Component} from "hotballoon/src/js/Component/Component";
+import {Component} from "@flexio-oss/hotballoon/src/js/Component/Component";
 import {PrivateActionItemListVisibilityBuilder} from "../actions/PrivateActionItemListVisibilityBuilder";
 import {ViewContainerSelectConfig} from "../view/select/ViewContainerSelectConfig";
 import {ViewContainerSelect} from "../view/select/ViewContainerSelect";
@@ -22,7 +22,6 @@ export class ComponentSelect extends Component {
     this.__store = config.getStore()
     this.__viewItemBuilder = config.getViewItemBuilder()
     this.__properties = config.getProperties()
-    this.__parentNode = config.getParentNode()
     this.__layersManager = config.getLayersManager()
 
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
@@ -41,10 +40,8 @@ export class ComponentSelect extends Component {
     this.__listManager.initStateStore(this.__store)
   }
 
-  mountView(node = null) {
-    if (node !== null) {
-      this.__parentNode = node
-    }
+  mountView(node) {
+    this.__parentNode = node
 
     this.__selectLayer = this.__layersManager.addLayer()
     this.__itemListVisible = false
@@ -77,8 +74,6 @@ export class ComponentSelect extends Component {
     this.__viewContainerSelect = new ViewContainerSelect(config)
     this.__viewContainerSelect.createView()
     this.__viewContainerSelect.renderAndMount()
-
-    this.__layersManager.hideShowedLayer()
 
     return this
   }

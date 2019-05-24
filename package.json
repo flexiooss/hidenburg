@@ -19,10 +19,10 @@
     "stylelint-config-standard": "^18.2.0"
   },
   "dependencies": {
+    "@flexio-oss/hotballoon": "^0.0.0-dev",
     "@flexio-oss/atmosphere-layers": "0.0.0-dev",
     "flexio-jshelpers": "https://github.com/flexiooss/flexio-jshelpers.git",
-    "flexio-nodes-reconciliation": "https://github.com/flexiooss/flexio-nodes-reconciliation.git",
-    "hotballoon": "https://github.com/flexiooss/hotballoon.git"
+    "flexio-nodes-reconciliation": "https://github.com/flexiooss/flexio-nodes-reconciliation.git"
   },
   "hotballoon-shed": {
     "build": {

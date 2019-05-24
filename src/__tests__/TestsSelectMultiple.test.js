@@ -2,7 +2,7 @@
 import {TestCase} from 'code-altimeter-js'
 import {ComponentSelect, ComponentSelectConfig, ItemList} from "..";
 import {StoreTest} from "./StoreTest/StoreTest";
-import {Dispatcher, HotBalloonApplication} from "hotballoon";
+import {Dispatcher, HotBalloonApplication} from "@flexio-oss/hotballoon";
 import {Item} from "../generated/io/flexio/component_select/types/Item";
 import {PrivateActionSelectItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
 

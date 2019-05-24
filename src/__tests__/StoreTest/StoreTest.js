@@ -1,5 +1,5 @@
-import {InMemoryStoreParams, PublicStoreHandler, StoreTypeParam} from "hotballoon";
-import {StoreBuilder} from "hotballoon/src/js/Store/StoreBuilder";
+import {InMemoryStoreParams, PublicStoreHandler, StoreTypeParam} from "@flexio-oss/hotballoon";
+import {StoreBuilder} from "@flexio-oss/hotballoon/src/js/Store/StoreBuilder";
 import {ItemList} from "../..";
 
 export class StoreTest {

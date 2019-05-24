@@ -1,4 +1,4 @@
-import {InMemoryStoreParams, PublicStoreHandler, StoreBuilder, StoreTypeParam} from "hotballoon";
+import {InMemoryStoreParams, PublicStoreHandler, StoreBuilder, StoreTypeParam} from "@flexio-oss/hotballoon";
 import {MapItemState} from "../component/MapItemState";
 
 export class StoreState {

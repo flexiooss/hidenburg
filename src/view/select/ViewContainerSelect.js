@@ -1,4 +1,4 @@
-import {ViewContainer, ViewContainerParameters} from 'hotballoon'
+import {ViewContainer, ViewContainerParameters} from '@flexio-oss/hotballoon'
 import {ViewSelect} from "./views/ViewSelect";
 import {ViewSelectConfig} from "./views/ViewSelectConfig";
 import {PrivateActionItemListVisibilityBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionItemListVisibility";
@@ -37,7 +37,7 @@ export class ViewContainerSelect extends ViewContainer {
       .withProperties(this.__properties)
       .withComponent(this.__component)
 
-    this.__selectView = this.addView(new ViewSelect(config))
+    this.__selectView = this.addView(new ViewSelect(config, this.parentNode))
 
     this.__handleEventsFromView()
   }

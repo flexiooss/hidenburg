@@ -1,0 +1,8 @@
+.itemListSelected {
+    display: block;
+    margin: 3px auto 0 auto;
+    border: rgba(216, 222, 233, 0.8) 2px solid;
+    padding: 10px 0;
+    width: 90%;
+
+}

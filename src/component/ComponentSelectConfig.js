@@ -6,7 +6,6 @@ export class ComponentSelectConfig {
     this.__componentContext = null
     this.__store = null
     this.__viewItemBuilder = new DefaultViewItemBuilder()
-    this.__parentNode = null
     this.__layersManager = null
     this.__properties = {
       multiple: false,
@@ -53,11 +52,6 @@ export class ComponentSelectConfig {
     return this
   }
 
-  withParentNode(parentNode) {
-    this.__parentNode = parentNode
-    return this
-  }
-
   /**
    * @param {ComponentAtmosphereLayersPublicHandler} layersManager
    * @return {ComponentSelectConfig}
@@ -83,11 +77,6 @@ export class ComponentSelectConfig {
 
   getProperties() {
     return this.__properties
-  }
-
-  getParentNode() {
-    assert(!isNull(this.__parentNode), 'Parent node not set')
-    return this.__parentNode
   }
 
   /**

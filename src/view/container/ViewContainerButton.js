@@ -1,4 +1,4 @@
-import {ViewContainer, ViewContainerParameters} from 'hotballoon'
+import {ViewContainer, ViewContainerParameters} from '@flexio-oss/hotballoon'
 import {ViewButtonConfig} from "./views/ViewButtonConfig";
 import {ViewButton} from "./views/ViewButton";
 import {PrivateActionItemListVisibilityBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionItemListVisibility";

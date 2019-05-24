@@ -48,13 +48,12 @@ class StoreStateItem {
     searchFiltered() {
         return this._searchFiltered;
     }
-
     /**
      * @param { string } itemId
      */
     withItemId(itemId) {
-        var builder = StoreStateItemBuilder.from(this);
-        builder.itemId(itemId);
+      var builder = StoreStateItemBuilder.from(this);
+      builder.itemId(itemId);
         return builder.build();
     }
     /**
@@ -81,13 +80,12 @@ class StoreStateItem {
         builder.visible( visible);
         return builder.build();
     }
-
     /**
      * @param { boolean } searchFiltered
      */
     withSearchFiltered(searchFiltered) {
-        var builder = StoreStateItemBuilder.from(this);
-        builder.searchFiltered(searchFiltered);
+      var builder = StoreStateItemBuilder.from(this);
+      builder.searchFiltered(searchFiltered);
         return builder.build();
     }
     toObject() {
@@ -104,7 +102,7 @@ class StoreStateItem {
         if( this._visible != undefined ){
             jsonObject["visible"] = this._visible;
         }
-        if (this._searchFiltered != undefined) {
+      if (this._searchFiltered != undefined) {
             jsonObject["searchFiltered"] = this._searchFiltered;
         }
         return jsonObject;
@@ -173,7 +171,6 @@ class StoreStateItemBuilder {
         this._visible = visible;
         return this;
     }
-
     /**
     * @param {object} jsonObject
     * @returns {StoreStateItemBuilder}
@@ -192,8 +189,8 @@ class StoreStateItemBuilder {
         if( jsonObject["visible"] !== undefined ){
             builder.visible( jsonObject['visible']);
         }
-        if (jsonObject["searchFiltered"] !== undefined) {
-            builder.searchFiltered(jsonObject['searchFiltered']);
+      if (jsonObject["searchFiltered"] !== undefined) {
+        builder.searchFiltered(jsonObject['searchFiltered']);
         }
         return builder;
     }
@@ -203,8 +200,8 @@ class StoreStateItemBuilder {
      * @returns {StoreStateItemBuilder}
      */
     static fromJson(json) {
-        var jsonObject = JSON.parse(json);
-        return this.fromObject(jsonObject);
+      var jsonObject = JSON.parse(json);
+      return this.fromObject(jsonObject);
     }
 
     /**
@@ -217,7 +214,7 @@ class StoreStateItemBuilder {
         builder.selected( instance.selected() );
         builder.disabled( instance.disabled() );
         builder.visible( instance.visible() );
-        builder.searchFiltered(instance.searchFiltered());
+      builder.searchFiltered(instance.searchFiltered());
         return builder;
     }
 
@@ -226,8 +223,8 @@ class StoreStateItemBuilder {
      * @returns {StoreStateItemBuilder}
      */
     searchFiltered(searchFiltered) {
-        if (!isNull(searchFiltered)) {
-            assert(isBoolean(searchFiltered), 'searchFiltered should be a bool');
+      if (!isNull(searchFiltered)) {
+        assert(isBoolean(searchFiltered), 'searchFiltered should be a bool');
         }
         this._searchFiltered = searchFiltered;
         return this;
@@ -237,7 +234,7 @@ class StoreStateItemBuilder {
      * @returns {StoreStateItem}
      */
     build() {
-        return new StoreStateItem(this._itemId, this._selected, this._disabled, this._visible, this._searchFiltered)
+      return new StoreStateItem(this._itemId, this._selected, this._disabled, this._visible, this._searchFiltered)
     }
 }
 export { StoreStateItemBuilder}

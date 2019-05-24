@@ -5,7 +5,7 @@ import {
   RECONCILIATION_RULES,
   View,
   ViewPublicEventHandler
-} from "hotballoon";
+} from "@flexio-oss/hotballoon";
 import style from '../../css/item.css'
 
 const SELECT_EVENT = 'SELECT_EVENT'

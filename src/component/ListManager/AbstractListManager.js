@@ -126,36 +126,40 @@ export class AbstractListManager {
   }
 
   performSearch(value) {
-
     console.log('Perform search => ' + value)
     let stateItems = new MapItemState()
+    console.time(value);
 
     this.__dataStore.state().data.forEach((item) => {
       let state = this._stateStore.getStore().state().data.get(item.id())
 
       if (value.length === 0 || this.__itemIncludesValue(value, item)) {
         state = state.withSearchFiltered(false)
-        console.log('Filtre', item.label())
       } else {
         state = state.withSearchFiltered(true)
       }
 
       stateItems.set(item.id(), state)
     })
+    console.timeEnd(value)
 
     this._stateStore.getStore().set(stateItems)
   }
 
   __itemIncludesValue(value, item) {
-    value = value.toLowerCase()
     let values = []
-    values.push(item.label().toLowerCase())
+    let label = item.label().toLowerCase()
+    values.push(label)
     values.push(item.value().toLowerCase())
+//Remove accents
+    let labelWithoutAccent = item.label().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    if (labelWithoutAccent !== label)
+      values.push(labelWithoutAccent)
 
+    value = value.toLowerCase()
     return values.some((val) => {
       return val.includes(value)
     })
-
   }
 
   /**

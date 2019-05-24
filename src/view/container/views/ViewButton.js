@@ -5,7 +5,7 @@ import {
   RECONCILIATION_RULES,
   View,
   ViewPublicEventHandler
-} from "hotballoon";
+} from "@flexio-oss/hotballoon";
 import containerStyle from "./css/container.css";
 import inputStyle from "./css/input.css";
 
