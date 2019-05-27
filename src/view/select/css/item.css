@@ -1,10 +1,17 @@
 .item {
     padding: 5px 14px;
     line-height: 35px;
-    border-bottom: rgba(216, 222, 233, 0.8) 1px solid;
-    border-top: rgba(216, 222, 233, 0.8) 1px solid;
     cursor: grab;
     color: initial;
+}
+
+.item:nth-child(2n) {
+    border-top: rgba(216, 222, 233, 0.8) 1px solid;
+    background-color: rgba(216, 222, 233, 0.2);
+}
+
+.item:nth-child(2n+3) {
+    border-top: rgba(216, 222, 233, 0.8) 1px solid;
 }
 
 .item:hover {

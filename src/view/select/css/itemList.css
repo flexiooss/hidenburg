@@ -4,8 +4,7 @@
     overflow-y: scroll;
     margin: 3px auto 0 auto;
     padding: 0;
-    border-left: rgba(216, 222, 233, 0.8) 2px solid;
-    border-right: rgba(216, 222, 233, 0.8) 2px solid;
+    border: rgba(216, 222, 233, 0.8) 2px solid;
     display: block;
     background-color: white;
     user-select: none;

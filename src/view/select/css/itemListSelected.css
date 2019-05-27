@@ -4,5 +4,5 @@
     border: rgba(216, 222, 233, 0.8) 2px solid;
     padding: 10px 0;
     width: 90%;
-
+    user-select: none;
 }
