@@ -7,6 +7,7 @@ import {PublicActionSelectedItemBuilder} from "../../actions/PublicActionSelecte
 import {PublicActionUnselectedItemBuilder} from "../../actions/PublicActionUnselectedItemBuilder";
 import {StoreState} from "../../stores/StoreState";
 import {MapItemState} from "../MapItemState";
+import {SearcherValueInItems} from "./SearcherValueInItems";
 
 export class AbstractListManager {
   constructor(componentContext) {
@@ -21,6 +22,8 @@ export class AbstractListManager {
 
     this._stateStore = new StoreState(this.__componentContext)
     this._dataStore = null
+
+    this.__searcher = new SearcherValueInItems()
   }
 
   /**
@@ -94,11 +97,14 @@ export class AbstractListManager {
     })
 
     this._stateStore.getStore().set(store)
+
+    this.__searcher.setDataStore(this._dataStore).setStateStore(this._stateStore)
   }
 
   _checkDataStore() {
     throw new Error('Must be implemented')
   }
+
   /**
    * @return {String[]}
    */
@@ -132,39 +138,7 @@ export class AbstractListManager {
    * @param {string} value
    */
   performSearch(value) {
-    console.log('Perform search => ' + value)
-    let stateItems = new MapItemState()
-
-    this._dataStore.state().data.forEach((item) => {
-      let state = this._stateStore.getStore().state().data.get(item.id())
-
-      if (value.length === 0 || this.__itemIncludesValue(value, item)) {
-        state = state.withSearchFiltered(false)
-      } else {
-        state = state.withSearchFiltered(true)
-      }
-
-      stateItems.set(item.id(), state)
-    })
-
-    this._stateStore.getStore().set(stateItems)
-  }
-
-  __itemIncludesValue(value, item) {
-    let values = []
-    let label = item.label().toLowerCase()
-    values.push(label)
-    values.push(item.value().toLowerCase())
-
-    // Remove accents
-    let labelWithoutAccent = item.label().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
-    if (labelWithoutAccent !== label)
-      values.push(labelWithoutAccent)
-
-    value = value.toLowerCase()
-    return values.some((val) => {
-      return val.includes(value)
-    })
+    this.__searcher.setDataStore(this._dataStore).searchAndUpdateStateStore(value)
   }
 
   /**
