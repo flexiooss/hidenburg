@@ -7,7 +7,6 @@ export class ViewContainerButtonConfig {
     this.__dataStore = null
     this.__actionItemListVisibility = null
     this.__stateStore = null
-    this.__component = null
   }
 
   /**
@@ -47,15 +46,6 @@ export class ViewContainerButtonConfig {
   }
 
   /**
-   * @param {Object} properties
-   * @return {ViewContainerButtonConfig}
-   */
-  withProperties(properties) {
-    this.__properties = properties
-    return this
-  }
-
-  /**
    * @param {Action<PrivateActionItemListVisibility>} action
    * @return {ViewContainerButtonConfig}
    */
@@ -64,33 +54,43 @@ export class ViewContainerButtonConfig {
     return this
   }
 
+  /**
+   * @return {ComponentContext}
+   */
   getComponentContext() {
     assert(!isNull(this.__componentContext), 'Public store not set')
     return this.__componentContext;
   }
 
+  /**
+   * @return {Element}
+   */
   getParentNode() {
     assert(!isNull(this.__parentNode), 'Parent node not set')
     return this.__parentNode;
   }
 
+  /**
+   * @return {StoreInterface}
+   */
   getDataStore() {
     assert(!isNull(this.__dataStore), 'Data Store not set')
     return this.__dataStore;
   }
 
-  getActionItemListVisibility() {
-    assert(!isNull(this.__actionItemListVisibility), 'Action item list visibility not set')
-    return this.__actionItemListVisibility
-  }
-
+  /**
+   * @return {StoreInterface}
+   */
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State Store not set')
     return this.__stateStore
   }
 
-  getProperties() {
-    assert(!isNull(this.__properties), 'Properties not set')
-    return this.__properties;
+  /**
+   * @return {Action<PrivateActionItemListVisibility>}
+   */
+  getActionItemListVisibility() {
+    assert(!isNull(this.__actionItemListVisibility), 'Action item list visibility not set')
+    return this.__actionItemListVisibility
   }
 }

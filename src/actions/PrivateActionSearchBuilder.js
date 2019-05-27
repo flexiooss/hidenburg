@@ -4,7 +4,6 @@ import {PrivateActionSearchPayload} from "../generated/io/flexio/component_selec
 
 export class PrivateActionSearchBuilder {
   /**
-   *
    * @param {Dispatcher} dispatcher
    */
   constructor(dispatcher) {
@@ -12,7 +11,6 @@ export class PrivateActionSearchBuilder {
   }
 
   /**
-   *
    * @returns {Action<PrivateActionSearchPayload>}
    */
   init() {

@@ -42,7 +42,7 @@ export class ViewContainerSelectConfig {
   }
 
   /**
-   * @param {View} viewItemBuilder
+   * @param {ViewItemBuilder} viewItemBuilder
    * @returns {ViewContainerSelectConfig}
    */
   withViewItemBuilder(viewItemBuilder) {
@@ -122,61 +122,97 @@ export class ViewContainerSelectConfig {
     return this
   }
 
+  /**
+   * @return {ComponentContext}
+   */
   getComponentContext() {
     assert(!isNull(this.__componentContext), 'Public store not set')
     return this.__componentContext;
   }
 
+  /**
+   * @return {Element}
+   */
   getParentNode() {
     assert(!isNull(this.__parentNode), 'Parent node not set')
     return this.__parentNode;
   }
 
+  /**
+   * @return {StoreInterface}
+   */
   getDataStore() {
     assert(!isNull(this.__dataStore), 'Data Store not set')
     return this.__dataStore;
   }
 
+  /**
+   * @return {StoreInterface}
+   */
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State Store not set')
     return this.__stateStore
   }
 
+  /**
+   * @return {ViewItemBuilder}
+   */
   getViewItemBuilder() {
     assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
     return this.__viewItemBuilder;
   }
 
+  /**
+   * @return {Action<PrivateActionSelectItemPayload>}
+   */
   getActionSelect() {
     assert(!isNull(this.__actionSelect), 'Action select not set')
     return this.__actionSelect;
   }
 
+  /**
+   * @return {Action<PrivateActionUnselectPayload>}
+   */
   getActionUnselect() {
     assert(!isNull(this.__actionUnselect), 'Action unselect not set')
     return this.__actionUnselect
   }
 
+  /**
+   * @return {Action<PrivateActionSelectMultipleItemsPayload>}
+   */
   getActionMultipleSelect() {
     assert(!isNull(this.__actionMultipleSelect), 'Action multiple select not set')
     return this.__actionMultipleSelect;
   }
 
+  /**
+   * @return {Action<PrivateActionItemListVisibility>}
+   */
   getActionItemListVisibility() {
     assert(!isNull(this.__actionItemListVisibility), 'Action item list visibility not set')
     return this.__actionItemListVisibility
   }
 
+  /**
+   * @return {Action<PrivateActionSearchPayload>}
+   */
   getActionSearch() {
     assert(!isNull(this.__actionItemListVisibility), 'Action search not set')
     return this.__actionSearch
   }
 
+  /**
+   * @return {Object}
+   */
   getProperties() {
     assert(!isNull(this.__properties), 'Properties not set')
     return this.__properties;
   }
 
+  /**
+   * @return {ComponentSelect}
+   */
   getComponent() {
     assert(!isNull(this.__properties), 'Properties not set')
     return this.__component

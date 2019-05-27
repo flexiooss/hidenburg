@@ -100,6 +100,9 @@ export class ViewButton extends View {
 
 
 class ViewButtonEvent extends ViewPublicEventHandler {
+  /**
+   * @param {function} clb
+   */
   openList(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder

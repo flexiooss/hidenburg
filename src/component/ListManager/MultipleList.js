@@ -9,6 +9,9 @@ export class MultipleList extends AbstractListManager {
     this.__lastItemSelectedId = null
   }
 
+  /**
+   * @param {Item} item
+   */
   performSelectEvent(item) {
     this._addSelectItems(item.id())
 
@@ -34,6 +37,9 @@ export class MultipleList extends AbstractListManager {
     this._dispatchPublicEvents()
   }
 
+  /**
+   * @param {Item} item
+   */
   performMultipleSelectEvent(item) {
     let stateItems = new MapItemState()
 
@@ -73,6 +79,9 @@ export class MultipleList extends AbstractListManager {
     this._dispatchPublicEvents()
   }
 
+  /**
+   * @param {Item} item
+   */
   performUnselectEvent(item) {
     this._addUnselectedItems(item.id())
 

@@ -5,10 +5,6 @@ export class ViewButtonConfig {
     this.__viewContainer = null
     this.__dataStore = null
     this.__stateStore = null
-    this.__viewItemBuilder = null
-    this.__properties = null
-
-    // Todo strategies
   }
 
   /**
@@ -48,45 +44,26 @@ export class ViewButtonConfig {
   }
 
   /**
-   * @param {Object} properties
-   * @return {ViewButtonConfig}
+   * @return {ViewContainer}
    */
-  withProperties(properties) {
-    this.__properties = properties
-    return this
-  }
-
-  /**
-   * @param {ComponentAtmosphereLayersPublicHandler} layersManager
-   * @return {ViewButtonConfig}
-   */
-  withLayersManager(layersManager) {
-    this.__layersManager = layersManager
-    return this
-  }
-
   getViewContainer() {
     assert(!isNull(this.__viewContainer), 'View container not set')
     return this.__viewContainer;
   }
 
+  /**
+   * @return {StoreInterface}
+   */
   getDataStore() {
     assert(!isNull(this.__dataStore), 'Data store not set')
     return this.__dataStore;
   }
 
+  /**
+   * @return {StoreInterface}
+   */
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State store not set')
     return this.__stateStore;
-  }
-
-  getViewItemBuilder() {
-    assert(!isNull(this.__viewItemBuilder), 'View Item Builder not set')
-    return this.__viewItemBuilder;
-  }
-
-  __getProperties() {
-    assert(!isNull(this.__properties), 'Properties not set')
-    return this.__properties;
   }
 }

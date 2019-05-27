@@ -24,7 +24,6 @@ export class StoreState {
   }
 
   /**
-   *
    * @return {PublicStoreHandler}
    */
   getStorePublic() {
@@ -32,7 +31,6 @@ export class StoreState {
   }
 
   /**
-   *
    * @return {Store}
    */
   getStore() {

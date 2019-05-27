@@ -23,14 +23,12 @@ export class ViewSelect extends View {
   /**
    * @param {ViewSelectConfig} config
    */
-  constructor(config, node) {
+  constructor(config) {
     super(config.getViewContainer())
 
     this.__viewContainer = config.getViewContainer()
     // this.__layers = config.getLayers()
     this.__viewItemBuilder = config.getViewItemBuilder()
-
-    this.__node = node
 
     this.__dataStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
@@ -45,8 +43,6 @@ export class ViewSelect extends View {
     this.__idselectedItemList = 'selected_items'
     this.__idCloseButton = 'close'
     this.__idInput = 'input'
-
-    this.__closeClb = null
   }
 
   template() {
@@ -63,11 +59,9 @@ export class ViewSelect extends View {
 
   __createItemsViews() {
     let views = []
-    console.log(this.__stateStore.state().data)
     this.__stateStore.state().data.forEach((state) => {
       if (state.visible() && !state.selected() && !state.searchFiltered()) {
         let item = this.__dataStore.state().data.get(state.itemId())
-        console.log(item, state)
         let view = this.__createItemView(item, state)
 
         if (!state.disabled()) {
@@ -122,7 +116,6 @@ export class ViewSelect extends View {
     this.__dataStore.state().data.forEach((item) => {
       let state = this.__stateStore.data().get(item.id())
       if (state.selected()) {
-        console.log(state)
         let itemSelected = this.html(
           e('div#' + item.id())
             .text(item.label())
@@ -210,6 +203,9 @@ export class ViewSelect extends View {
 }
 
 class ViewSelectEvent extends ViewPublicEventHandler {
+  /**
+   * @param {function} clb
+   */
   close(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
@@ -221,6 +217,9 @@ class ViewSelectEvent extends ViewPublicEventHandler {
     )
   }
 
+  /**
+   * @param {function} clb
+   */
   selectItem(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
@@ -233,6 +232,9 @@ class ViewSelectEvent extends ViewPublicEventHandler {
     )
   }
 
+  /**
+   * @param {function} clb
+   */
   unselectItem(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
@@ -245,6 +247,9 @@ class ViewSelectEvent extends ViewPublicEventHandler {
     )
   }
 
+  /**
+   * @param {function} clb
+   */
   selectMultipleItems(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
@@ -256,6 +261,9 @@ class ViewSelectEvent extends ViewPublicEventHandler {
     )
   }
 
+  /**
+   * @param {function} clb
+   */
   search(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder

@@ -22,7 +22,7 @@ export class DefaultViewItem extends View {
   }
 
   template() {
-    let html = this.html(
+    return this.html(
       e('div#item-' + this.__item.id())
         .attributes({'data-value': this.__item.value()})
         .text(this.__item.label())
@@ -48,8 +48,6 @@ export class DefaultViewItem extends View {
           RECONCILIATION_RULES.BYPASS_LISTENERS
         )
     )
-    // console.log(html)
-    return html
   }
 
   /**
@@ -63,6 +61,9 @@ export class DefaultViewItem extends View {
 }
 
 class ViewSelectItemEvent extends ViewPublicEventHandler {
+  /**
+   * @param {function} clb
+   */
   selectItem(clb) {
     return this._subscriber(
       EventListenerOrderedBuilder
@@ -74,6 +75,9 @@ class ViewSelectItemEvent extends ViewPublicEventHandler {
     )
   }
 
+  /**
+   * @param {function} clb
+   */
   selectMultipleItems(clb){
     return this._subscriber(
       EventListenerOrderedBuilder

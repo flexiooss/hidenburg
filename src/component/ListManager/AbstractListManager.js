@@ -23,21 +23,36 @@ export class AbstractListManager {
     this.__dataStore = null
   }
 
+  /**
+   * @param {...String} item
+   * @protected
+   */
   _addSelectItems(...item) {
     // console.log('select', ...item)
     this.__selectItemsIds.push(...item)
   }
 
+  /**
+   * @param {...String} item
+   * @protected
+   */
   _addSelectedItems(...item) {
     // console.log('selected', ...item)
     this.__selectedItemsIds.push(...item)
   }
 
+  /**
+   * @param {...String} item
+   * @protected
+   */
   _addUnselectedItems(...item) {
     // console.log('unselected', ...item)
     this.__unselectedItemsIds.push(...item)
   }
 
+  /**
+   * @protected
+   */
   _dispatchPublicEvents() {
     let id = this.__selectItemsIds.shift()
     while (id !== undefined) {
@@ -58,6 +73,9 @@ export class AbstractListManager {
     }
   }
 
+  /**
+   * @param {StoreInterface} proxyStore
+   */
   initStateStore(proxyStore) {
     this.__dataStore = proxyStore
     let store = new MapItemState()
@@ -77,6 +95,9 @@ export class AbstractListManager {
     this._stateStore.getStore().set(store)
   }
 
+  /**
+   * @return {String[]}
+   */
   getSelectedItemsId() {
     let ids = []
     this._stateStore.getStorePublic().data().forEach((state) => {
@@ -87,6 +108,9 @@ export class AbstractListManager {
     return ids
   }
 
+  /**
+   * @return {Item[]}
+   */
   getSelectedItems() {
     let items = []
     this.getSelectedItemsId().forEach((id) => {
@@ -100,10 +124,12 @@ export class AbstractListManager {
     return items
   }
 
+  /**
+   * @param {string} value
+   */
   performSearch(value) {
     console.log('Perform search => ' + value)
     let stateItems = new MapItemState()
-    console.time(value);
 
     this.__dataStore.state().data.forEach((item) => {
       let state = this._stateStore.getStore().state().data.get(item.id())
@@ -116,7 +142,6 @@ export class AbstractListManager {
 
       stateItems.set(item.id(), state)
     })
-    console.timeEnd(value)
 
     this._stateStore.getStore().set(stateItems)
   }
@@ -126,7 +151,8 @@ export class AbstractListManager {
     let label = item.label().toLowerCase()
     values.push(label)
     values.push(item.value().toLowerCase())
-//Remove accents
+
+    // Remove accents
     let labelWithoutAccent = item.label().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
     if (labelWithoutAccent !== label)
       values.push(labelWithoutAccent)

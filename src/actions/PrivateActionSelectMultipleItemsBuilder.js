@@ -4,7 +4,6 @@ import {PrivateActionSelectMultipleItemsPayload} from "../generated/io/flexio/co
 
 export class PrivateActionSelectMultipleItemsBuilder {
   /**
-   *
    * @param {Dispatcher} dispatcher
    */
   constructor(dispatcher) {
@@ -12,7 +11,6 @@ export class PrivateActionSelectMultipleItemsBuilder {
   }
 
   /**
-   *
    * @returns {Action<PrivateActionSelectMultipleItemsPayload>}
    */
   init() {

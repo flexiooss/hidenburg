@@ -25,6 +25,9 @@ export class CloseStrategyBuilder {
     return this
   }
 
+  /**
+   * @return {CloseMultiple|CloseUnique}
+   */
   build() {
     if (this.__properties === null || this.__component === null) {
       throw new Error('Builder incomplete')

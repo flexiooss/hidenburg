@@ -4,7 +4,6 @@ import {PrivateActionUnselectPayload} from "../generated/io/flexio/component_sel
 
 export class PrivateActionUnselectBuilder {
   /**
-   *
    * @param {Dispatcher} dispatcher
    */
   constructor(dispatcher) {
@@ -12,7 +11,6 @@ export class PrivateActionUnselectBuilder {
   }
 
   /**
-   *
    * @returns {Action<PrivateActionUnselectPayload>}
    */
   init() {

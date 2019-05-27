@@ -17,7 +17,6 @@ export class ViewContainerButton extends ViewContainer {
     this.__proxyStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
     this.__actionItemListVisibility = config.getActionItemListVisibility()
-    this.__properties = config.getProperties()
   }
 
   createView() {
@@ -26,8 +25,6 @@ export class ViewContainerButton extends ViewContainer {
       .withActionItemListVisibility(this.__actionItemListVisibility)
       .withDataStore(this.__proxyStore)
       .withStateStore(this.__stateStore)
-      .withProperties(this.__properties)
-      .withLayersManager(this.__layersManager)
 
     this.__buttonView = this.addView(new ViewButton(config))
 

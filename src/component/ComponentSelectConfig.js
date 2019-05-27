@@ -61,20 +61,32 @@ export class ComponentSelectConfig {
     return this
   }
 
+  /**
+   * @return {ComponentContext}
+   */
   getComponentContext() {
     assert(!isNull(this.__componentContext), 'Component context not set')
     return this.__componentContext;
   }
 
+  /**
+   * @return {StoreInterface}
+   */
   getStore() {
     assert(!isNull(this.__store), 'Store not set')
     return this.__store;
   }
 
+  /**
+   * @return {ViewItemBuilder}
+   */
   getViewItemBuilder() {
     return this.__viewItemBuilder
   }
 
+  /**
+   * @return {object}
+   */
   getProperties() {
     return this.__properties
   }

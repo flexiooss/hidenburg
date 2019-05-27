@@ -39,7 +39,7 @@ export class ViewContainerSelect extends ViewContainer {
       .withProperties(this.__properties)
       .withComponent(this.__component)
 
-    this.__selectView = this.addView(new ViewSelect(config, this.parentNode))
+    this.__selectView = this.addView(new ViewSelect(config))
 
     this.__handleEventsFromView()
   }

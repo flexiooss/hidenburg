@@ -54,7 +54,6 @@ export class ComponentSelect extends Component {
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionItemListVisibility(this.__privateActionItemListVisibility)
-      .withProperties(this.__properties)
 
     this.__viewContainerButton = new ViewContainerButton(config)
     this.__viewContainerButton.createView()
@@ -128,14 +127,14 @@ export class ComponentSelect extends Component {
   }
 
   /**
-   * @return {Array}
+   * @return {String[]}
    */
   getSelectedItemsId() {
     return this.__listManager.getSelectedItemsId()
   }
 
   /**
-   * @return {Array}
+   * @return {Item[]}
    */
   getSelectedItems() {
     return this.__listManager.getSelectedItems()

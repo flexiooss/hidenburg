@@ -27,7 +27,6 @@ export class ItemListBuilder {
   }
 
   /**
-   *
    * @param {Item} item
    */
   addItemObject(item) {
@@ -35,7 +34,6 @@ export class ItemListBuilder {
   }
 
   /**
-   *
    * @return {ItemList}
    */
   build() {

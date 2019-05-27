@@ -4,7 +4,6 @@ import {PublicActionSelectedItemPayload} from "../generated/io/flexio/component_
 
 export class PublicActionSelectedItemBuilder {
   /**
-   *
    * @param {Dispatcher} dispatcher
    */
   constructor(dispatcher) {
@@ -12,7 +11,6 @@ export class PublicActionSelectedItemBuilder {
   }
 
   /**
-   *
    * @returns {Action<PublicActionSelectedItemPayload>}
    */
   init() {

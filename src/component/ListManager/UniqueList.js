@@ -7,6 +7,9 @@ export class UniqueList extends AbstractListManager {
     super(componentContext)
   }
 
+  /**
+   * @param {Item} item
+   */
   performSelectEvent(item) {
     this._addSelectItems(item.id())
     let stateItems = new MapItemState()
@@ -29,10 +32,16 @@ export class UniqueList extends AbstractListManager {
     this._dispatchPublicEvents()
   }
 
+  /**
+   * @param {Item} item
+   */
   performMultipleSelectEvent(item) {
     this.performSelectEvent(item)
   }
 
+  /**
+   * @param {Item} item
+   */
   performUnselectEvent(item) {
 
   }

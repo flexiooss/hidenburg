@@ -4,7 +4,6 @@ import {PrivateActionItemListVisibility} from "../generated/io/flexio/component_
 
 export class PrivateActionItemListVisibilityBuilder {
   /**
-   *
    * @param {Dispatcher} dispatcher
    */
   constructor(dispatcher) {
@@ -12,7 +11,6 @@ export class PrivateActionItemListVisibilityBuilder {
   }
 
   /**
-   *
    * @returns {Action<PrivateActionItemListVisibility>}
    */
   init() {
