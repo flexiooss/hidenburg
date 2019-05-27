@@ -15,6 +15,7 @@ import {ItemBuilder} from '../../../generated/io/flexio/component_select/types/I
 
 const CLOSE_EVENT = 'CLOSE_EVENT'
 const SELECT_EVENT = 'SELECT_EVENT'
+const UNSELECT_EVENT = 'UNSELECT_EVENT'
 const SELECT_MULTIPLE_EVENT = 'SELECT_MULTIPLE_EVENT'
 const SEARCH_EVENT = 'SEARCH_EVENT'
 
@@ -60,13 +61,14 @@ export class ViewSelect extends View {
     )
   }
 
-  __createViews() {
+  __createItemsViews() {
     let views = []
-
+    console.log(this.__stateStore.state().data)
     this.__stateStore.state().data.forEach((state) => {
       if (state.visible() && !state.selected() && !state.searchFiltered()) {
         let item = this.__dataStore.state().data.get(state.itemId())
-        let view = this.__createView(item, state)
+        console.log(item, state)
+        let view = this.__createItemView(item, state)
 
         if (!state.disabled()) {
           this.__handleEventFromView(view)
@@ -78,13 +80,12 @@ export class ViewSelect extends View {
     return views
   }
 
-  __createView(item, state) {
-    let itemTmp = new ItemBuilder()
+  __createItemView(item, state) {
+    let builder = new ItemBuilder()
       .id(item.id()).value(item.value()).label(item.label())
       .visible(state.visible()).selected(state.selected()).disabled(state.disabled())
-      .build()
 
-    let itemView = this.__viewItemBuilder.createView(this.__viewContainer, itemTmp)
+    let itemView = this.__viewItemBuilder.createView(this.__viewContainer, builder.build())
     return this.addView(itemView)
   }
 
@@ -112,7 +113,7 @@ export class ViewSelect extends View {
       e('div#' + this.__idselectedItemList)
         .childNodes(...selectedItems)
         .className(itemListSelectedStyle.itemListSelected)
-        .reconciliationRules(RECONCILIATION_RULES.BYPASS_ONCE)
+        .reconciliationRules(RECONCILIATION_RULES.REPLACE)
     )
   }
 
@@ -121,6 +122,7 @@ export class ViewSelect extends View {
     this.__dataStore.state().data.forEach((item) => {
       let state = this.__stateStore.data().get(item.id())
       if (state.selected()) {
+        console.log(state)
         let itemSelected = this.html(
           e('div#' + item.id())
             .text(item.label())
@@ -129,7 +131,7 @@ export class ViewSelect extends View {
               ElementEventListenerBuilder
                 .listen('click')
                 .callback((event) => {
-                  this.dispatch(SELECT_EVENT, item)
+                  this.dispatch(UNSELECT_EVENT, item)
                 })
                 .build()
             )
@@ -163,13 +165,13 @@ export class ViewSelect extends View {
   }
 
   __itemsList() {
-    let views = this.__createViews()
+    let views = this.__createItemsViews()
     return this.html(
       e('div#' + this.__idSelectList)
         .className(listStyle.itemList)
         .views(...views)
         .reconciliationRules(
-          RECONCILIATION_RULES.FORCE
+          RECONCILIATION_RULES.REPLACE
         )
     )
   }
@@ -224,7 +226,19 @@ class ViewSelectEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(SELECT_EVENT)
         .callback((item) => {
-          console.log(item)
+          console.log('SELECT', item)
+          clb(item)
+        })
+        .build()
+    )
+  }
+
+  unselectItem(clb) {
+    return this._subscriber(
+      EventListenerOrderedBuilder
+        .listen(UNSELECT_EVENT)
+        .callback((item) => {
+          console.log('UNSELECT', item)
           clb(item)
         })
         .build()

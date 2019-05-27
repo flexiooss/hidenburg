@@ -1,3 +1,6 @@
+PrivateActionUnselectPayload:
+  item: object
+
 PrivateActionSelectItemPayload:
   item: object
 

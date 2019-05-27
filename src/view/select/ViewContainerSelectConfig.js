@@ -6,6 +6,7 @@ export class ViewContainerSelectConfig {
     this.__parentNode = null
     this.__dataStore = null
     this.__actionSelect = null
+    this.__actionUnselect = null
     this.__actionMultipleSelect = null
     this.__actionItemListVisibility = null
     this.__actionSearch = null
@@ -55,6 +56,15 @@ export class ViewContainerSelectConfig {
    */
   withActionSelect(action) {
     this.__actionSelect = action
+    return this
+  }
+
+  /**
+   * @param {Action<PrivateActionUnselectPayload>} action
+   * @return {ViewContainerSelectConfig}
+   */
+  withActionUnselect(action) {
+    this.__actionUnselect = action
     return this
   }
 
@@ -140,6 +150,11 @@ export class ViewContainerSelectConfig {
   getActionSelect() {
     assert(!isNull(this.__actionSelect), 'Action select not set')
     return this.__actionSelect;
+  }
+
+  getActionUnselect() {
+    assert(!isNull(this.__actionUnselect), 'Action unselect not set')
+    return this.__actionUnselect
   }
 
   getActionMultipleSelect() {

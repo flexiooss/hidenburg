@@ -1,4 +1,5 @@
 import {deepKeyAssigner, FLEXIO_IMPORT_OBJECT, globalScope} from 'flexio-jshelpers'
+import {PrivateActionUnselectPayload, PrivateActionUnselectPayloadBuilder} from "./PrivateActionUnselectPayload";
 import {PrivateActionSelectItemPayload, PrivateActionSelectItemPayloadBuilder} from "./PrivateActionSelectItemPayload";
 import {
   PrivateActionSelectMultipleItemsPayload,
@@ -19,6 +20,14 @@ import {
   PublicActionUnselectedItemPayloadBuilder
 } from "./PublicActionUnselectedItemPayload";
 
+/**
+ * @property {PrivateActionUnselectPayload} PrivateActionUnselectPayload
+ */
+deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionUnselectPayload', PrivateActionUnselectPayload);
+/**
+ * @property {PrivateActionUnselectPayloadBuilder} PrivateActionUnselectPayloadBuilder
+ */
+deepKeyAssigner(globalScope[FLEXIO_IMPORT_OBJECT], 'io.flexio.component_select.actions.PrivateActionUnselectPayloadBuilder', PrivateActionUnselectPayloadBuilder);
 /**
 * @property {PrivateActionSelectItemPayload} PrivateActionSelectItemPayload
 */

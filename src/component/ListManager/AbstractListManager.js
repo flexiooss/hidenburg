@@ -23,31 +23,6 @@ export class AbstractListManager {
     this.__dataStore = null
   }
 
-  /**
-   * Build state with item. Set selected value by 'valueIfMatch' if item match with state or defaultValue
-   * @param item
-   * @param state
-   * @param valueIfMatch
-   * @param defaultValue
-   * @return {StoreStateItem}
-   * @protected
-   */
-  _buildStateItemMatch(item, state, valueIfMatch, defaultValue) {
-    let storeStateItemBuilder = new StoreStateItemBuilder()
-      .itemId(state.itemId())
-      .disabled(state.disabled())
-      .visible(state.visible())
-      .searchFiltered(state.searchFiltered())
-
-    if (item.id() === state.itemId()) {
-      storeStateItemBuilder.selected(valueIfMatch)
-    } else {
-      storeStateItemBuilder.selected(defaultValue)
-    }
-
-    return storeStateItemBuilder.build()
-  }
-
   _addSelectItems(...item) {
     // console.log('select', ...item)
     this.__selectItemsIds.push(...item)

@@ -15,17 +15,19 @@ export class MultipleList extends AbstractListManager {
     let stateItems = new MapItemState()
     let data = this._stateStore.getStore().state().data
     data.forEach((state) => {
+      let builder = StoreStateItemBuilder.from(state)
       if (item.id() === state.itemId()) {
         if (state.selected()) {
+          builder.selected(false)
           this._addUnselectedItems(item.id())
         } else {
+          builder.selected(true)
           this._addSelectedItems(item.id())
           this.__lastItemSelectedId = item.id()
         }
       }
 
-      let storeStateItem = this._buildStateItemMatch(item, state, !state.selected(), state.selected())
-      stateItems.set(state.itemId(), storeStateItem)
+      stateItems.set(state.itemId(), builder.build())
     })
     this._stateStore.getStore().set(stateItems)
 
@@ -66,6 +68,23 @@ export class MultipleList extends AbstractListManager {
     })
 
     this.__lastItemSelectedId = item.id()
+    this._stateStore.getStore().set(stateItems)
+
+    this._dispatchPublicEvents()
+  }
+
+  performUnselectEvent(item) {
+    this._addUnselectedItems(item.id())
+
+    let stateItems = new MapItemState()
+    let data = this._stateStore.getStore().state().data
+    data.forEach((state) => {
+      let builder = StoreStateItemBuilder.from(state)
+      if (state.itemId() === item.id()) {
+        builder.selected(false)
+      }
+      stateItems.set(state.itemId(), builder.build())
+    })
     this._stateStore.getStore().set(stateItems)
 
     this._dispatchPublicEvents()

@@ -11,6 +11,7 @@ import {PrivateActionItemListVisibilityBuilder} from "../actions/PrivateActionIt
 import {ViewContainerSelectConfig} from "../view/select/ViewContainerSelectConfig";
 import {ViewContainerSelect} from "../view/select/ViewContainerSelect";
 import {PrivateActionSearchBuilder} from "../actions/PrivateActionSearchBuilder";
+import {PrivateActionUnselectBuilder} from "../actions/PrivateActionUnselectBuilder";
 
 export class ComponentSelect extends Component {
   /**
@@ -28,6 +29,7 @@ export class ComponentSelect extends Component {
     this.__privateActionSelectMultiple = new PrivateActionSelectMultipleItemsBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionItemListVisibility = new PrivateActionItemListVisibilityBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionSearch = new PrivateActionSearchBuilder(this.__componentContext.dispatcher()).init()
+    this.__privateActionUnselect = new PrivateActionUnselectBuilder(this.__componentContext.dispatcher()).init()
 
     this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
@@ -64,6 +66,7 @@ export class ComponentSelect extends Component {
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionSelect(this.__privateActionSelect)
+      .withActionUnselect(this.__privateActionUnselect)
       .withActionMultipleSelect(this.__privateActionSelectMultiple)
       .withActionItemListVisibility(this.__privateActionItemListVisibility)
       .withActionSearch(this.__privateActionSearch)
@@ -82,6 +85,11 @@ export class ComponentSelect extends Component {
     this.__privateActionSelect.listenWithCallback(
       (payload) => {
         this.__listManager.performSelectEvent(payload.item())
+      }
+    )
+    this.__privateActionUnselect.listenWithCallback(
+      (payload) => {
+        this.__listManager.performUnselectEvent(payload.item())
       }
     )
     this.__privateActionSelectMultiple.listenWithCallback(
