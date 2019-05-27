@@ -5,6 +5,7 @@ import {StoreTest} from "./StoreTest/StoreTest";
 import {Dispatcher, HotBalloonApplication} from "@flexio-oss/hotballoon";
 import {Item} from "../generated/io/flexio/component_select/types/Item";
 import {PrivateActionSelectItemPayloadBuilder} from "../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
+import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../generated/io/flexio/component_select/actions/PrivateActionSelectMultipleItemsPayload";
 
 const assert = require('assert')
 
@@ -20,7 +21,6 @@ class TestsSelectUnique extends TestCase {
     let config = new ComponentSelectConfig()
       .withComponentContext(cc)
       .withStore(this.__store.getStorePublic())
-      .withParentNode(node)
       .withLayersManager({})
       .withProperties({multiple: false}) // useless but more verbose
 
@@ -28,29 +28,39 @@ class TestsSelectUnique extends TestCase {
   }
 
   __setStore(...els) {
+    let list = new ItemList()
+    els.forEach((el) => {
+      list.set(el.id(), el)
+    })
     this.__store.getStore().set(
-      new ItemList(...els)
+      list
     )
   }
 
   testSelectedItems() {
-    this.__setStore(
-      new Item('1', 'label', 'value', false, true, false),
-      new Item('2', 'plok', 'value', false, true, false)
-    )
+    let item1 = new Item('1', 'label', 'value', false, true, false)
+    let item2 = new Item('2', 'plok', 'value', false, true, false)
+    this.__setStore(item1, item2)
 
     assert(this.__component.getSelectedItemsId().length === 0)
     assert(this.__component.getSelectedItems().length === 0)
 
-    this.__setStore(
-      new Item('1', 'value', 'label', true, true, false),
-      new Item('2', 'plok', 'label', false, true, false)
-    )
+    item1 = new Item('1', 'label', 'value', true, true, false)
+    this.__setStore(item1, item2)
 
     assert(this.__component.getSelectedItemsId().length === 1)
     assert(this.__component.getSelectedItemsId()[0] === '1')
-    assert(this.__component.getSelectedItems()[0].value() === 'value')
-    assert(this.__component.getSelectedItems()[0].label() === 'label')
+    assert(this.__component.getSelectedItems().length === 1)
+    assert(this.__component.getSelectedItems()[0] === item1)
+
+    item2 = new Item('2', 'plok', 'value', true, true, false)
+    let throwError = false
+    try {
+      this.__setStore(item1, item2)
+    } catch (e) {
+      throwError = true
+    }
+    assert(throwError)
   }
 
   testActionSelect() {
@@ -66,11 +76,8 @@ class TestsSelectUnique extends TestCase {
     )
     assert(this.__component.getSelectedItemsId().length === 1)
     assert(this.__component.getSelectedItemsId()[0] === '1')
-
-    let item = this.__component.getSelectedItems()[0]
-    assert(item.id() === '1')
-    assert(item.value() === 'value1')
-    assert(item.label() === 'label1')
+    assert(this.__component.getSelectedItems().length === 1)
+    assert(this.__component.getSelectedItems()[0] === item1)
 
     // Select item 2
     this.__component.__privateActionSelect.dispatch(
@@ -78,20 +85,18 @@ class TestsSelectUnique extends TestCase {
     )
     assert(this.__component.getSelectedItemsId().length === 1)
     assert(this.__component.getSelectedItemsId()[0] === '2')
-    item = this.__component.getSelectedItems()[0]
-    assert(item.id() === '2')
-    assert(item.value() === 'value2')
-    assert(item.label() === 'label2')
+    assert(this.__component.getSelectedItems().length === 1)
+    assert(this.__component.getSelectedItems()[0] === item2)
 
     // Select item 1
     this.__component.__privateActionSelect.dispatch(
-      new PrivateActionSelectItemPayloadBuilder().item(item1).build()
+      new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
+
     assert(this.__component.getSelectedItemsId().length === 1)
-    item = this.__component.getSelectedItems()[0]
-    assert(item.id() === '1')
-    assert(item.value() === 'value1')
-    assert(item.label() === 'label1')
+    assert(this.__component.getSelectedItemsId()[0] === '2')
+    assert(this.__component.getSelectedItems().length === 1)
+    assert(this.__component.getSelectedItems()[0] === item2)
   }
 
   testPublicActionDispatched() {
@@ -99,34 +104,76 @@ class TestsSelectUnique extends TestCase {
     let item2 = new Item('2', 'value2', 'label2', false, true, false)
     this.__setStore(item1, item2)
 
-    let valueSelect = '1'
-    let valueSelected = '1'
-    this.__component.getPublicActionSelect()
-      .listenWithCallback((payload) => {
-        assert(payload.itemId() === valueSelect)
-      })
+    let idSelect = []
+    let idSelected = []
+    let idUnselected = []
+    this.__component.getPublicActionSelect().listenWithCallback((payload) => {
+      idSelect.push(payload.itemId())
+    })
 
-    this.__component.getPublicActionSelected()
-      .listenWithCallback((payload) => {
-        assert(payload.itemId() === valueSelected)
-      })
+    this.__component.getPublicActionSelected().listenWithCallback((payload) => {
+      idSelected.push(payload.itemId())
+    })
+
+    this.__component.getPublicActionUnselected().listenWithCallback((payload) => {
+      idUnselected.push(payload.itemId())
+    })
 
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
 
-    let valueUnselected = '1'
-    this.__component.getPublicActionUnselected()
-      .listenWithCallback((payload) => {
-        assert(payload.itemId() === valueUnselected)
-      })
+    assert(idSelect.length === 1)
+    assert(idSelect[0] === item1.id())
+    assert(idSelected.length === 1)
+    assert(idSelected[0] === item1.id())
+    assert(idUnselected.length === 0)
 
-    valueSelect = '2'
-    valueSelected = '2'
 
+    idSelect = []
+    idSelected = []
+    idUnselected = []
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
+
+    assert(idSelect.length === 1)
+    assert(idSelect[0] === item2.id())
+    assert(idSelected.length === 1)
+    assert(idSelected[0] === item2.id())
+    assert(idUnselected.length === 1)
+    assert(idUnselected[0] === '1')
+  }
+
+  testPublicActionSelectMultiple() {
+    let item1 = new Item('1', 'value1', 'label1', false, true, false)
+    let item2 = new Item('2', 'value2', 'label2', false, true, false)
+    this.__setStore(item1, item2)
+
+    let idSelect = []
+    let idSelected = []
+    let idUnselected = []
+    this.__component.getPublicActionSelect().listenWithCallback((payload) => {
+      idSelect.push(payload.itemId())
+    })
+
+    this.__component.getPublicActionSelected().listenWithCallback((payload) => {
+      idSelected.push(payload.itemId())
+    })
+
+    this.__component.getPublicActionUnselected().listenWithCallback((payload) => {
+      idUnselected.push(payload.itemId())
+    })
+
+    this.__component.__privateActionSelectMultiple.dispatch(
+      new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item2).build()
+    )
+
+    assert(idSelect.length === 1)
+    assert(idSelect[0] === item2.id())
+    assert(idSelected.length === 1)
+    assert(idSelected[0] === item2.id())
+    assert(idUnselected.length === 0)
   }
 }
 

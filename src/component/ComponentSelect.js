@@ -39,7 +39,7 @@ export class ComponentSelect extends Component {
   }
 
   __initStateStore() {
-    this.__listManager.initStateStore(this.__store)
+    this.__listManager.initStore(this.__store)
   }
 
   mountView(node) {

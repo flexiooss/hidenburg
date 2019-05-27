@@ -9,6 +9,10 @@ export class MultipleList extends AbstractListManager {
     this.__lastItemSelectedId = null
   }
 
+  _checkDataStore() {
+    console.log('check store')
+  }
+
   /**
    * @param {Item} item
    */
@@ -44,8 +48,9 @@ export class MultipleList extends AbstractListManager {
     let stateItems = new MapItemState()
 
     let data = this._stateStore.getStore().state().data
-    if (this.__lastItemSelectedId === null)
+    if (this.__lastItemSelectedId === null) {
       this.__lastItemSelectedId = data.values().next().value.itemId() // First item
+    }
 
     let inUpdateRange = false
     data.forEach((state) => {
@@ -83,6 +88,7 @@ export class MultipleList extends AbstractListManager {
    * @param {Item} item
    */
   performUnselectEvent(item) {
+    this._addSelectItems(item.id())
     this._addUnselectedItems(item.id())
 
     let stateItems = new MapItemState()

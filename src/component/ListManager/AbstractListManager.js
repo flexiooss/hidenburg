@@ -20,7 +20,7 @@ export class AbstractListManager {
     this.__unselectedItemsIds = []
 
     this._stateStore = new StoreState(this.__componentContext)
-    this.__dataStore = null
+    this._dataStore = null
   }
 
   /**
@@ -74,12 +74,13 @@ export class AbstractListManager {
   }
 
   /**
-   * @param {StoreInterface} proxyStore
+   * @param {StoreInterface} dataStore
    */
-  initStateStore(proxyStore) {
-    this.__dataStore = proxyStore
+  initStore(dataStore) {
+    this._dataStore = dataStore
+    this._checkDataStore()
     let store = new MapItemState()
-    this.__dataStore.state().data.forEach((item) => {
+    this._dataStore.state().data.forEach((item) => {
       // console.log(item)
       let storeStateItem = new StoreStateItemBuilder()
         .itemId(item.id())
@@ -95,6 +96,9 @@ export class AbstractListManager {
     this._stateStore.getStore().set(store)
   }
 
+  _checkDataStore() {
+    throw new Error('Must be implemented')
+  }
   /**
    * @return {String[]}
    */
@@ -114,7 +118,7 @@ export class AbstractListManager {
   getSelectedItems() {
     let items = []
     this.getSelectedItemsId().forEach((id) => {
-      this.__dataStore.data().forEach((item) => {
+      this._dataStore.data().forEach((item) => {
         if (id === item.id()) {
           items.push(item)
         }
@@ -131,7 +135,7 @@ export class AbstractListManager {
     console.log('Perform search => ' + value)
     let stateItems = new MapItemState()
 
-    this.__dataStore.state().data.forEach((item) => {
+    this._dataStore.state().data.forEach((item) => {
       let state = this._stateStore.getStore().state().data.get(item.id())
 
       if (value.length === 0 || this.__itemIncludesValue(value, item)) {
