@@ -1,8 +1,10 @@
 .itemListSelected {
+    min-height: 31px;
     display: block;
     margin: 3px auto 0 auto;
     border: rgba(216, 222, 233, 0.8) 2px solid;
-    padding: 10px 0;
+    padding: 7px 0;
     width: 90%;
     user-select: none;
+    line-height: 1.5;
 }
