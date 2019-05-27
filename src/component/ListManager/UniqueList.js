@@ -1,5 +1,6 @@
 import {MapItemState} from "../MapItemState";
 import {AbstractListManager} from "./AbstractListManager";
+import {StoreStateItemBuilder} from "../../generated/io/flexio/component_select/types/StoreStateItem";
 
 export class UniqueList extends AbstractListManager {
   constructor(componentContext) {
@@ -11,15 +12,17 @@ export class UniqueList extends AbstractListManager {
     let stateItems = new MapItemState()
     let data = this._stateStore.getStore().state().data
     data.forEach((state) => {
+      let builder = StoreStateItemBuilder.from(state)
       if (item.id() === state.itemId() && !state.selected()) {
+        builder.selected(true)
         this._addSelectedItems(item.id())
       }
       if (state.selected()) {
+        builder.selected(false)
         this._addUnselectedItems(state.itemId())
       }
 
-      let storeStateItem = this._buildStateItemMatch(item, state, true, false)
-      stateItems.set(state.itemId(), storeStateItem)
+      stateItems.set(state.itemId(), builder.build())
     })
     this._stateStore.getStore().set(stateItems)
 
@@ -30,4 +33,7 @@ export class UniqueList extends AbstractListManager {
     this.performSelectEvent(item)
   }
 
+  performUnselectEvent(item) {
+
+  }
 }
