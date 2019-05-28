@@ -43,22 +43,22 @@ class TestsSelectMultiple extends TestCase {
     let item2 = new Item('2', 'plok', 'value', false, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 0)
-    assert(this.__component.getSelectedItems().length === 0)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 0)
+    assert.strictEqual(this.__component.getSelectedItems().length, 0)
 
     item1 = new Item('1', 'label', 'value', true, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '1')
-    assert(this.__component.getSelectedItems().length === 1)
-    assert(this.__component.getSelectedItems()[0] === item1)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '1')
+    assert.strictEqual(this.__component.getSelectedItems().length, 1)
+    assert.strictEqual(this.__component.getSelectedItems()[0], item1)
 
     item2 = new Item('2', 'plok', 'value', true, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 2)
-    assert(this.__component.getSelectedItems().length === 2)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 2)
+    assert.strictEqual(this.__component.getSelectedItems().length, 2)
   }
 
   testActionSelect() {
@@ -66,36 +66,36 @@ class TestsSelectMultiple extends TestCase {
     let item2 = new Item('2', 'value2', 'label2', false, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 0)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 0)
 
     // Select item 1
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '1')
-    assert(this.__component.getSelectedItems()[0] === item1)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '1')
+    assert.strictEqual(this.__component.getSelectedItems()[0], item1)
 
     // Select item 2
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
-    assert(this.__component.getSelectedItemsId().length === 2)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 2)
 
     // Unselect item 1, stays item 2
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '2')
-    assert(this.__component.getSelectedItems()[0] === item2)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '2')
+    assert.strictEqual(this.__component.getSelectedItems()[0], item2)
 
     // Unselect item 2, stay nothing
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
-    assert(this.__component.getSelectedItemsId().length === 0)
-    assert(this.__component.getSelectedItems().length === 0)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 0)
+    assert.strictEqual(this.__component.getSelectedItems().length, 0)
   }
 
   testActionMultipleSelect() {
@@ -110,21 +110,21 @@ class TestsSelectMultiple extends TestCase {
       new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item3).build()
     )
 
-    assert(this.__component.getSelectedItemsId().length === 3)
-    assert(this.__component.getSelectedItemsId().includes('1'))
-    assert(this.__component.getSelectedItemsId().includes('2'))
-    assert(this.__component.getSelectedItemsId().includes('3'))
-    assert(this.__component.getSelectedItems().length === 3)
-    assert(this.__component.getSelectedItems().includes(item1))
-    assert(this.__component.getSelectedItems().includes(item2))
-    assert(this.__component.getSelectedItems().includes(item3))
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 3)
+    assert.ok(this.__component.getSelectedItemsId().includes('1'))
+    assert.ok(this.__component.getSelectedItemsId().includes('2'))
+    assert.ok(this.__component.getSelectedItemsId().includes('3'))
+    assert.strictEqual(this.__component.getSelectedItems().length, 3)
+    assert.ok(this.__component.getSelectedItems().includes(item1))
+    assert.ok(this.__component.getSelectedItems().includes(item2))
+    assert.ok(this.__component.getSelectedItems().includes(item3))
 
     this.__component.__privateActionSelectMultiple.dispatch(
       new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item5).build()
     )
 
-    assert(this.__component.getSelectedItemsId().length === 5)
-    assert(this.__component.getSelectedItems().length === 5)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 5)
+    assert.strictEqual(this.__component.getSelectedItems().length, 5)
   }
 
   testPublicActionSelect() {
@@ -151,11 +151,11 @@ class TestsSelectMultiple extends TestCase {
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
 
-    assert(idSelect.length === 1)
-    assert(idSelect[0] === item1.id())
-    assert(idSelected.length === 1)
-    assert(idSelected[0] === item1.id())
-    assert(idUnselected.length === 0)
+    assert.strictEqual(idSelect.length, 1)
+    assert.strictEqual(idSelect[0], item1.id())
+    assert.strictEqual(idSelected.length, 1)
+    assert.strictEqual(idSelected[0], item1.id())
+    assert.strictEqual(idUnselected.length, 0)
 
     idSelect = []
     idSelected = []
@@ -165,11 +165,11 @@ class TestsSelectMultiple extends TestCase {
       new PrivateActionUnselectPayloadBuilder().item(item1).build()
     )
 
-    assert(idSelect.length === 1)
-    assert(idSelect[0] === item1.id())
-    assert(idSelected.length === 0)
-    assert(idUnselected.length === 1)
-    assert(idUnselected[0] === item1.id())
+    assert.strictEqual(idSelect.length, 1)
+    assert.strictEqual(idSelect[0], item1.id())
+    assert.strictEqual(idSelected.length, 0)
+    assert.strictEqual(idUnselected.length, 1)
+    assert.strictEqual(idUnselected[0], item1.id())
   }
 
 
@@ -200,13 +200,13 @@ class TestsSelectMultiple extends TestCase {
       new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item2).build()
     )
 
-    assert(idSelect.length === 2)
-    assert(idSelect.includes(item1.id()))
-    assert(idSelect.includes(item2.id()))
-    assert(idSelected.length === 2)
-    assert(idSelected.includes(item1.id()))
-    assert(idSelected.includes(item2.id()))
-    assert(idUnselected.length === 0)
+    assert.strictEqual(idSelect.length, 2)
+    assert.ok(idSelect.includes(item1.id()))
+    assert.ok(idSelect.includes(item2.id()))
+    assert.strictEqual(idSelected.length, 2)
+    assert.ok(idSelected.includes(item1.id()))
+    assert.ok(idSelected.includes(item2.id()))
+    assert.strictEqual(idUnselected.length, 0)
 
     idSelect = []
     idSelected = []
@@ -215,13 +215,13 @@ class TestsSelectMultiple extends TestCase {
       new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item4).build()
     )
 
-    assert(idSelect.length === 2)
-    assert(idSelect.includes(item3.id()))
-    assert(idSelect.includes(item4.id()))
-    assert(idSelected.length === 2)
-    assert(idSelected.includes(item3.id()))
-    assert(idSelected.includes(item4.id()))
-    assert(idUnselected.length === 0)
+    assert.strictEqual(idSelect.length, 2)
+    assert.ok(idSelect.includes(item3.id()))
+    assert.ok(idSelect.includes(item4.id()))
+    assert.strictEqual(idSelected.length, 2)
+    assert.ok(idSelected.includes(item3.id()))
+    assert.ok(idSelected.includes(item4.id()))
+    assert.strictEqual(idUnselected.length, 0)
 
     idSelect = []
     idSelected = []
@@ -230,9 +230,9 @@ class TestsSelectMultiple extends TestCase {
       new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item4).build()
     )
 
-    assert(idSelect.length === 0)
-    assert(idSelected.length === 0)
-    assert(idUnselected.length === 0)
+    assert.strictEqual(idSelect.length, 0)
+    assert.strictEqual(idSelected.length, 0)
+    assert.strictEqual(idUnselected.length, 0)
   }
 }
 

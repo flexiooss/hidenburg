@@ -42,25 +42,20 @@ class TestsSelectUnique extends TestCase {
     let item2 = new Item('2', 'plok', 'value', false, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 0)
-    assert(this.__component.getSelectedItems().length === 0)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 0)
+    assert.strictEqual(this.__component.getSelectedItems().length, 0)
 
     item1 = new Item('1', 'label', 'value', true, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '1')
-    assert(this.__component.getSelectedItems().length === 1)
-    assert(this.__component.getSelectedItems()[0] === item1)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '1')
+    assert.strictEqual(this.__component.getSelectedItems().length, 1)
+    assert.strictEqual(this.__component.getSelectedItems()[0], item1)
 
     item2 = new Item('2', 'plok', 'value', true, true, false)
-    let throwError = false
-    try {
-      this.__setStore(item1, item2)
-    } catch (e) {
-      throwError = true
-    }
-    assert(throwError)
+
+    assert.throws(() => this.__setStore(item1, item2))
   }
 
   testActionSelect() {
@@ -68,35 +63,35 @@ class TestsSelectUnique extends TestCase {
     let item2 = new Item('2', 'value2', 'label2', false, true, false)
     this.__setStore(item1, item2)
 
-    assert(this.__component.getSelectedItemsId().length === 0)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 0)
 
     // Select item 1
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '1')
-    assert(this.__component.getSelectedItems().length === 1)
-    assert(this.__component.getSelectedItems()[0] === item1)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '1')
+    assert.strictEqual(this.__component.getSelectedItems().length, 1)
+    assert.strictEqual(this.__component.getSelectedItems()[0], item1)
 
     // Select item 2
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '2')
-    assert(this.__component.getSelectedItems().length === 1)
-    assert(this.__component.getSelectedItems()[0] === item2)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '2')
+    assert.strictEqual(this.__component.getSelectedItems().length, 1)
+    assert.strictEqual(this.__component.getSelectedItems()[0], item2)
 
     // Select item 1
     this.__component.__privateActionSelect.dispatch(
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
 
-    assert(this.__component.getSelectedItemsId().length === 1)
-    assert(this.__component.getSelectedItemsId()[0] === '2')
-    assert(this.__component.getSelectedItems().length === 1)
-    assert(this.__component.getSelectedItems()[0] === item2)
+    assert.strictEqual(this.__component.getSelectedItemsId().length, 1)
+    assert.strictEqual(this.__component.getSelectedItemsId()[0], '2')
+    assert.strictEqual(this.__component.getSelectedItems().length, 1)
+    assert.strictEqual(this.__component.getSelectedItems()[0], item2)
   }
 
   testPublicActionDispatched() {
@@ -123,11 +118,11 @@ class TestsSelectUnique extends TestCase {
       new PrivateActionSelectItemPayloadBuilder().item(item1).build()
     )
 
-    assert(idSelect.length === 1)
-    assert(idSelect[0] === item1.id())
-    assert(idSelected.length === 1)
-    assert(idSelected[0] === item1.id())
-    assert(idUnselected.length === 0)
+    assert.strictEqual(idSelect.length, 1)
+    assert.strictEqual(idSelect[0], item1.id())
+    assert.strictEqual(idSelected.length, 1)
+    assert.strictEqual(idSelected[0], item1.id())
+    assert.strictEqual(idUnselected.length, 0)
 
 
     idSelect = []
@@ -137,12 +132,12 @@ class TestsSelectUnique extends TestCase {
       new PrivateActionSelectItemPayloadBuilder().item(item2).build()
     )
 
-    assert(idSelect.length === 1)
-    assert(idSelect[0] === item2.id())
-    assert(idSelected.length === 1)
-    assert(idSelected[0] === item2.id())
-    assert(idUnselected.length === 1)
-    assert(idUnselected[0] === '1')
+    assert.strictEqual(idSelect.length, 1)
+    assert.strictEqual(idSelect[0], item2.id())
+    assert.strictEqual(idSelected.length, 1)
+    assert.strictEqual(idSelected[0], item2.id())
+    assert.strictEqual(idUnselected.length, 1)
+    assert.strictEqual(idUnselected[0], '1')
   }
 
   testPublicActionSelectMultiple() {
@@ -169,11 +164,11 @@ class TestsSelectUnique extends TestCase {
       new PrivateActionSelectMultipleItemsPayloadBuilder().itemTo(item2).build()
     )
 
-    assert(idSelect.length === 1)
-    assert(idSelect[0] === item2.id())
-    assert(idSelected.length === 1)
-    assert(idSelected[0] === item2.id())
-    assert(idUnselected.length === 0)
+    assert.strictEqual(idSelect.length, 1)
+    assert.strictEqual(idSelect[0], item2.id())
+    assert.strictEqual(idSelected.length, 1)
+    assert.strictEqual(idSelected[0], item2.id())
+    assert.strictEqual(idUnselected.length, 0)
   }
 }
 

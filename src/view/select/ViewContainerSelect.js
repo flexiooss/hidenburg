@@ -74,7 +74,6 @@ export class ViewContainerSelect extends ViewContainer {
       )
     })
     this.__selectView.on().search((value) => {
-      console.log(value)
       this.__actionSearch.dispatch(
         new PrivateActionSearchPayloadBuilder().label(value).build()
       )
