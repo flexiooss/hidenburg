@@ -1,34 +1,68 @@
 import {MapItemState} from "../MapItemState";
 import {AbstractListManager} from "./AbstractListManager";
+import {StoreStateItemBuilder} from "../../../generated/io/flexio/hidenburg/types/StoreStateItem";
 
 export class UniqueList extends AbstractListManager {
   constructor(componentContext) {
     super(componentContext)
+
+    this.__itemSelected = null
   }
 
-  performSelectEvent(item) {
-    this.addSelectItems(item.id())
-    console.log('plo')
-    let stateItems = new MapItemState()
-    let data = this._storeState.getStore().state().data
-    data.forEach((state) => {
-      if (item.id() === state.itemId()) {
-        this.addSelectedItems(item.id())
+  _checkDataStore() {
+    console.log('check store')
+    let cpt = 0
+    this._dataStore.state().data.forEach((el) => {
+      if (el.selected()) {
+        cpt++
+        if (cpt > 1) {
+          throw new Error('Only 1 item selected in not multiple list')
+        }
       }
-      if (state.selected()) {
-        this.addUnselectedItems(item.id())
-      }
-
-      let storeStateItem = this._buildStateItemMatch(item, state, true, false)
-      stateItems.set(state.itemId(), storeStateItem)
     })
-    this._storeState.getStore().set(stateItems)
-
-    this.dispatchPublicEvents()
   }
 
+  /**
+   * @param {Item} item
+   */
+  performSelectEvent(item) {
+    this._addSelectItems(item.id())
+    if (this.__itemSelected !== item) {
+      let stateItems = new MapItemState()
+      let data = this._stateStore.getStore().state().data
+      data.forEach((state) => {
+        let builder = StoreStateItemBuilder.from(state)
+        if (item.id() === state.itemId() && !state.selected()) {
+          builder.selected(true)
+          this._addSelectedItems(item.id())
+          this.__itemSelected = item
+        }
+        if (state.selected()) {
+          builder.selected(false)
+          this._addUnselectedItems(state.itemId())
+        }
+
+        stateItems.set(state.itemId(), builder.build())
+      })
+      this._stateStore.getStore().set(stateItems)
+    }
+
+    this._dispatchPublicEvents()
+  }
+
+  /**
+   * @param {Item} item
+   */
   performMultipleSelectEvent(item) {
     this.performSelectEvent(item)
   }
 
+  /**
+   * @param {Item} item
+   */
+  performUnselectEvent(item) {
+    this._addSelectItems(item.id())
+
+    this._dispatchPublicEvents()
+  }
 }

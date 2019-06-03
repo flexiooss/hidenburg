@@ -1,0 +1,32 @@
+.itemList {
+    max-height: 250px;
+    width: 90%;
+    overflow-y: scroll;
+    margin: 3px auto 0 auto;
+    padding: 0;
+    border: rgba(216, 222, 233, 0.8) 2px solid;
+    display: block;
+    background-color: white;
+    user-select: none;
+    border-radius: 10px;
+}
+
+.itemList:nth-child(odd) {
+    border-bottom: rgba(216, 222, 233, 0.8) 2px solid;
+}
+
+.itemList::-webkit-scrollbar {
+    width: 10px;
+}
+
+.itemList::-webkit-scrollbar-track {
+    background: rgba(216, 222, 233, 0.2);
+}
+
+.itemList::-webkit-scrollbar-thumb {
+    background: rgba(216, 222, 233, 0.5);
+}
+
+.itemList::-webkit-scrollbar-thumb:hover {
+    background: rgb(216, 222, 233);
+}

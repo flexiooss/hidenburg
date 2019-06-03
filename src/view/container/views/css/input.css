@@ -1,0 +1,31 @@
+.input {
+    border: rgba(216, 222, 233, 0.8) 2px solid;
+    border-radius: 25px;
+    margin: 0;
+    font-size: 16px;
+    min-width: 80px;
+    min-height: 30px;
+    max-width: 200px;
+    padding: 5px 50px 5px 20px;
+    cursor: grab;
+    background-color: white;
+    color: initial;
+    line-height: 2;
+
+    background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%),
+    linear-gradient(to right, #ccc, #ccc);
+    background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 2.5em) 0.5em;
+    background-size: 5px 5px,
+    5px 5px,
+    1px 1.5em;
+    background-repeat: no-repeat;
+}
+
+
+.input:hover, .input:focus {
+    background-color: rgba(216, 222, 233, 0.8);
+    transition-duration: 0.2s;
+}

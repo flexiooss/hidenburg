@@ -1,4 +1,4 @@
-import {InMemoryStoreParams, PublicStoreHandler, StoreBuilder, StoreTypeParam} from "hotballoon";
+import {InMemoryStoreParams, PublicStoreHandler, StoreBuilder, StoreTypeParam} from "@flexio-oss/hotballoon";
 import {MapItemState} from "../component/MapItemState";
 
 export class StoreState {
@@ -24,7 +24,6 @@ export class StoreState {
   }
 
   /**
-   *
    * @return {PublicStoreHandler}
    */
   getStorePublic() {
@@ -32,7 +31,6 @@ export class StoreState {
   }
 
   /**
-   *
    * @return {Store}
    */
   getStore() {

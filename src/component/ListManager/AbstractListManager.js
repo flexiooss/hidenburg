@@ -1,12 +1,13 @@
-import {StoreStateItemBuilder} from "../../generated/io/flexio/component_select/types/StoreStateItem";
-import {PublicActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PublicActionSelectItemPayload";
-import {PublicActionUnselectedItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PublicActionUnselectedItemPayload";
-import {PublicActionSelectedItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PublicActionSelectedItemPayload";
+import {StoreStateItemBuilder} from "../../../generated/io/flexio/hidenburg/types/StoreStateItem";
+import {PublicActionSelectItemPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PublicActionSelectItemPayload";
+import {PublicActionUnselectedItemPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PublicActionUnselectedItemPayload";
+import {PublicActionSelectedItemPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PublicActionSelectedItemPayload";
 import {PublicActionSelectItemBuilder} from "../../actions/PublicActionSelectItemBuilder";
 import {PublicActionSelectedItemBuilder} from "../../actions/PublicActionSelectedItemBuilder";
 import {PublicActionUnselectedItemBuilder} from "../../actions/PublicActionUnselectedItemBuilder";
 import {StoreState} from "../../stores/StoreState";
 import {MapItemState} from "../MapItemState";
+import {SearcherValueInItems} from "./SearcherValueInItems";
 
 export class AbstractListManager {
   constructor(componentContext) {
@@ -19,86 +20,97 @@ export class AbstractListManager {
     this.__selectedItemsIds = []
     this.__unselectedItemsIds = []
 
-    this._storeState = new StoreState(this.__componentContext)
+    this._stateStore = new StoreState(this.__componentContext)
+    this._dataStore = null
+
+    this.__searcher = new SearcherValueInItems()
   }
 
   /**
-   * Build state with item. Set selected value by 'valueIfMatch' if item match with state or defaultValue
-   * @param item
-   * @param state
-   * @param valueIfMatch
-   * @param defaultValue
-   * @return {StoreStateItem}
+   * @param {...String} item
    * @protected
    */
-  _buildStateItemMatch(item, state, valueIfMatch, defaultValue) {
-    let storeStateItemBuilder = new StoreStateItemBuilder()
-      .itemId(state.itemId())
-      .disabled(state.disabled())
-      .visible(state.visible())
-
-    if (item.id() === state.itemId()) {
-      storeStateItemBuilder.selected(valueIfMatch)
-    } else {
-      storeStateItemBuilder.selected(defaultValue)
-    }
-
-    return storeStateItemBuilder.build()
-  }
-
-  addSelectItems(...item) {
+  _addSelectItems(...item) {
+    // console.log('select', ...item)
     this.__selectItemsIds.push(...item)
   }
 
-  addSelectedItems(...item){
+  /**
+   * @param {...String} item
+   * @protected
+   */
+  _addSelectedItems(...item) {
+    // console.log('selected', ...item)
     this.__selectedItemsIds.push(...item)
   }
 
-  addUnselectedItems(...item){
+  /**
+   * @param {...String} item
+   * @protected
+   */
+  _addUnselectedItems(...item) {
+    // console.log('unselected', ...item)
     this.__unselectedItemsIds.push(...item)
   }
 
-  dispatchPublicEvents() {
-    let id = this.__selectItemsIds.pop()
+  /**
+   * @protected
+   */
+  _dispatchPublicEvents() {
+    let id = this.__selectItemsIds.shift()
     while (id !== undefined) {
       this.__publicActionSelect.dispatch(new PublicActionSelectItemPayloadBuilder().itemId(id).build())
-      id = this.__selectItemsIds.pop()
+      id = this.__selectItemsIds.shift()
     }
 
-    id = this.__unselectedItemsIds.pop()
+    id = this.__unselectedItemsIds.shift()
     while (id !== undefined) {
       this.__publicActionUnselected.dispatch(new PublicActionUnselectedItemPayloadBuilder().itemId(id).build())
-      id = this.__unselectedItemsIds.pop()
+      id = this.__unselectedItemsIds.shift()
     }
 
-    id = this.__selectedItemsIds.pop()
+    id = this.__selectedItemsIds.shift()
     while (id !== undefined) {
       this.__publicActionSelected.dispatch(new PublicActionSelectedItemPayloadBuilder().itemId(id).build())
-      id = this.__selectedItemsIds.pop()
+      id = this.__selectedItemsIds.shift()
     }
   }
 
-  initStateStore(proxyStore) {
-    this.__dataStore = proxyStore
+  /**
+   * @param {StoreInterface} dataStore
+   */
+  initStore(dataStore) {
+    this._dataStore = dataStore
+    this._checkDataStore()
     let store = new MapItemState()
-    this.__dataStore.state().data.forEach((item) => {
+    this._dataStore.state().data.forEach((item) => {
       // console.log(item)
       let storeStateItem = new StoreStateItemBuilder()
         .itemId(item.id())
         .selected(item.selected())
         .disabled(item.disabled())
         .visible(item.visible())
+        .searchFiltered(false)
         .build()
 
       store.set(item.id(), storeStateItem)
     })
 
-    this._storeState.getStore().set(store)
+    this._stateStore.getStore().set(store)
+
+    this.__searcher.setDataStore(this._dataStore).setStateStore(this._stateStore)
   }
 
+  _checkDataStore() {
+    throw new Error('Must be implemented')
+  }
+
+  /**
+   * @return {String[]}
+   */
   getSelectedItemsId() {
     let ids = []
-    this._storeState.getStorePublic().data().forEach((state) => {
+    this._stateStore.getStorePublic().data().forEach((state) => {
       if (state.selected()) {
         ids.push(state.itemId())
       }
@@ -106,10 +118,13 @@ export class AbstractListManager {
     return ids
   }
 
+  /**
+   * @return {Item[]}
+   */
   getSelectedItems() {
     let items = []
     this.getSelectedItemsId().forEach((id) => {
-      this.__dataStore.data().forEach((item) => {
+      this._dataStore.data().forEach((item) => {
         if (id === item.id()) {
           items.push(item)
         }
@@ -117,6 +132,13 @@ export class AbstractListManager {
     })
 
     return items
+  }
+
+  /**
+   * @param {string} value
+   */
+  performSearch(value) {
+    this.__searcher.setDataStore(this._dataStore).searchAndUpdateStateStore(value)
   }
 
   /**
@@ -144,6 +166,6 @@ export class AbstractListManager {
    * @return {StoreInterface}
    */
   getPublicStateStore() {
-    return this._storeState.getStorePublic()
+    return this._stateStore.getStorePublic()
   }
 }

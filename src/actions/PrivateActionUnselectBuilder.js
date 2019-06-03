@@ -1,8 +1,8 @@
 import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
 import {isNull} from "flexio-jshelpers"
-import {PrivateActionSelectMultipleItemsPayload} from "../../generated/io/flexio/hidenburg/actions/PrivateActionSelectMultipleItemsPayload"
+import {PrivateActionUnselectPayload} from "../../generated/io/flexio/hidenburg/actions/PrivateActionUnselectPayload"
 
-export class PrivateActionSelectMultipleItemsBuilder {
+export class PrivateActionUnselectBuilder {
   /**
    * @param {Dispatcher} dispatcher
    */
@@ -11,13 +11,13 @@ export class PrivateActionSelectMultipleItemsBuilder {
   }
 
   /**
-   * @returns {Action<PrivateActionSelectMultipleItemsPayload>}
+   * @returns {Action<PrivateActionUnselectPayload>}
    */
   init() {
     return ActionBuilder.build(
       new ActionParams(
         new ActionTypeParam(
-          PrivateActionSelectMultipleItemsPayload,
+          PrivateActionUnselectPayload,
           (data) => {
             return data
           },

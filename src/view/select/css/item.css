@@ -1,0 +1,26 @@
+:local .item {
+    padding: 5px 14px;
+    line-height: 35px;
+    cursor: grab;
+    color: initial;
+}
+
+:local .item:nth-child(2n) {
+    border-top: rgba(216, 222, 233, 0.8) 1px solid;
+    background-color: rgba(216, 222, 233, 0.2);
+}
+
+:local.item:nth-child(2n+3) {
+    border-top: rgba(216, 222, 233, 0.8) 1px solid;
+}
+
+:local .item:hover {
+    background-color: rgba(216, 222, 233, 0.8);
+    transition-duration: 0.2s;
+}
+
+:local .item[selected="true"] {
+    background-color: rgba(216, 222, 233, 0.8);
+}
+
+

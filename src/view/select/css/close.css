@@ -1,0 +1,10 @@
+.closeButton {
+    position: absolute;
+    float: right;
+    font-size: 30px;
+    background-color: gray;
+    color: red;
+    width: 30px;
+    height: 30px;
+    font-family: "DejaVu Sans Mono", sans-serif;
+}

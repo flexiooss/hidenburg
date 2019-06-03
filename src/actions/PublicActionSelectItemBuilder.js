@@ -1,10 +1,9 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "hotballoon";
-import {isNull} from "flexio-jshelpers";
-import {PublicActionSelectItemPayload} from "../generated/io/flexio/component_select/actions/PublicActionSelectItemPayload";
+import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {isNull} from "flexio-jshelpers"
+import {PublicActionSelectItemPayload} from "../../generated/io/flexio/hidenburg/actions/PublicActionSelectItemPayload"
 
 export class PublicActionSelectItemBuilder {
   /**
-   *
    * @param {Dispatcher} dispatcher
    */
   constructor(dispatcher) {
@@ -12,7 +11,6 @@ export class PublicActionSelectItemBuilder {
   }
 
   /**
-   *
    * @returns {Action<PublicActionSelectItemPayload>}
    */
   init() {
