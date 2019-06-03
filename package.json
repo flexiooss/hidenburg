@@ -1,5 +1,5 @@
 {
-  "name": "hidenburg",
+  "name": "@flexio-oss/hidenburg",
   "version": "0.0.0-dev",
   "main": "index.js",
   "repository": "git@github.com:flexiooss/hidenburg.git",
