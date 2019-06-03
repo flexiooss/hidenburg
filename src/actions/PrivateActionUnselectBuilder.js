@@ -1,6 +1,6 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon";
-import {isNull} from "flexio-jshelpers";
-import {PrivateActionUnselectPayload} from "../generated/io/flexio/component_select/actions/PrivateActionUnselectPayload";
+import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {isNull} from "flexio-jshelpers"
+import {PrivateActionUnselectPayload} from "../../generated/io/flexio/hidenburg/actions/PrivateActionUnselectPayload"
 
 export class PrivateActionUnselectBuilder {
   /**

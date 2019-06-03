@@ -24,31 +24,15 @@
     "flexio-jshelpers": "https://github.com/flexiooss/flexio-jshelpers.git"
   },
   "hotballoon-shed": {
-    "build": {
-      "builder": "webpack4",
-      "entries": [
-        "src/main/js/bootstrap.js"
-      ],
-      "html_template": "src/main/js/index.html",
-      "output": "./dist"
+    "builder": "webpack4",
+    "test": {
+      "tester": "code-altimeter-js",
+      "path": "./tests"
     },
-    "dev": {
-      "server": {
-        "host": "ui.flexio.io",
-        "proxy": {
-          "/api": {
-            "target": "https://api.flexio.io",
-            "pathRewrite": {
-              "^/api": ""
-            },
-            "secure": true,
-            "changeOrigin": true
-          }
-        }
+    "generate-sources": {
+      "value-objects": {
+        "extension": ".spec"
       }
-    },
-    "modules": {
-      "component-select": "src"
     }
   }
 }

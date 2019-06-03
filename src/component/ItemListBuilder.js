@@ -1,5 +1,5 @@
 import {ItemList} from "./ItemList";
-import {ItemBuilder} from "../generated/io/flexio/component_select/types/Item";
+import {ItemBuilder} from "../../generated/io/flexio/hidenburg/types/Item";
 
 export class ItemListBuilder {
   constructor() {

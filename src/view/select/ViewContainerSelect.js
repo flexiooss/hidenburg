@@ -1,11 +1,11 @@
 import {ViewContainer, ViewContainerParameters} from '@flexio-oss/hotballoon'
 import {ViewSelect} from "./views/ViewSelect";
 import {ViewSelectConfig} from "./views/ViewSelectConfig";
-import {PrivateActionItemListVisibilityBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionItemListVisibility";
-import {PrivateActionSelectItemPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSelectItemPayload";
-import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSelectMultipleItemsPayload";
-import {PrivateActionSearchPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionSearchPayload";
-import {PrivateActionUnselectPayloadBuilder} from "../../generated/io/flexio/component_select/actions/PrivateActionUnselectPayload";
+import {PrivateActionItemListVisibilityBuilder} from "../../../generated/io/flexio/hidenburg/actions/PrivateActionItemListVisibility";
+import {PrivateActionSelectItemPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PrivateActionSelectItemPayload";
+import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PrivateActionSelectMultipleItemsPayload";
+import {PrivateActionSearchPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PrivateActionSearchPayload";
+import {PrivateActionUnselectPayloadBuilder} from "../../../generated/io/flexio/hidenburg/actions/PrivateActionUnselectPayload";
 
 export class ViewContainerSelect extends ViewContainer {
   /**

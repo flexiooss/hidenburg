@@ -1,5 +1,5 @@
 import {assertType, FlexMap} from "flexio-jshelpers";
-import {Item} from "../generated/io/flexio/component_select/types/Item";
+import {Item} from "../../generated/io/flexio/hidenburg/types/Item";
 
 export class ItemList extends FlexMap {
   _validate(v) {

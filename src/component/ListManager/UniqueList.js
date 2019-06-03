@@ -1,6 +1,6 @@
 import {MapItemState} from "../MapItemState";
 import {AbstractListManager} from "./AbstractListManager";
-import {StoreStateItemBuilder} from "../../generated/io/flexio/component_select/types/StoreStateItem";
+import {StoreStateItemBuilder} from "../../../generated/io/flexio/hidenburg/types/StoreStateItem";
 
 export class UniqueList extends AbstractListManager {
   constructor(componentContext) {

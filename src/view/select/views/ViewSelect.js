@@ -11,7 +11,7 @@ import itemSelectedStyle from '../css/itemSelected.css'
 import inputStyle from '../css/input.css'
 import closeStyle from '../css/close.css'
 import itemListSelectedStyle from '../css/itemListSelected.css'
-import {ItemBuilder} from '../../../generated/io/flexio/component_select/types/Item'
+import {ItemBuilder} from '../../../../generated/io/flexio/hidenburg/types/Item'
 
 const CLOSE_EVENT = 'CLOSE_EVENT'
 const SELECT_EVENT = 'SELECT_EVENT'

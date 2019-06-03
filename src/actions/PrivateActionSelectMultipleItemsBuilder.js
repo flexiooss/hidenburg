@@ -1,6 +1,6 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon";
-import {isNull} from "flexio-jshelpers";
-import {PrivateActionSelectMultipleItemsPayload} from "../generated/io/flexio/component_select/actions/PrivateActionSelectMultipleItemsPayload";
+import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {isNull} from "flexio-jshelpers"
+import {PrivateActionSelectMultipleItemsPayload} from "../../generated/io/flexio/hidenburg/actions/PrivateActionSelectMultipleItemsPayload"
 
 export class PrivateActionSelectMultipleItemsBuilder {
   /**

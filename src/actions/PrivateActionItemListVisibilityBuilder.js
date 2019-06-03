@@ -1,6 +1,6 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon";
-import {isNull} from "flexio-jshelpers";
-import {PrivateActionItemListVisibility} from "../generated/io/flexio/component_select/actions/PrivateActionItemListVisibility";
+import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {isNull} from "flexio-jshelpers"
+import {PrivateActionItemListVisibility} from "../../generated/io/flexio/hidenburg/actions/PrivateActionItemListVisibility"
 
 export class PrivateActionItemListVisibilityBuilder {
   /**
