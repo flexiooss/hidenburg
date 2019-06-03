@@ -10,7 +10,7 @@
     background-color: rgba(216, 222, 233, 0.2);
 }
 
-:local.item:nth-child(2n+3) {
+:local .item:nth-child(2n+3) {
     border-top: rgba(216, 222, 233, 0.8) 1px solid;
 }
 
