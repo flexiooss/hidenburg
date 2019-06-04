@@ -43,6 +43,8 @@ export class ViewSelect extends View {
     this.__idselectedItemList = 'selected_items'
     this.__idCloseButton = 'close'
     this.__idInput = 'input'
+
+    this.__lengthInput = 0
   }
 
   template() {
@@ -147,7 +149,10 @@ export class ViewSelect extends View {
             .listen('keyup')
             .callback((event) => {
               let value = event.target.value
-              this.dispatch(SEARCH_EVENT, value)
+              if (value.length !== this.__lengthInput){
+                this.__lengthInput = value.length
+                this.dispatch(SEARCH_EVENT, value)
+              }
             })
             .build()
         )
