@@ -138,7 +138,9 @@ export class AbstractListManager {
    * @param {string} value
    */
   performSearch(value) {
+    console.time('search')
     this.__searcher.setDataStore(this._dataStore).searchAndUpdateStateStore(value)
+    console.timeEnd('search')
   }
 
   /**

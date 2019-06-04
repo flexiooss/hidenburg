@@ -1,5 +1,6 @@
-import {assertType, FlexMap} from "flexio-jshelpers";
 import {StoreStateItem} from "../../generated/io/flexio/hidenburg/types/StoreStateItem";
+import {assertType} from "@flexio-oss/assert";
+import {FlexMap} from "@flexio-oss/flex-types";
 
 export class MapItemState extends FlexMap {
   _validate(v) {

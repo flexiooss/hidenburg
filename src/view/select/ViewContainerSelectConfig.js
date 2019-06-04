@@ -1,4 +1,4 @@
-import {assert, isNull} from "flexio-jshelpers";
+import {isNull, assert} from "@flexio-oss/assert";
 
 export class ViewContainerSelectConfig {
   constructor() {

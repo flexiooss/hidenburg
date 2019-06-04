@@ -1,5 +1,5 @@
-import {assert, isNull} from "flexio-jshelpers";
 import {CloseStrategyBuilder} from "./defaultViewItem/close/CloseStrategyBuilder";
+import {isNull, assert} from "@flexio-oss/assert";
 
 export class ViewSelectConfig {
   constructor() {

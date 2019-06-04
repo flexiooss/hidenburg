@@ -1,4 +1,4 @@
-import {assert, isNull} from "flexio-jshelpers";
+import {isNull, assert} from "@flexio-oss/assert";
 import {DefaultViewItemBuilder} from "../view/select/views/defaultViewItem/DefaultViewItemBuilder";
 
 export class ComponentSelectConfig {
