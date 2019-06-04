@@ -34,10 +34,14 @@ export class SearcherValueInItems {
     this.__dataStore.state().data.forEach((item) => {
       let state = this.__stateStore.getStore().state().data.get(item.id())
 
-      if (value.length === 0 || this.__itemIncludesValue(value, item)) {
+      if (value.length === 0) {
         state = state.withSearchFiltered(false)
       } else {
-        state = state.withSearchFiltered(true)
+        if (this.__itemIncludesValue(item, value)) {
+          state = state.withSearchFiltered(false)
+        } else {
+          state = state.withSearchFiltered(true)
+        }
       }
 
       stateItems.set(item.id(), state)
@@ -46,20 +50,24 @@ export class SearcherValueInItems {
     this.__stateStore.getStore().set(stateItems)
   }
 
-  __itemIncludesValue(value, item) {
-    let values = []
+  __itemIncludesValue(item, value) {
+    value = value.toLowerCase()
     let label = item.label().toLowerCase()
-    values.push(label)
-    values.push(item.value().toLowerCase())
+    if (label.includes(value)){
+      return true
+    }
+    label = item.value().toLowerCase()
+    if (label.includes(value)){
+      return true
+    }
 
     // Remove accents
     let labelWithoutAccent = item.label().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
-    if (labelWithoutAccent !== label)
-      values.push(labelWithoutAccent)
-
-    value = value.toLowerCase()
-    return values.some((val) => {
-      return val.includes(value)
-    })
+    if (labelWithoutAccent !== label){
+      if (label.includes(value)){
+        return true
+      }
+    }
+    return false
   }
 }
