@@ -38,6 +38,8 @@ export class ViewSelect extends View {
 
     this.__closeStrategy = config.getCloseStrategy()
 
+    this.__properties = config.__getProperties()
+
     this.__selectDiv = 'container_select'
     this.__idSelectList = 'list'
     this.__idselectedItemList = 'selected_items'
@@ -48,14 +50,17 @@ export class ViewSelect extends View {
   }
 
   template() {
+    let childs = []
+    childs.push(this.__closeButton())
+    childs.push(this.__selectedItems())
+    if (this.__properties.search) {
+      childs.push(this.__searchInput())
+    }
+    childs.push(this.__itemsList())
+
     return this.html(
       e('div#' + this.__selectDiv)
-        .childNodes(
-          this.__closeButton(),
-          this.__selectedItems(),
-          this.__searchInput(),
-          this.__itemsList()
-        )
+        .childNodes(...childs)
     )
   }
 
@@ -149,7 +154,7 @@ export class ViewSelect extends View {
             .listen('keyup')
             .callback((event) => {
               let value = event.target.value
-              if (value.length !== this.__lengthInput){
+              if (value.length !== this.__lengthInput) {
                 this.__lengthInput = value.length
                 this.dispatch(SEARCH_EVENT, value)
               }

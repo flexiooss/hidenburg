@@ -23,6 +23,7 @@ export class ViewContainerButton extends ViewContainer {
       .withActionItemListVisibility(this.__config.getActionItemListVisibility())
       .withDataStore(this.__config.getDataStore())
       .withStateStore(this.__config.getStateStore())
+      .withPlaceholder(this.__config.getPlaceholder())
 
     this.__buttonView = this.addView(new ViewButton(config))
 
