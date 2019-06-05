@@ -92,7 +92,6 @@ export class ViewSelect extends View {
   __closeButton() {
     return this.html(
       e('div#' + this.__idCloseButton)
-        .text('X')
         .listenEvent(
           ElementEventListenerBuilder
             .listen('click')

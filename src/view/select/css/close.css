@@ -1,10 +1,28 @@
 .closeButton {
+    background-color: white;
+    border: solid gray 2px;
+    border-radius: 10px;
     position: absolute;
-    float: right;
-    font-size: 30px;
-    background-color: gray;
-    color: red;
-    width: 30px;
-    height: 30px;
-    font-family: "DejaVu Sans Mono", sans-serif;
+    right: 1%;
+    top: 1%;
+    width: 40px;
+    height: 40px;
+    opacity: 0.6;
+}
+.closeButton:hover {
+    opacity: 1;
+}
+.closeButton:before, .closeButton:after {
+    position: absolute;
+    left: 19px;
+    content: ' ';
+    height: 40px;
+    width: 2px;
+    background-color: #333;
+}
+.closeButton:before {
+    transform: rotate(45deg);
+}
+.closeButton:after {
+    transform: rotate(-45deg);
 }
