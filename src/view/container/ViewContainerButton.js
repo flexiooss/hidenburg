@@ -11,16 +11,16 @@ export class ViewContainerButton extends ViewContainer {
   constructor(config) {
     let id = config.getComponentContext().nextID()
     let constructorConfig = new ViewContainerParameters(config.getComponentContext(), id, config.getParentNode())
-
     super(constructorConfig)
 
+    this.__actionItemListVisibility = config.getActionItemListVisibility()
     this.__config = config
   }
 
   createView() {
     let config = new ViewButtonConfig()
       .withViewContainer(this)
-      .withActionItemListVisibility(this.__config.getActionItemListVisibility())
+      .withActionItemListVisibility(this.__actionItemListVisibility)
       .withDataStore(this.__config.getDataStore())
       .withStateStore(this.__config.getStateStore())
       .withPlaceholder(this.__config.getPlaceholder())
