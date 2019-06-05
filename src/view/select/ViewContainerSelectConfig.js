@@ -12,6 +12,7 @@ export class ViewContainerSelectConfig {
     this.__actionSearch = null
     this.__stateStore = null
     this.__component = null
+    this.__properties = null
   }
 
   /**

@@ -78,7 +78,7 @@ export class ComponentSelect extends Component {
       .withActionItemListVisibility(this.__privateActionItemListVisibility)
       .withActionSearch(this.__privateActionSearch)
       .withViewItemBuilder(this.__config.getViewItemBuilder())
-      .withProperties(this.__properties)
+      .withProperties(this.__config.getProperties())
       .withComponent(this)
 
     this.__viewContainerSelect = new ViewContainerSelect(config)

@@ -8,7 +8,6 @@ export class ViewSelectConfig {
     this.__stateStore = null
     this.__viewItemBuilder = null
     this.__properties = null
-    this.__parentNode = null
   }
 
   /**

@@ -32,13 +32,12 @@ export class ViewSelect extends View {
 
     this.__dataStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
+    this.__properties = config.__getProperties()
 
     this.subscribeToStore(this.__dataStore)
     this.subscribeToStore(this.__stateStore)
 
     this.__closeStrategy = config.getCloseStrategy()
-
-    this.__properties = config.__getProperties()
 
     this.__selectDiv = 'container_select'
     this.__idSelectList = 'list'
