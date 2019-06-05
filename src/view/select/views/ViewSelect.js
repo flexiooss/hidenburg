@@ -235,7 +235,7 @@ class ViewSelectEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(SELECT_EVENT)
         .callback((item) => {
-          console.log('SELECT', item)
+          // console.log('SELECT', item)
           clb(item)
         })
         .build()
@@ -250,7 +250,7 @@ class ViewSelectEvent extends ViewPublicEventHandler {
       EventListenerOrderedBuilder
         .listen(UNSELECT_EVENT)
         .callback((item) => {
-          console.log('UNSELECT', item)
+          // console.log('UNSELECT', item)
           clb(item)
         })
         .build()

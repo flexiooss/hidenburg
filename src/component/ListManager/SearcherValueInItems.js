@@ -34,7 +34,6 @@ export class SearcherValueInItems {
     this.__dataStore.state().data.forEach((item) => {
       let state = this.__stateStore.getStore().state().data.get(item.id())
 
-      console.log(value.length)
       if (value.length === 0) {
         state = state.withSearchFiltered(false)
       } else {

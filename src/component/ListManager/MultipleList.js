@@ -10,7 +10,7 @@ export class MultipleList extends AbstractListManager {
   }
 
   _checkDataStore() {
-    console.log('check store')
+    //console.log('check store')
   }
 
   /**
