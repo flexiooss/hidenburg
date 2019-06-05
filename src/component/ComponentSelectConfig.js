@@ -12,7 +12,8 @@ export class ComponentSelectConfig {
       search: false,
       autoUpdateItems: true,
       pagination: false,
-      autoCloseListNotMultiple: true
+      autoCloseListNotMultiple: true,
+      placeholder: 'Choisir ...'
     }
   }
 

@@ -19,10 +19,9 @@ export class ComponentSelect extends Component {
    */
   constructor(config) {
     super()
+    this.__config = config
     this.__componentContext = config.getComponentContext()
     this.__store = config.getStore()
-    this.__viewItemBuilder = config.getViewItemBuilder()
-    this.__properties = config.getProperties()
     this.__layersManager = config.getLayersManager()
 
     this.__privateActionSelect = new PrivateActionSelectItemBuilder(this.__componentContext.dispatcher()).init()
@@ -31,7 +30,7 @@ export class ComponentSelect extends Component {
     this.__privateActionSearch = new PrivateActionSearchBuilder(this.__componentContext.dispatcher()).init()
     this.__privateActionUnselect = new PrivateActionUnselectBuilder(this.__componentContext.dispatcher()).init()
 
-    this.__listManager = (this.__properties.multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
+    this.__listManager = (this.__config.getProperties().multiple) ? new MultipleList(this.__componentContext) : new UniqueList(this.__componentContext)
     this.__initStateStore()
 
     this.__handleUpdateFromProxyStore()
@@ -45,21 +44,30 @@ export class ComponentSelect extends Component {
   mountView(node) {
     this.__parentNode = node
 
-    this.__selectLayer = this.__layersManager.addLayer()
-    this.__itemListVisible = false
+    this.__mountButtonSelect()
+    this.__mountSelect()
 
+    return this
+  }
+
+  __mountButtonSelect(){
     let config = new ViewContainerButtonConfig()
       .withParentNode(this.__parentNode)
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
       .withComponentContext(this.__componentContext)
       .withActionItemListVisibility(this.__privateActionItemListVisibility)
+      .withPlaceholder(this.__config.getProperties().placeholder)
 
     this.__viewContainerButton = new ViewContainerButton(config)
     this.__viewContainerButton.createView()
     this.__viewContainerButton.renderAndMount()
+  }
 
-    config = new ViewContainerSelectConfig()
+  __mountSelect(){
+    this.__selectLayer = this.__layersManager.addLayer()
+
+    let config = new ViewContainerSelectConfig()
       .withParentNode(this.__layersManager.getElementByLayer(this.__selectLayer))
       .withDataStore(this.__store)
       .withStateStore(this.__listManager.getPublicStateStore())
@@ -69,15 +77,13 @@ export class ComponentSelect extends Component {
       .withActionMultipleSelect(this.__privateActionSelectMultiple)
       .withActionItemListVisibility(this.__privateActionItemListVisibility)
       .withActionSearch(this.__privateActionSearch)
-      .withViewItemBuilder(this.__viewItemBuilder)
+      .withViewItemBuilder(this.__config.getViewItemBuilder())
       .withProperties(this.__properties)
       .withComponent(this)
 
     this.__viewContainerSelect = new ViewContainerSelect(config)
     this.__viewContainerSelect.createView()
     this.__viewContainerSelect.renderAndMount()
-
-    return this
   }
 
   __handleEventsFromPrivateActions() {
@@ -110,7 +116,6 @@ export class ComponentSelect extends Component {
           this.__layersManager.hideShowedLayer()
           this.__viewContainerSelect.onHide()
         }
-        this.__itemListVisible = payload.visibility()
       }
     )
   }

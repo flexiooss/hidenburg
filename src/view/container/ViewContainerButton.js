@@ -14,17 +14,15 @@ export class ViewContainerButton extends ViewContainer {
 
     super(constructorConfig)
 
-    this.__proxyStore = config.getDataStore()
-    this.__stateStore = config.getStateStore()
-    this.__actionItemListVisibility = config.getActionItemListVisibility()
+    this.__config = config
   }
 
   createView() {
     let config = new ViewButtonConfig()
       .withViewContainer(this)
-      .withActionItemListVisibility(this.__actionItemListVisibility)
-      .withDataStore(this.__proxyStore)
-      .withStateStore(this.__stateStore)
+      .withActionItemListVisibility(this.__config.getActionItemListVisibility())
+      .withDataStore(this.__config.getDataStore())
+      .withStateStore(this.__config.getStateStore())
 
     this.__buttonView = this.addView(new ViewButton(config))
 

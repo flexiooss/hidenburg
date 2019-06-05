@@ -54,21 +54,25 @@ export class SearcherValueInItems {
   __itemIncludesValue(item, value) {
     value = value.toLowerCase()
     let label = item.label().toLowerCase()
-    if (label.includes(value)){
+    if (this.__includes(label, value)){
       return true
     }
     label = item.value().toLowerCase()
-    if (label.includes(value)){
+    if (this.__includes(label, value)){
       return true
     }
 
     // Remove accents
     let labelWithoutAccent = item.label().normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
     if (labelWithoutAccent !== label){
-      if (label.includes(value)){
+      if (this.__includes(label, value)){
         return true
       }
     }
     return false
+  }
+
+  __includes(str, val){
+    return str.indexOf(val) !== -1
   }
 }

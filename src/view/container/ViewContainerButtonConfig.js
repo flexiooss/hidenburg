@@ -7,6 +7,7 @@ export class ViewContainerButtonConfig {
     this.__dataStore = null
     this.__actionItemListVisibility = null
     this.__stateStore = null
+    this.__placeholder = null
   }
 
   /**
@@ -55,6 +56,15 @@ export class ViewContainerButtonConfig {
   }
 
   /**
+   * @param {string} placeholder
+   * @return {ViewContainerButtonConfig}
+   */
+  withPlaceholder(placeholder){
+    this.__placeholder = placeholder
+    return this
+  }
+
+  /**
    * @return {ComponentContext}
    */
   getComponentContext() {
@@ -92,5 +102,13 @@ export class ViewContainerButtonConfig {
   getActionItemListVisibility() {
     assert(!isNull(this.__actionItemListVisibility), 'Action item list visibility not set')
     return this.__actionItemListVisibility
+  }
+
+  /**
+   * @return {string}
+   */
+  getPlaceholder(){
+    assert(!isNull(this.__placeholder), 'Placeholder not set')
+    return this.__placeholder
   }
 }

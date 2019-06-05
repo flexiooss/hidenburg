@@ -10,7 +10,6 @@ import containerStyle from "./css/container.css";
 import inputStyle from "./css/input.css";
 
 const OPEN_EVENT = 'OPEN_EVENT'
-const NO_SELECTED_LABEL_INPUT = 'Choisir ...'
 
 export class ViewButton extends View {
   /**
@@ -19,10 +18,13 @@ export class ViewButton extends View {
   constructor(config) {
     super(config.getViewContainer())
 
-    this.__proxyStore = config.getDataStore()
+    this.__config = config
+
+    this.__placeholder = config.getPlaceholder()
+    this.__dataStore = config.getDataStore()
     this.__stateStore = config.getStateStore()
 
-    this.subscribeToStore(this.__proxyStore)
+    this.subscribeToStore(this.__dataStore)
     this.subscribeToStore(this.__stateStore)
 
     this.__idButtonDiv = 'container'
@@ -67,7 +69,7 @@ export class ViewButton extends View {
   __makeInputLabel() {
     let selectedItem = null
     let cpt = 0
-    this.__proxyStore.state().data.forEach((item) => {
+    this.__dataStore.state().data.forEach((item) => {
       let state = this.__stateStore.data().get(item.id())
       if (state.selected() && state.visible()) {
         cpt++
@@ -80,7 +82,7 @@ export class ViewButton extends View {
 
     switch (cpt) {
       case 0:
-        return NO_SELECTED_LABEL_INPUT
+        return this.__placeholder
       case 1:
         return selectedItem.label()
       default:

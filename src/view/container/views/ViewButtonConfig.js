@@ -5,6 +5,7 @@ export class ViewButtonConfig {
     this.__viewContainer = null
     this.__dataStore = null
     this.__stateStore = null
+    this.__placeholder = null
   }
 
   /**
@@ -31,6 +32,15 @@ export class ViewButtonConfig {
    */
   withActionItemListVisibility(action) {
     this.__actionItemListVisibility = action
+    return this
+  }
+
+  /**
+   * @param {string} placeholder
+   * @return {ViewButtonConfig}
+   */
+  withPlaceholder(placeholder){
+    this.__placeholder = placeholder
     return this
   }
 
@@ -65,5 +75,13 @@ export class ViewButtonConfig {
   getStateStore() {
     assert(!isNull(this.__stateStore), 'State store not set')
     return this.__stateStore;
+  }
+
+  /**
+   * @return {string}
+   */
+  getPlaceholder(){
+    assert(!isNull(this.__placeholder), 'Placeholder not set')
+    return this.__placeholder
   }
 }
