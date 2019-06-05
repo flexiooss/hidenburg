@@ -35,7 +35,7 @@ Néanmoins, il existe differents parametres, définit dans `src/component/Compon
 {multiple: false, search: false, autoUpdateItems: true, pagination: false, closeListNotMultiple: true}
 >  nom du parametre {valeur par defaut} [valeurs disponibles] : description
 - multiple {false} [false/true/0-n] : liste de selection multiple ou unique, nombre d'items maximum
-- search {false} [false/true] : champ de recherche
+- search {true} [false/true] : champ de recherche
 - autoUpdateItems {true} [false/true] : les elements sont
 - autoCloseListNotMultiple {true} [false/true] : la liste se ferme automatiquement apres une séléction en cas de liste non multiple
 - placeholder {"Choisir ..."} [string] : label par défaut du champ avec aucune séléction

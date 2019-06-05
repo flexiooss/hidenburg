@@ -194,7 +194,9 @@ export class ViewSelect extends View {
   }
 
   onShow() {
-    this.nodeRef(this.__idInput).focus()
+    if (this.__properties.search){
+      this.nodeRef(this.__idInput).focus()
+    }
   }
 
   onHide() {

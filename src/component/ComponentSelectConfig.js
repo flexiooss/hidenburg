@@ -9,7 +9,7 @@ export class ComponentSelectConfig {
     this.__layersManager = null
     this.__properties = {
       multiple: false,
-      search: false,
+      search: true,
       autoUpdateItems: true,
       pagination: false,
       autoCloseListNotMultiple: true,
