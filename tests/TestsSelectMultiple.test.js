@@ -9,12 +9,13 @@ import {ComponentSelectConfig} from "../src/component/ComponentSelectConfig";
 import {ComponentSelect} from "../src/component/ComponentSelect";
 import {ItemList} from "../src/component/ItemList";
 import {PrivateActionUnselectPayloadBuilder} from "../generated/io/flexio/hidenburg/actions/PrivateActionUnselectPayload";
+import {FakeLogger} from "@flexio-oss/js-logger";
 
 const assert = require('assert')
 
 class TestsSelectMultiple extends TestCase {
   setUp() {
-    this.__APP = new HotBalloonApplication('TestHidenburg', new Dispatcher())
+    this.__APP = new HotBalloonApplication('TestHidenburg', new Dispatcher(), new FakeLogger())
 
     let node = {'nodeType': 1}
     let cc = this.__APP.addComponentContext()

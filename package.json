@@ -14,15 +14,16 @@
     "stylelint-config-standard": "^18.2.0"
   },
   "dependencies": {
-    "@flexio-oss/hotballoon": "^0.1.0-dev",
-    "@flexio-oss/atmosphere-layers": "0.0.0-dev",
-    "@flexio-oss/global-import-registry": "0.1.0-dev",
-    "@flexio-oss/js-logger": "0.1.0-dev",
-    "@flexio-oss/js-helpers": "0.1.0-dev",
     "@flexio-oss/assert": "0.1.0-dev",
-    "@flexio-oss/flex-types": "0.1.0-dev",
+    "@flexio-oss/atmosphere-layers": "0.0.0-dev",
+    "@flexio-oss/flex-types": "0.0.0-dev",
+    "@flexio-oss/global-import-registry": "0.1.0-dev",
+    "@flexio-oss/hotballoon": "^0.1.0-dev",
+    "@flexio-oss/js-helpers": "0.1.0-dev",
+    "@flexio-oss/js-logger": "0.1.0-dev",
     "@flexio-oss/js-type-helpers": "0.1.0-dev",
-    "flexio-jshelpers": "https://github.com/flexiooss/flexio-jshelpers.git"
+    "flexio-jshelpers": "https://github.com/flexiooss/flexio-jshelpers.git",
+    "flexsearch": "^0.6.22"
   },
   "hotballoon-shed": {
     "builder": "webpack4",

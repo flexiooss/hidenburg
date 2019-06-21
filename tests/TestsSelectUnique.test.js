@@ -8,11 +8,13 @@ import {Dispatcher, HotBalloonApplication} from "@flexio-oss/hotballoon";
 import {Item} from "../generated/io/flexio/hidenburg/types/Item";
 import {PrivateActionSelectItemPayloadBuilder} from "../generated/io/flexio/hidenburg/actions/PrivateActionSelectItemPayload";
 import {PrivateActionSelectMultipleItemsPayloadBuilder} from "../generated/io/flexio/hidenburg/actions/PrivateActionSelectMultipleItemsPayload";
+import {FakeLogger} from "@flexio-oss/js-logger";
+
 const assert = require('assert')
 
 class TestsSelectUnique extends TestCase {
   setUp() {
-    this.__APP = new HotBalloonApplication('TestHidenburg', new Dispatcher())
+    this.__APP = new HotBalloonApplication('TestHidenburg', new Dispatcher(), new FakeLogger())
 
     let node = {'nodeType': 1}
     let cc = this.__APP.addComponentContext()
