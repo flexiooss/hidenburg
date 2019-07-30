@@ -27,10 +27,6 @@
   },
   "hotballoon-shed": {
     "builder": "webpack4",
-    "test": {
-      "tester": "code-altimeter-js",
-      "path": "./tests"
-    },
     "generate-sources": {
       "value-objects": {
         "extension": ".spec"
