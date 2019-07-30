@@ -1,4 +1,4 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {ActionDispatcherBuilder, ActionDispatcherConfig, ActionTypeConfig} from "@flexio-oss/hotballoon"
 import {PrivateActionItemListVisibility} from "../../generated/io/flexio/hidenburg/actions/PrivateActionItemListVisibility"
 import {isNull} from "@flexio-oss/assert";
 
@@ -14,9 +14,9 @@ export class PrivateActionItemListVisibilityBuilder {
    * @returns {Action<PrivateActionItemListVisibility>}
    */
   init() {
-    return ActionBuilder.build(
-      new ActionParams(
-        new ActionTypeParam(
+    return ActionDispatcherBuilder.build(
+      new ActionDispatcherConfig(
+        new ActionTypeConfig(
           PrivateActionItemListVisibility,
           (data) => {
             return data

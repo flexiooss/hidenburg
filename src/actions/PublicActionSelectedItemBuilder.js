@@ -1,4 +1,4 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {ActionDispatcherBuilder, ActionDispatcherConfig, ActionTypeConfig} from "@flexio-oss/hotballoon"
 import {isNull} from "@flexio-oss/assert";
 import {PublicActionSelectedItemPayload} from "../../generated/io/flexio/hidenburg/actions/PublicActionSelectedItemPayload"
 
@@ -14,9 +14,9 @@ export class PublicActionSelectedItemBuilder {
    * @returns {Action<PublicActionSelectedItemPayload>}
    */
   init() {
-    return ActionBuilder.build(
-      new ActionParams(
-        new ActionTypeParam(
+    return ActionDispatcherBuilder.build(
+      new ActionDispatcherConfig(
+        new ActionTypeConfig(
           PublicActionSelectedItemPayload,
           (data) => {
             return data

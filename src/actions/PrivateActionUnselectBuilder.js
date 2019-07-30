@@ -1,4 +1,4 @@
-import {ActionBuilder, ActionParams, ActionTypeParam} from "@flexio-oss/hotballoon"
+import {ActionDispatcherBuilder, ActionDispatcherConfig, ActionTypeConfig} from "@flexio-oss/hotballoon"
 import {isNull} from "@flexio-oss/assert";
 import {PrivateActionUnselectPayload} from "../../generated/io/flexio/hidenburg/actions/PrivateActionUnselectPayload"
 
@@ -14,9 +14,9 @@ export class PrivateActionUnselectBuilder {
    * @returns {Action<PrivateActionUnselectPayload>}
    */
   init() {
-    return ActionBuilder.build(
-      new ActionParams(
-        new ActionTypeParam(
+    return ActionDispatcherBuilder.build(
+      new ActionDispatcherConfig(
+        new ActionTypeConfig(
           PrivateActionUnselectPayload,
           (data) => {
             return data
